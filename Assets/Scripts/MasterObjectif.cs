@@ -10,6 +10,7 @@ public class MasterObjectif : MonoBehaviour {
 	int discovert_n;
 	// Use this for initialization
 	void Start () {
+		DontDestroyOnLoad (this.gameObject);
 		kill_n = SceneObjectifs.Kill.toDo;
 		carry_n = SceneObjectifs.Carry.toDo;
 		ultime_n = SceneObjectifs.Ultime.toDo;

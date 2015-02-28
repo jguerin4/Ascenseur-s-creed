@@ -33,6 +33,7 @@ public class CharacterAnims : MonoBehaviour
 	bool movementSide = false;
 	
 	bool currentlyJumping = false;
+	int currentCombo = 0;
 	
 	float jumpTimer = 0.0f;
 	float jumpSpeed = 1.5f;
@@ -74,7 +75,15 @@ public class CharacterAnims : MonoBehaviour
 			}
 			else if (Input.GetKeyDown (KeyCode.E))
 			{
-				StartCombo();
+				StartCombo(1);
+			}
+			else if (Input.GetKeyDown (KeyCode.R))
+			{
+				StartCombo(2);
+			}
+			else if (Input.GetKeyDown (KeyCode.T))
+			{
+				StartCombo(3);
 			}
 		}
 		
@@ -171,7 +180,7 @@ public class CharacterAnims : MonoBehaviour
 					Comeback3();
 					break;
 				case (9):
-					Combo();
+					Combo(currentCombo);
 					break;
 			}
 		}
@@ -209,10 +218,27 @@ public class CharacterAnims : MonoBehaviour
 		}
 	}
 	
-	internal void StartCombo()
+	internal void StartCombo(int indice)
 	{
 		currentlyActing = true;
 		currentAction = 9;
+		currentCombo = indice;
+		GameObject.Find("Light").GetComponent<Light>().enabled = true;
+		
+		if (indice == 1)
+		{
+			GameObject.Find("Light").GetComponent<Light>().color = new Color(255f/255f, 0f/255f, 0f/255f, 1f);
+		}
+		else if (indice == 2)
+		{
+			GameObject.Find("Light").GetComponent<Light>().color = new Color(0f/255f, 155f/255f, 0f/255f, 1f);
+		}
+		else if (indice == 3)
+		{
+			GameObject.Find("Light").GetComponent<Light>().color = new Color(0f/255f, 0f/255f, 255f/255f, 1f);
+		}
+		
+		GameObject.Find("Master").GetComponent<UIManager>().StartAppearName(indice);
 	}
 	
 	internal void StartJump()
@@ -441,7 +467,7 @@ public class CharacterAnims : MonoBehaviour
 		}
 	}
 	
-	void Combo()
+	void Combo(int indice)
 	{
 		foreach (GameObject obj in GameObject.FindGameObjectsWithTag("combomembers"))
 		{
@@ -454,6 +480,7 @@ public class CharacterAnims : MonoBehaviour
 			ResetPosAndRotBody();
 			currentAction = 0;
 			currentlyActing = false;
+			GameObject.Find("Light").GetComponent<Light>().enabled = false;
 		}
 	}
 	

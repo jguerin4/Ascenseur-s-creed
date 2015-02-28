@@ -9,11 +9,15 @@ public class Spawning : MonoBehaviour {
 	public Transform spider;
 	public Transform dog;
 
-	static public Vector3 mainCameraPosition;
+	public GameObject SpawningReferenceGO;
+
+	static public Vector3 SpawnRef;
 
 	static public System.Random m_random;
 
 	static public int m_numberOfMobs = 0;
+
+	private Terrain terr;
 
 	void Start() {
 	}
@@ -21,7 +25,7 @@ public class Spawning : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
-		if(m_numberOfMobs <= 15)
+		if(m_numberOfMobs <= 30)
 		{
 			m_random = new System.Random();
 			spawnNewMob();
@@ -31,10 +35,17 @@ public class Spawning : MonoBehaviour {
 
 	void spawnNewMob()
 	{
-		mainCameraPosition = Camera.main.gameObject.transform.position;
+		terr = Terrain.FindObjectOfType<Terrain>();
+		float heightmapWidth = terr.terrainData.heightmapWidth;
+		float heightmapHeight = terr.terrainData.heightmapHeight;
+		Terrain.activeTerrain.heightmapMaximumLOD = 0;
+		const int TERAIN_WIDTH = 2000;
+		const int TERAIN_HEIGHT = 2000;
 
-		int x = m_random.Next(10, 25);
-		int z = m_random.Next(10, 25);
+		SpawnRef = SpawningReferenceGO.transform.position;
+
+		int x = m_random.Next(20, 50);
+		int z = m_random.Next(20, 50);
 
 		int inverseX = m_random.Next(0,2);
 		int inverseZ = m_random.Next(0,2);
@@ -52,22 +63,30 @@ public class Spawning : MonoBehaviour {
 			z *= -1;
 		}
 
-		float xSpawnPosition = x + mainCameraPosition.x;	//Position relative au personnages (selon main caméra)
-		float ySpawnPosition = 2f;
-		float zSpawnPosition = mainCameraPosition.z + z;
+		float xSpawnPosition = x + SpawnRef.x;	//Position relative au personnages (selon main caméra)
+		float ySpawnPosition;
+		float zSpawnPosition = SpawnRef.z + z;
 
+		//float[,] heights = terr.terrainData.GetHeights((int)(xSpawnPosition),(int)(zSpawnPosition),1,1);
+
+		//Debug.Log(heights.ToString());
+		ySpawnPosition = 2f;
+		ySpawnPosition = terr.terrainData.heightmapHeight - 510f;
+
+		float currentHeight;
+			
 		switch(getEnnemyType)	//Chance égale de spawner chaque mobs
 		{
 		case 1:
-			GameObject newDog = Instantiate(dog, new Vector3(xSpawnPosition, ySpawnPosition, zSpawnPosition), Quaternion.identity) as GameObject;
+			Instantiate(dog, new Vector3(xSpawnPosition, ySpawnPosition+1.8f, zSpawnPosition), Quaternion.identity);
 			break;
 			
 		case 2:
-			GameObject newClown = Instantiate(clown, new Vector3(xSpawnPosition, ySpawnPosition, zSpawnPosition), Quaternion.identity) as GameObject;
+			Instantiate(clown, new Vector3(xSpawnPosition, ySpawnPosition, zSpawnPosition), Quaternion.identity);
 			break;
 			
 		case 3:
-			GameObject newSpider = Instantiate(spider, new Vector3(xSpawnPosition, ySpawnPosition, zSpawnPosition), Quaternion.identity) as GameObject;
+			Instantiate(spider, new Vector3(xSpawnPosition, ySpawnPosition - 2.6f, zSpawnPosition), Quaternion.identity);
 			break;
 		}
 

@@ -28,13 +28,13 @@ public class UIManager : MonoBehaviour
 
 	void Start() 
 	{
-		currentScaleCombo = new Vector3(0, 0, 0);
 		timerScaleCombo = 0.5f;
+		currentScaleCombo = new Vector3(timerScaleCombo, timerScaleCombo, timerScaleCombo);
 		startedCombo = false;
 		comboObj.SetActive(false);
 		
-		currentScaleName = new Vector3(0, 0, 0);
 		timerScaleName = 0.5f;
+		currentScaleName = new Vector3(timerScaleName, timerScaleName,timerScaleName);
 		nameObj.SetActive(false);
 		startedName = false;
 		
@@ -85,14 +85,14 @@ public class UIManager : MonoBehaviour
 			nameObj.GetComponent<Image>().color = new Color(0f/255f, 0f/255f, 200f/255f, 150f/255f);
 			nameObj.transform.GetComponentInChildren<Text>().text = "Crushing Blow!";
 		}
+		nameObj.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
 		
 		startedName = true;
-		timerScaleName -= 0.2f;
 	}
 	
 	internal void AppearName()
 	{
-		if (timerScaleName <= 1.3f)
+		if (timerScaleName <= 1.0f)
 		{
 			timerScaleName += Time.deltaTime * speedScaleName;
 			nameObj.transform.localScale = new Vector3(timerScaleName, timerScaleName, timerScaleName);
@@ -100,6 +100,7 @@ public class UIManager : MonoBehaviour
 		else
 		{
 			startedName = false;
+			nameObj.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
 			nameObj.SetActive(false);
 			timerScaleName = 0.5f;
 		}
@@ -134,6 +135,7 @@ public class UIManager : MonoBehaviour
 		else
 		{
 			startedCombo = false;
+			comboObj.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
 			comboObj.SetActive(false);
 			timerScaleCombo = 0.5f;
 		}

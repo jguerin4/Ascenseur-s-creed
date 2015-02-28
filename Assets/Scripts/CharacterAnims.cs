@@ -3,7 +3,7 @@ using System.Collections;
 
 public class CharacterAnims : MonoBehaviour 
 {
-	float movementSpeed = 0.2f;
+	float movementSpeed = 10f;
 
 	float rotationSpeed = 400;
 	float moveRotationSpeed = 400;
@@ -47,13 +47,11 @@ public class CharacterAnims : MonoBehaviour
 		{
 			if (Input.GetKeyDown (KeyCode.Mouse0))
 			{
-				currentlyActing = true;
-				currentAction = 1;
+				StartAttack1();
 			}
 			else if (Input.GetKeyDown (KeyCode.Mouse1))
 			{
-				currentlyActing = true;
-				currentAction = 3;
+				StartAttack2();
 			}
 		}
 		
@@ -90,7 +88,27 @@ public class CharacterAnims : MonoBehaviour
 			                       new Vector3 (0, 1, 0),
 			                       rotationSpeed * Time.deltaTime);
 		}
-		
+
+		/*   Movements avec game pad   */
+		float translation = Input.GetAxis("Vertical") * movementSpeed;
+		float rotation = Input.GetAxis("Horizontal") * rotationSpeed;
+		translation *= Time.deltaTime;
+
+		if(translation > 0.0f)
+		{
+			tempMoving = true;
+		}
+
+		else
+		{
+			tempMoving = false;
+		}
+		rotation *= Time.deltaTime;
+		transform.Translate(0, 0, translation);
+		transform.Rotate(0, rotation, 0);
+
+
+
 		if (tempMoving)
 		{
 			Movement();
@@ -122,6 +140,18 @@ public class CharacterAnims : MonoBehaviour
 					break;
 			}
 		}
+	}
+
+	internal void StartAttack1()
+	{
+		currentlyActing = true;
+		currentAction = 1;
+	}
+	
+	internal void StartAttack2()
+	{
+		currentlyActing = true;
+		currentAction = 3;
 	}
 	
 	void Movement()

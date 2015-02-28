@@ -4,8 +4,7 @@ using System.Collections;
 public class AImob : MonoBehaviour {
 
 	public float speed;
-	public Vector3 mainCamPosition;
-	// Use this for initialization
+	
 	void Start () {
 		
 	}
@@ -17,20 +16,20 @@ public class AImob : MonoBehaviour {
 
 	void OnTriggerStay(Collider other)
 	{
-
-		mainCamPosition = Camera.main.gameObject.transform.position;
-
 		float step = speed * Time.deltaTime;
-		if(other.name == "Bob")
+		if(other.name == "Character")
 		{
-			float xCamera = mainCamPosition.x;
-			float yCamera = mainCamPosition.y;
-			float zCamera = mainCamPosition.z;
+			//Debug.Log("lol");
+			float x = other.transform.position.x;
+			float y = other.transform.position.y;
+			float z = other.transform.position.z;
 
-			Vector3 mobDirection = new Vector3(xCamera,yCamera,zCamera);
+			Vector3 mobDirection = new Vector3(x,y,z);
 
-			transform.position = Vector3.MoveTowards(transform.position,mobDirection,step);
-
+			if((mobDirection - transform.parent.transform.position).magnitude >= 3f)
+			{
+				transform.parent.position = Vector3.MoveTowards(transform.parent.position, mobDirection, step);
+			}
 		}
 	}
 

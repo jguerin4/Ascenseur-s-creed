@@ -27,6 +27,7 @@ public class Combos : MonoBehaviour {
 	private float cooldownTimer;
 	private float timerEndCooldown;
 
+	private int nbCol;
 	private bool canCombo;
 	private bool canAttack;
 	private bool onCooldown;
@@ -53,6 +54,16 @@ public class Combos : MonoBehaviour {
 
 	void Update () 
 	{
+		if(nbCol > 0)
+		{
+			canCombo = true;
+		}
+		else
+		{
+			canCombo = false;
+		}
+
+
 		if(!canAttack)
 		{
 			timerEndSimpleAttack += Time.deltaTime;
@@ -120,11 +131,13 @@ public class Combos : MonoBehaviour {
 
 			if(buttonPressed != "")
 			{
-				buttonList.Add(buttonPressed);
+				if(canCombo)
+				{
+					buttonList.Add(buttonPressed);
+					addButton();
+				}
 				buttonPressed = "";
 				timerEndCombo = 0.0f;
-
-				addButton();
 			}
 		}
 	}
@@ -146,7 +159,7 @@ public class Combos : MonoBehaviour {
 		{
 			buttonList.Clear();
 			onCooldown = true;
-			transform.GetComponent<CharacterAnims>().StartAttack1();
+			transform.GetComponent<CharacterAnims>().StartAttack2();
 
 			Debug.Log(combo1);
 			return;
@@ -156,7 +169,7 @@ public class Combos : MonoBehaviour {
 		{
 			buttonList.Clear();
 			onCooldown = true;
-			transform.GetComponent<CharacterAnims>().StartAttack1();
+			transform.GetComponent<CharacterAnims>().StartAttack2();
 
 			Debug.Log(combo2);
 			return;
@@ -166,7 +179,7 @@ public class Combos : MonoBehaviour {
 		{
 			buttonList.Clear();
 			onCooldown = true;
-			transform.GetComponent<CharacterAnims>().StartAttack1();
+			transform.GetComponent<CharacterAnims>().StartAttack2();
 
 			Debug.Log(combo3);
 			return;
@@ -176,7 +189,7 @@ public class Combos : MonoBehaviour {
 		{
 			buttonList.Clear();
 			onCooldown = true;
-			transform.GetComponent<CharacterAnims>().StartAttack1();
+			transform.GetComponent<CharacterAnims>().StartAttack2();
 
 			Debug.Log(combo4);
 			return;
@@ -186,7 +199,7 @@ public class Combos : MonoBehaviour {
 		{
 			buttonList.Clear();
 			onCooldown = true;
-			transform.GetComponent<CharacterAnims>().StartAttack1();
+			transform.GetComponent<CharacterAnims>().StartAttack2();
 
 			Debug.Log(combo5);
 			return;
@@ -196,7 +209,7 @@ public class Combos : MonoBehaviour {
 		{
 			buttonList.Clear();
 			onCooldown = true;
-			transform.GetComponent<CharacterAnims>().StartAttack1();
+			transform.GetComponent<CharacterAnims>().StartAttack2();
 
 			Debug.Log(combo6);
 			return;
@@ -206,7 +219,7 @@ public class Combos : MonoBehaviour {
 		{
 			buttonList.Clear();
 			onCooldown = true;
-			transform.GetComponent<CharacterAnims>().StartAttack1();
+			transform.GetComponent<CharacterAnims>().StartAttack2();
 
 			Debug.Log(combo7);
 			return;
@@ -236,6 +249,24 @@ public class Combos : MonoBehaviour {
 
 	void OnTriggerEnter(Collider col)
 	{
-		Debug.Log("collision");
+		if(col.tag == "Spider" || col.tag == "Dog" || col.tag == "Clown")
+		{
+			nbCol++;
+			rigidbody.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotation;
+		}
+	}
+
+	void OnTriggerExit(Collider col)
+	{
+		if(col.tag == "Spider" || col.tag == "Dog" || col.tag == "Clown")
+		{
+			nbCol--;
+			rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+		}
+	}
+
+	public void doDamage(int value)
+	{
+
 	}
 }

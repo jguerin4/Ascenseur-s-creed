@@ -163,7 +163,7 @@ public class Combos : MonoBehaviour {
 		{
 			buttonList.Clear();
 			onCooldown = true;
-			transform.GetComponent<CharacterAnims>().StartCombo();
+			transform.GetComponent<CharacterAnims>().StartCombo(1);
 
 			damage = 2;
 			doDamage(damage);
@@ -176,7 +176,7 @@ public class Combos : MonoBehaviour {
 		{
 			buttonList.Clear();
 			onCooldown = true;
-			transform.GetComponent<CharacterAnims>().StartCombo();
+			transform.GetComponent<CharacterAnims>().StartCombo(2);
 
 			damage = 2;
 			doDamage(damage);
@@ -189,7 +189,7 @@ public class Combos : MonoBehaviour {
 		{
 			buttonList.Clear();
 			onCooldown = true;
-			transform.GetComponent<CharacterAnims>().StartCombo();
+			transform.GetComponent<CharacterAnims>().StartCombo(3);
 
 			damage = 2;
 			doDamage(damage);
@@ -202,7 +202,7 @@ public class Combos : MonoBehaviour {
 		{
 			buttonList.Clear();
 			onCooldown = true;
-			transform.GetComponent<CharacterAnims>().StartCombo();
+			transform.GetComponent<CharacterAnims>().StartCombo(4);
 
 			damage = 3;
 			doDamage(damage);
@@ -215,7 +215,7 @@ public class Combos : MonoBehaviour {
 		{
 			buttonList.Clear();
 			onCooldown = true;
-			transform.GetComponent<CharacterAnims>().StartCombo();
+			transform.GetComponent<CharacterAnims>().StartCombo(5);
 
 			damage = 2;
 			doDamage(damage);
@@ -228,7 +228,7 @@ public class Combos : MonoBehaviour {
 		{
 			buttonList.Clear();
 			onCooldown = true;
-			transform.GetComponent<CharacterAnims>().StartCombo();
+			transform.GetComponent<CharacterAnims>().StartCombo(6);
 
 			damage = 2;
 			doDamage(damage);
@@ -241,7 +241,7 @@ public class Combos : MonoBehaviour {
 		{
 			buttonList.Clear();
 			onCooldown = true;
-			transform.GetComponent<CharacterAnims>().StartCombo();
+			transform.GetComponent<CharacterAnims>().StartCombo(7);
 
 			damage = 3;
 			doDamage(damage);

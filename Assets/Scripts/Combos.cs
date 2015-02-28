@@ -312,12 +312,19 @@ public class Combos : MonoBehaviour {
 			{
 				enemyList[i].gameObject.GetComponent<AImob>().doDamage(damage);
 				enemyList.RemoveAt(i);
+
 				nbCol--;
 				size--;
 				i--;
+
 				if(i < 0)
 				{
 					i = 0;
+				}
+
+				if(size == 0)
+				{
+					rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
 				}
 			}
 			else
@@ -325,5 +332,11 @@ public class Combos : MonoBehaviour {
 				enemyList[i].gameObject.GetComponent<AImob>().doDamage(damage);
 			}
 		}
+	}
+
+	public void resetButtonList()
+	{
+		Debug.Log("reset");
+		buttonList.Clear();
 	}
 }

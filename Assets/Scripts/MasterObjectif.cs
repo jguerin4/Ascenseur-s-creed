@@ -28,6 +28,7 @@ public class MasterObjectif : MonoBehaviour {
 		// si le le nombre de kill de kill.ennemy est égale a kill.todo debloquer l'objectif
 		if (Level.getKill (SceneObjectifs.Kill.ennemy) == kill_n) {
 			SceneObjectifs.Kill.State = true;
+			PlayerPrefs.SetString("kill_"+Level.levelName,"true");
 		}
 
 	}
@@ -36,6 +37,7 @@ public class MasterObjectif : MonoBehaviour {
 		// si le nombre de combos est égale a combos.todo debloquer l'objectif
 		if (Level.getCombos() == combos_n) {
 			SceneObjectifs.Combos.State = true;
+			PlayerPrefs.SetString("combos_"+Level.levelName,"true");
 		}
 	}
 	public void carry()
@@ -45,7 +47,7 @@ public class MasterObjectif : MonoBehaviour {
 		if (carry_n == 0) {
 
 			SceneObjectifs.Carry.State = true;
-			Debug.Log ("Terminé objectif");
+			PlayerPrefs.SetString("carry_"+Level.levelName,"true");
 		}
 
 	}
@@ -56,6 +58,7 @@ public class MasterObjectif : MonoBehaviour {
 		if(ultime_n == 0)
 		{
 			SceneObjectifs.Ultime.State = true;
+			PlayerPrefs.SetString("ultime_"+Level.levelName,"true");
 		}
 	}
 	public void discovert()
@@ -64,11 +67,16 @@ public class MasterObjectif : MonoBehaviour {
 		discovert_n--;
 		if (discovert_n == 0) {
 			SceneObjectifs.Discovert.State = true;
+			PlayerPrefs.SetString("discovert_"+Level.levelName,"true");
 		}
 	}
 	public void highscore()
 	{
 		// si le scores est egale a highscore.todo debloquer l'objectif
+		if (Level.getScores () == scores_n) {
+			SceneObjectifs.HighScores.State = true;
+			PlayerPrefs.SetString("highscore_"+Level.levelName,"true");
+		}
 	}
 
 	// Update is called once per frame

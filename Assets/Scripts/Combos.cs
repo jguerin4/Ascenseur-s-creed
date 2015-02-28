@@ -41,7 +41,7 @@ public class Combos : MonoBehaviour {
 		timerEndCooldown = 0.0f;
 		timerEndCombo = 0.0f;
 		timerEndSimpleAttack = 0.0f;
-		cooldownTimer = 1.0f;
+		cooldownTimer = 0.5f;
 		comboTimer = 0.25f;
 		simpleAttackTimer = 0.5f;
 
@@ -264,14 +264,14 @@ public class Combos : MonoBehaviour {
 
 		else if(str == attackB)
 		{
-			transform.GetComponent<CharacterAnims>().StartAttack1();
+			transform.GetComponent<CharacterAnims>().StartAttack2();
 			damage = 1;
 			Debug.Log(attackB);
 		}
 
 		else if(str == attackY)
 		{
-			transform.GetComponent<CharacterAnims>().StartAttack1();
+			transform.GetComponent<CharacterAnims>().StartAttack3();
 			damage = 1;
 			Debug.Log(attackY);
 		}
@@ -306,6 +306,8 @@ public class Combos : MonoBehaviour {
 		int size = enemyList.Count;
 		for (int i = 0; i < size; i++)
 		{
+			enemyList[i].GetComponent<Pushback>().PushEnemy();
+
 			if(enemyList[i].gameObject.GetComponent<AImob>().getHealth() <= damage)
 			{
 				enemyList[i].gameObject.GetComponent<AImob>().doDamage(damage);

@@ -58,24 +58,24 @@ public class AImob : MonoBehaviour {
 				if((direction - transform.position).magnitude >= 2f)
 				{
 					transform.position = Vector3.MoveTowards(transform.position, direction, step);
+
+					if(this.gameObject.name == "Clown(Clone)" || this.gameObject.name == "Dog(Clone)")
+					{
+						//Y est a vérifier
+						Vector3 directionSameY = new Vector3(direction.x,transform.position.y, direction.z);
+						rotation = Quaternion.LookRotation(transform.position - directionSameY);
+						
+						transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, Time.deltaTime * rotationSpeed);
+					}
+					else
+					{
+						transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, Time.deltaTime * rotationSpeed);
+					}
 				}
 
 				//transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * rotationSpeed);
 
-				if(this.gameObject.name == "Clown(Clone)" || this.gameObject.name == "Dog(Clone)")
-				{/*
-					Quaternion source = transform.rotation;
-					Quaternion source2 = transform.rotation;
-					source.SetFromToRotation(new Vector3(source.x,source.y,source.z),new Vector3(0,180,0));
-					transform.rotation = Quaternion.Slerp(source, rotation, Time.deltaTime * rotationSpeed);*/
-					Vector3 direction180y = new Vector3(direction.x,direction.y, direction.z);
-					rotation = Quaternion.LookRotation(direction180y - transform.position);
-					transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * rotationSpeed);
-				}
-				else
-				{
-					transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * rotationSpeed);
-				}
+
 			}
 		}
 	}

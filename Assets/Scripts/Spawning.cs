@@ -91,7 +91,7 @@ public class Spawning : MonoBehaviour {
 		{
 		case 1:
 
-			Instantiate(dog, new Vector3(xSpawnPosition, ySpawnPosition+1.8f, zSpawnPosition), Quaternion.identity);
+			Instantiate(dog, new Vector3(xSpawnPosition, ySpawnPosition, zSpawnPosition), Quaternion.identity);
 			m_numberOfMobs++;
 			//Debug.Log("NumberOfMob = " + m_numberOfMobs);
 

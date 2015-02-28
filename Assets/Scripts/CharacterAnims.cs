@@ -34,10 +34,8 @@ public class CharacterAnims : MonoBehaviour
 	
 	bool currentlyJumping = false;
 	
-	public AnimationCurve jumpCurve;
 	float jumpTimer = 0.0f;
-	float jumpSpeed = 2f;
-	bool jumpDir = false;
+	float jumpSpeed = 1.5f;
 
 	void Start() 
 	{
@@ -461,29 +459,16 @@ public class CharacterAnims : MonoBehaviour
 	
 	void Jump()
 	{
-		if (jumpTimer >= 0.5f && !jumpDir)
-		{
-			jumpDir = true;
-		}
-		else if (jumpTimer <= 0.2f && jumpDir)
+		if (jumpTimer >= 1f)
 		{
 			currentlyJumping = false;
-			jumpDir = false;
 			jumpTimer = 0.0f;
 		}
 		
+		jumpTimer += Time.deltaTime * jumpSpeed;
 		Vector3 newPosTemp = this.transform.position;
-		
-		if (!jumpDir)
-		{
-			jumpTimer += Time.deltaTime * jumpSpeed;
-			newPosTemp.y += jumpCurve.Evaluate(jumpTimer);
-		}
-		else if (jumpDir)
-		{
-			jumpTimer -= Time.deltaTime * jumpSpeed;
-			newPosTemp.y -= jumpCurve.Evaluate(jumpTimer);
-		}
+		newPosTemp.y = 3 * Mathf.Sin(Mathf.PI * jumpTimer);
+		//newPosTemp.y += jumpCurve.Evaluate(jumpTimer);
 		
 		this.transform.position = newPosTemp;
 	}

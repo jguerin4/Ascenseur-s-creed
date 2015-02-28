@@ -237,7 +237,7 @@ public class Combos : MonoBehaviour {
 		else if(str == attackB)
 		{
 			transform.GetComponent<CharacterAnims>().StartAttack1();
-			Debug.Log(attackB);
+			//Debug.Log(attackB);
 		}
 
 		else if(str == attackY)
@@ -251,7 +251,7 @@ public class Combos : MonoBehaviour {
 	{
 		if((col.tag == "Spider" || col.tag == "Dog" || col.tag == "Clown") && col.GetType() == typeof(CapsuleCollider))
 		{
-			Debug.Log("penis");
+			//Debug.Log("Trigger Enter: " col.tag);
 			nbCol++;
 			rigidbody.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotation;
 		}

@@ -25,7 +25,7 @@ public class Spawning : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
-		if(m_numberOfMobs <= 30)
+		if(m_numberOfMobs <= 10)
 		{
 			m_random = new System.Random();
 			spawnNewMob();

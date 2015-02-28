@@ -51,6 +51,7 @@ public class AImob : MonoBehaviour {
 				float z = other.transform.position.z;
 
 				float rotationSpeed = 100f;
+
 				Vector3 direction = new Vector3(x,y,z);
 				Quaternion rotation = Quaternion.LookRotation(direction - transform.position);
 
@@ -59,7 +60,22 @@ public class AImob : MonoBehaviour {
 					transform.position = Vector3.MoveTowards(transform.position, direction, step);
 				}
 
-				transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * rotationSpeed);
+				//transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * rotationSpeed);
+
+				if(this.gameObject.name == "Clown(Clone)" || this.gameObject.name == "Dog(Clone)")
+				{/*
+					Quaternion source = transform.rotation;
+					Quaternion source2 = transform.rotation;
+					source.SetFromToRotation(new Vector3(source.x,source.y,source.z),new Vector3(0,180,0));
+					transform.rotation = Quaternion.Slerp(source, rotation, Time.deltaTime * rotationSpeed);*/
+					Vector3 direction180y = new Vector3(direction.x,direction.y, direction.z);
+					rotation = Quaternion.LookRotation(direction180y - transform.position);
+					transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * rotationSpeed);
+				}
+				else
+				{
+					transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * rotationSpeed);
+				}
 			}
 		}
 	}

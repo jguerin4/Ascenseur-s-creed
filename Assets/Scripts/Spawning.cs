@@ -43,6 +43,8 @@ public class Spawning : MonoBehaviour {
 		const int TERAIN_HEIGHT = 2000;
 
 
+		m_random = new System.Random();
+
 		SpawnRef = SpawningReferenceGO.transform.position;
 
 		int x = m_random.Next(20, 50);

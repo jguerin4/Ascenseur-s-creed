@@ -25,7 +25,7 @@ public class AImob : MonoBehaviour {
 			die ();
 		}
 
-		Ray ray = new Ray(transform.position + transform.forward * 1.5f, transform.forward);
+		Ray ray = new Ray(transform.position + transform.forward * 1.2f, transform.forward);
 		Debug.DrawRay(ray.origin, ray.direction, Color.red);
 		//Physics.Raycast()
 	}

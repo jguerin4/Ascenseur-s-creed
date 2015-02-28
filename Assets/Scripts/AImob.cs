@@ -26,25 +26,33 @@ public class AImob : MonoBehaviour {
 		float step = speed * Time.deltaTime;
 		if(other.name == "Character")
 		{
-			//Debug.Log("lol");
-			float x = other.transform.position.x;
-			float y = other.transform.position.y;
-			float z = other.transform.position.z;
-
-			float rotationSpeed = 100f;
-			Vector3 direction = new Vector3(x,y,z);
-			Quaternion rotation = Quaternion.LookRotation(direction);
-
-			if((direction - transform.position).magnitude >= 3f)
+			if(!GetComponent<Pushback>().pushBacking)
 			{
-				transform.position = Vector3.MoveTowards(transform.position, direction, step);
-			}
+				//Debug.Log("lol");
+				float x = other.transform.position.x;
+				float y = other.transform.position.y;
+				float z = other.transform.position.z;
 
-			transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * rotationSpeed);
+				float rotationSpeed = 100f;
+				Vector3 direction = new Vector3(x,y,z);
+				Quaternion rotation = Quaternion.LookRotation(direction);
+
+				if((direction - transform.position).magnitude >= 3f)
+				{
+					transform.position = Vector3.MoveTowards(transform.position, direction, step);
+				}
+
+				transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * rotationSpeed);
+			}
 		}
 	}
 
 	public void setHalth(int value)
+	{
+		health = value;
+	}
+
+	public void doDamage(int value)
 	{
 		health -= value;
 	}
@@ -56,6 +64,7 @@ public class AImob : MonoBehaviour {
 
 	private void die()
 	{
-		Destroy(gameObject);
+		Destroy(this.gameObject);
+		Destroy(this);
 	}
 }

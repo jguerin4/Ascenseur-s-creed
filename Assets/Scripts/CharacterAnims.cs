@@ -4,8 +4,9 @@ using System.Collections;
 public class CharacterAnims : MonoBehaviour 
 {
 	float movementSpeed = 10f;
+	float movementSpeedKeyboard = 0.2f;
 
-	float rotationSpeed = 400;
+	float rotationSpeed = 800;
 	float moveRotationSpeed = 400;
 	bool currentlyActing = false;
 	int currentAction = 0;
@@ -60,7 +61,7 @@ public class CharacterAnims : MonoBehaviour
 		if (Input.GetKey(KeyCode.W))
 		{
 			Vector3 tempMove = Vector3.forward;
-			tempMove *= movementSpeed;
+			tempMove *= movementSpeedKeyboard;
 			tempMoving = true;
 			transform.Translate(tempMove);
 		}
@@ -68,7 +69,7 @@ public class CharacterAnims : MonoBehaviour
 		if (Input.GetKey(KeyCode.S))
 		{
 			Vector3 tempMove = Vector3.forward;
-			tempMove *= movementSpeed;
+			tempMove *= movementSpeedKeyboard;
 			tempMoving = true;
 			transform.Translate(-tempMove);
 		}
@@ -78,7 +79,7 @@ public class CharacterAnims : MonoBehaviour
 			tempMoving = true;
 			transform.RotateAround(transform.position,
 			                       new Vector3 (0, 1, 0),
-			                       -rotationSpeed * Time.deltaTime);
+			                       -moveRotationSpeed * Time.deltaTime);
 		}
 		
 		if (Input.GetKey(KeyCode.D))
@@ -86,7 +87,7 @@ public class CharacterAnims : MonoBehaviour
 			tempMoving = true;
 			transform.RotateAround(transform.position,
 			                       new Vector3 (0, 1, 0),
-			                       rotationSpeed * Time.deltaTime);
+			                       moveRotationSpeed * Time.deltaTime);
 		}
 
 		/*   Movements avec game pad   */
@@ -97,11 +98,6 @@ public class CharacterAnims : MonoBehaviour
 		if(translation > 0.0f)
 		{
 			tempMoving = true;
-		}
-
-		else
-		{
-			tempMoving = false;
 		}
 		rotation *= Time.deltaTime;
 		transform.Translate(0, 0, translation);
@@ -262,70 +258,69 @@ public class CharacterAnims : MonoBehaviour
 	
 	void SetAttack2()
 	{
-		GameObject.Find ("RightArm").transform.localRotation.eulerAngles.Set(GameObject.Find ("RightArm").transform.localRotation.eulerAngles.x,
-		                                                                     GameObject.Find ("RightArm").transform.localRotation.eulerAngles.y,
-		                                                                     0);
-		GameObject.Find ("LeftArm").transform.localRotation.eulerAngles.Set(GameObject.Find ("LeftArm").transform.localRotation.eulerAngles.x,
-		                                                                    GameObject.Find ("LeftArm").transform.localRotation.eulerAngles.y,
+		GameObject.Find ("LeftArm").transform.localPosition = new Vector3(GameObject.Find ("RightArm").transform.localPosition.x,
+																			 GameObject.Find ("RightArm").transform.localPosition.y + 0.5f,
+		                                                                  GameObject.Find ("RightArm").transform.localPosition.z);
+		GameObject.Find ("Weapon").transform.localEulerAngles = new Vector3(0,
+		                                                                    0,
 		                                                                    0);
-		GameObject.Find ("Weapon").transform.localRotation.eulerAngles.Set(GameObject.Find ("Weapon").transform.localRotation.eulerAngles.x,
-		                                                                   GameObject.Find ("Weapon").transform.localRotation.eulerAngles.y,
-		                                                                   0);
-		
-		currentlyActing = false;                                                          
-		//currentAction = 4;                                                                   
+		GameObject.Find ("Weapon").transform.localPosition = new Vector3(GameObject.Find ("RightArm").transform.localPosition.x,
+		                                                                  GameObject.Find ("RightArm").transform.localPosition.y + 0.5f,
+		                                                                  GameObject.Find ("RightArm").transform.localPosition.z + 0.4f);
+		                                                   
+		currentAction = 4;                                                                   
 	}
 	
 	void Attack2()
 	{
-		GameObject.Find ("RightArm").transform.RotateAround(transform.position,
-		                                                    new Vector3 (0, 0, 1),
+		GameObject.Find ("RightArm").transform.RotateAround(GameObject.Find ("TopBody").transform.position,
+		                                                    transform.right,
 		                                                    rotationSpeed * Time.deltaTime);
-		GameObject.Find ("LeftArm").transform.RotateAround(transform.position,
-		                                                   new Vector3 (0, 0, 1),
+		GameObject.Find ("LeftArm").transform.RotateAround(GameObject.Find ("TopBody").transform.position,
+		                                                   transform.right,
 		                                                   rotationSpeed * Time.deltaTime);
-		GameObject.Find ("Weapon").transform.RotateAround(transform.position,
-		                                                  new Vector3 (0, 0, 1),
+		GameObject.Find ("Weapon").transform.RotateAround(GameObject.Find ("TopBody").transform.position,
+		                                                  transform.right,
 		                                                  rotationSpeed * Time.deltaTime);
 		
-		/*if (GameObject.Find ("RightArm").transform.localRotation.eulerAngles.y >= 180)
+		if (GameObject.Find ("RightArm").transform.localRotation.eulerAngles.z >= 180)
 		{
 			GameObject.Find ("RightArm").transform.localRotation.eulerAngles.Set(GameObject.Find ("RightArm").transform.localRotation.eulerAngles.x,
-			                                                                     180,
-			                                                                     GameObject.Find ("RightArm").transform.localRotation.eulerAngles.z);
+			                                                                     GameObject.Find ("RightArm").transform.localRotation.eulerAngles.y,
+			                                                                     180);
 			GameObject.Find ("LeftArm").transform.localRotation.eulerAngles.Set(GameObject.Find ("LeftArm").transform.localRotation.eulerAngles.x,
-			                                                                    180,
-			                                                                    GameObject.Find ("LeftArm").transform.localRotation.eulerAngles.z);
+			                                                                    GameObject.Find ("LeftArm").transform.localRotation.eulerAngles.z,
+			                                                                    180);
 			GameObject.Find ("Weapon").transform.localRotation.eulerAngles.Set(GameObject.Find ("Weapon").transform.localRotation.eulerAngles.x,
-			                                                                   90,
-			                                                                   GameObject.Find ("Weapon").transform.localRotation.eulerAngles.z);
+			                                                                   GameObject.Find ("Weapon").transform.localRotation.eulerAngles.z,
+			                                                                   90);
 			currentAction = 5;
-		}*/
+		}
 	}
 	
 	void Comeback2()
 	{
-		GameObject.Find ("RightArm").transform.RotateAround(transform.position,
-		                                                    new Vector3 (0, 1, 0),
+		GameObject.Find ("RightArm").transform.RotateAround(GameObject.Find ("TopBody").transform.position,
+		                                                    transform.right,
 		                                                    -rotationSpeed * Time.deltaTime);
-		GameObject.Find ("LeftArm").transform.RotateAround(transform.position,
-		                                                   new Vector3 (0, 1, 0),
+		GameObject.Find ("LeftArm").transform.RotateAround(GameObject.Find ("TopBody").transform.position,
+		                                                   transform.right,
 		                                                   -rotationSpeed * Time.deltaTime);
-		GameObject.Find ("Weapon").transform.RotateAround(transform.position,
-		                                                  new Vector3 (0, 1, 0),
+		GameObject.Find ("Weapon").transform.RotateAround(GameObject.Find ("TopBody").transform.position,
+		                                                  transform.right,
 		                                                  -rotationSpeed * Time.deltaTime);
 		
-		if (GameObject.Find ("RightArm").transform.localRotation.eulerAngles.y <= 90)
+		if (GameObject.Find ("RightArm").transform.localRotation.eulerAngles.z <= 90)
 		{
 			GameObject.Find ("RightArm").transform.localRotation.eulerAngles.Set(GameObject.Find ("RightArm").transform.localRotation.eulerAngles.x,
-			                                                                     90,
-			                                                                     GameObject.Find ("RightArm").transform.localRotation.eulerAngles.z);
+			                                                                     GameObject.Find ("RightArm").transform.localRotation.eulerAngles.z,
+			                                                                     90);
 			GameObject.Find ("LeftArm").transform.localRotation.eulerAngles.Set(GameObject.Find ("LeftArm").transform.localRotation.eulerAngles.x,
-			                                                                    90,
-			                                                                    GameObject.Find ("LeftArm").transform.localRotation.eulerAngles.z);
+			                                                                    GameObject.Find ("LeftArm").transform.localRotation.eulerAngles.z,
+			                                                                    90);
 			GameObject.Find ("Weapon").transform.localRotation.eulerAngles.Set(GameObject.Find ("Weapon").transform.localRotation.eulerAngles.x,
-			                                                                   0,
-			                                                                   GameObject.Find ("Weapon").transform.localRotation.eulerAngles.z);
+			                                                                   GameObject.Find ("Weapon").transform.localRotation.eulerAngles.z,
+			                                                                   0);
 			
 			ResetPosAndRotAttack();
 			

@@ -249,8 +249,9 @@ public class Combos : MonoBehaviour {
 
 	void OnTriggerEnter(Collider col)
 	{
-		if(col.tag == "Spider" || col.tag == "Dog" || col.tag == "Clown")
+		if((col.tag == "Spider" || col.tag == "Dog" || col.tag == "Clown") && col.GetType() == typeof(CapsuleCollider))
 		{
+			Debug.Log("penis");
 			nbCol++;
 			rigidbody.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotation;
 		}
@@ -258,7 +259,7 @@ public class Combos : MonoBehaviour {
 
 	void OnTriggerExit(Collider col)
 	{
-		if(col.tag == "Spider" || col.tag == "Dog" || col.tag == "Clown")
+		if((col.tag == "Spider" || col.tag == "Dog" || col.tag == "Clown") && col.GetType() == typeof(CapsuleCollider))
 		{
 			nbCol--;
 			rigidbody.constraints = RigidbodyConstraints.FreezeRotation;

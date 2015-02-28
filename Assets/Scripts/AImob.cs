@@ -5,12 +5,14 @@ public class AImob : MonoBehaviour {
 
 	public float speed;
 	
-	void Start () {
+	void Start () 
+	{
 		
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update () 
+	{
 	
 	}
 
@@ -24,12 +26,16 @@ public class AImob : MonoBehaviour {
 			float y = other.transform.position.y;
 			float z = other.transform.position.z;
 
-			Vector3 mobDirection = new Vector3(x,y,z);
+			float rotationSpeed = 100f;
+			Vector3 direction = new Vector3(x,y,z);
+			Quaternion rotation = Quaternion.LookRotation(direction);
 
-			if((mobDirection - transform.parent.transform.position).magnitude >= 3f)
+			if((direction - transform.parent.transform.position).magnitude >= 3f)
 			{
-				transform.parent.position = Vector3.MoveTowards(transform.parent.position, mobDirection, step);
+				transform.parent.position = Vector3.MoveTowards(transform.parent.position, direction, step);
 			}
+
+			transform.parent.rotation = Quaternion.Slerp(transform.parent.rotation, rotation, Time.deltaTime * rotationSpeed);
 		}
 	}
 

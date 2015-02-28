@@ -4,16 +4,21 @@ using System.Collections;
 public class AImob : MonoBehaviour {
 
 	public float speed;
+
+	private int health;
 	
 	void Start () 
 	{
-		
+		health = 3;
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
-	
+		if(getHealth() <= 0)
+		{
+			die ();
+		}
 	}
 
 	void OnTriggerStay(Collider other)
@@ -30,14 +35,27 @@ public class AImob : MonoBehaviour {
 			Vector3 direction = new Vector3(x,y,z);
 			Quaternion rotation = Quaternion.LookRotation(direction);
 
-			if((direction - transform.parent.transform.position).magnitude >= 3f)
+			if((direction - transform.position).magnitude >= 3f)
 			{
-				transform.parent.position = Vector3.MoveTowards(transform.parent.position, direction, step);
+				transform.position = Vector3.MoveTowards(transform.position, direction, step);
 			}
 
-			transform.parent.rotation = Quaternion.Slerp(transform.parent.rotation, rotation, Time.deltaTime * rotationSpeed);
+			transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * rotationSpeed);
 		}
 	}
 
+	public void setHalth(int value)
+	{
+		health -= value;
+	}
 
+	public int getHealth()
+	{
+		return health;
+	}
+
+	private void die()
+	{
+		Destroy(gameObject);
+	}
 }

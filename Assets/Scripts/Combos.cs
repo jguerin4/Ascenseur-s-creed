@@ -6,6 +6,7 @@ public class Combos : MonoBehaviour {
 
 	private string buttonPressed;
 	private List<string> buttonList; 
+	private List<GameObject> enemyList;
 
 	private BoxCollider collider;
 
@@ -26,7 +27,7 @@ public class Combos : MonoBehaviour {
 	private float comboTimer;
 	private float cooldownTimer;
 	private float timerEndCooldown;
-
+	
 	private int nbCol;
 	private bool canCombo;
 	private bool canAttack;
@@ -40,11 +41,12 @@ public class Combos : MonoBehaviour {
 		timerEndCooldown = 0.0f;
 		timerEndCombo = 0.0f;
 		timerEndSimpleAttack = 0.0f;
-		cooldownTimer = 1.0f;
+		cooldownTimer = 0.5f;
 		comboTimer = 0.25f;
 		simpleAttackTimer = 0.5f;
 
 		buttonList = new List<string>();
+		enemyList = new List<GameObject>();
 
 		buttonPressed = "";
 
@@ -155,11 +157,16 @@ public class Combos : MonoBehaviour {
 
 	public void checkCombo(string str)
 	{
+		int damage = 0;
+
 		if (str.Contains(combo1) && buttonList.Count == 3)
 		{
 			buttonList.Clear();
 			onCooldown = true;
-			transform.GetComponent<CharacterAnims>().StartAttack2();
+			transform.GetComponent<CharacterAnims>().StartCombo();
+
+			damage = 2;
+			doDamage(damage);
 
 			Debug.Log(combo1);
 			return;
@@ -169,7 +176,10 @@ public class Combos : MonoBehaviour {
 		{
 			buttonList.Clear();
 			onCooldown = true;
-			transform.GetComponent<CharacterAnims>().StartAttack2();
+			transform.GetComponent<CharacterAnims>().StartCombo();
+
+			damage = 2;
+			doDamage(damage);
 
 			Debug.Log(combo2);
 			return;
@@ -179,7 +189,10 @@ public class Combos : MonoBehaviour {
 		{
 			buttonList.Clear();
 			onCooldown = true;
-			transform.GetComponent<CharacterAnims>().StartAttack2();
+			transform.GetComponent<CharacterAnims>().StartCombo();
+
+			damage = 2;
+			doDamage(damage);
 
 			Debug.Log(combo3);
 			return;
@@ -189,7 +202,10 @@ public class Combos : MonoBehaviour {
 		{
 			buttonList.Clear();
 			onCooldown = true;
-			transform.GetComponent<CharacterAnims>().StartAttack2();
+			transform.GetComponent<CharacterAnims>().StartCombo();
+
+			damage = 3;
+			doDamage(damage);
 
 			Debug.Log(combo4);
 			return;
@@ -199,7 +215,10 @@ public class Combos : MonoBehaviour {
 		{
 			buttonList.Clear();
 			onCooldown = true;
-			transform.GetComponent<CharacterAnims>().StartAttack2();
+			transform.GetComponent<CharacterAnims>().StartCombo();
+
+			damage = 2;
+			doDamage(damage);
 
 			Debug.Log(combo5);
 			return;
@@ -209,7 +228,10 @@ public class Combos : MonoBehaviour {
 		{
 			buttonList.Clear();
 			onCooldown = true;
-			transform.GetComponent<CharacterAnims>().StartAttack2();
+			transform.GetComponent<CharacterAnims>().StartCombo();
+
+			damage = 2;
+			doDamage(damage);
 
 			Debug.Log(combo6);
 			return;
@@ -219,7 +241,10 @@ public class Combos : MonoBehaviour {
 		{
 			buttonList.Clear();
 			onCooldown = true;
-			transform.GetComponent<CharacterAnims>().StartAttack2();
+			transform.GetComponent<CharacterAnims>().StartCombo();
+
+			damage = 3;
+			doDamage(damage);
 
 			Debug.Log(combo7);
 			return;
@@ -228,30 +253,38 @@ public class Combos : MonoBehaviour {
 
 	public void simpleAttack(string str)
 	{
+		int damage = 0;
+
 		if(str == attackX)
 		{
 			transform.GetComponent<CharacterAnims>().StartAttack1();
+			damage = 1;
 			Debug.Log(attackX);
 		}
 
 		else if(str == attackB)
 		{
-			transform.GetComponent<CharacterAnims>().StartAttack1();
+			transform.GetComponent<CharacterAnims>().StartAttack2();
+			damage = 1;
 			Debug.Log(attackB);
 		}
 
 		else if(str == attackY)
 		{
-			transform.GetComponent<CharacterAnims>().StartAttack1();
+			transform.GetComponent<CharacterAnims>().StartAttack3();
+			damage = 1;
 			Debug.Log(attackY);
 		}
+
+		doDamage(damage);
 	}
 
 	void OnTriggerEnter(Collider col)
 	{
 		if((col.tag == "Spider" || col.tag == "Dog" || col.tag == "Clown") && col.GetType() == typeof(CapsuleCollider))
 		{
-			Debug.Log("penis");
+			enemyList.Add(col.gameObject);
+
 			nbCol++;
 			rigidbody.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotation;
 		}
@@ -261,13 +294,36 @@ public class Combos : MonoBehaviour {
 	{
 		if((col.tag == "Spider" || col.tag == "Dog" || col.tag == "Clown") && col.GetType() == typeof(CapsuleCollider))
 		{
+			enemyList.Remove(col.gameObject);
+
 			nbCol--;
 			rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
 		}
 	}
 
-	public void doDamage(int value)
+	private void doDamage(int damage)
 	{
+		int size = enemyList.Count;
+		for (int i = 0; i < size; i++)
+		{
+			enemyList[i].GetComponent<Pushback>().PushEnemy();
 
+			if(enemyList[i].gameObject.GetComponent<AImob>().getHealth() <= damage)
+			{
+				enemyList[i].gameObject.GetComponent<AImob>().doDamage(damage);
+				enemyList.RemoveAt(i);
+				nbCol--;
+				size--;
+				i--;
+				if(i < 0)
+				{
+					i = 0;
+				}
+			}
+			else
+			{
+				enemyList[i].gameObject.GetComponent<AImob>().doDamage(damage);
+			}
+		}
 	}
 }

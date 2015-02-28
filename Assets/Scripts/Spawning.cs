@@ -25,7 +25,7 @@ public class Spawning : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
-		if(m_numberOfMobs <= 30)
+		if(m_numberOfMobs <= 10)
 		{
 			m_random = new System.Random();
 			spawnNewMob();
@@ -41,6 +41,7 @@ public class Spawning : MonoBehaviour {
 		Terrain.activeTerrain.heightmapMaximumLOD = 0;
 		const int TERAIN_WIDTH = 2000;
 		const int TERAIN_HEIGHT = 2000;
+
 
 		SpawnRef = SpawningReferenceGO.transform.position;
 
@@ -74,24 +75,46 @@ public class Spawning : MonoBehaviour {
 		ySpawnPosition = terr.terrainData.heightmapHeight - 510f;
 
 		float currentHeight;
+
+
+		currentHeight = terr.SampleHeight(new Vector3(xSpawnPosition,ySpawnPosition,zSpawnPosition));
+		//Debug.Log("Hauteur relative: " + currentHeight.ToString());
+
+		if(currentHeight != 0)
+		{
+			getEnnemyType = 999;
+		}                     
 			
 		switch(getEnnemyType)	//Chance égale de spawner chaque mobs
 		{
 		case 1:
+
 			Instantiate(dog, new Vector3(xSpawnPosition, ySpawnPosition+1.8f, zSpawnPosition), Quaternion.identity);
+			m_numberOfMobs++;
+			//Debug.Log("NumberOfMob = " + m_numberOfMobs);
+
 			break;
 			
 		case 2:
+
 			Instantiate(clown, new Vector3(xSpawnPosition, ySpawnPosition, zSpawnPosition), Quaternion.identity);
+			m_numberOfMobs++;
+			//Debug.Log("NumberOfMob = " + m_numberOfMobs);
 			break;
 			
 		case 3:
+
 			Instantiate(spider, new Vector3(xSpawnPosition, ySpawnPosition - 2.6f, zSpawnPosition), Quaternion.identity);
+			m_numberOfMobs++;
+			//Debug.Log("NumberOfMob = " + m_numberOfMobs);
+			break;
+
+		default:
+			//Debug.Log("Respawning object, too high);
 			break;
 		}
 
-		m_numberOfMobs++;
-		//Debug.Log("NumberOfMob = " + m_numberOfMobs);
+
 
 	}
 

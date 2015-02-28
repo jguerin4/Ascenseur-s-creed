@@ -7,7 +7,7 @@ public class CharacterScore : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		DontDestroyOnLoad (this.gameObject);
-		ScoreTotal = 0;
+		ScoreTotal = PlayerPrefs.GetInt ("TotalScore");
 	}
 	
 	// Update is called once per frame

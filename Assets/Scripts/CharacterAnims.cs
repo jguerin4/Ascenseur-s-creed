@@ -32,7 +32,12 @@ public class CharacterAnims : MonoBehaviour
 	
 	bool movementSide = false;
 	
-	//public AnimationCurve temtemtemte;
+	bool currentlyJumping = false;
+	
+	public AnimationCurve jumpCurve;
+	float jumpTimer = 0.0f;
+	float jumpSpeed = 2f;
+	bool jumpDir = false;
 
 	void Start() 
 	{
@@ -75,6 +80,11 @@ public class CharacterAnims : MonoBehaviour
 			}
 		}
 		
+		if (Input.GetKeyDown(KeyCode.Space))
+		{
+			StartJump();
+		}
+		
 		bool tempMoving = false;
 		
 		if (Input.GetKey(KeyCode.W))
@@ -114,7 +124,7 @@ public class CharacterAnims : MonoBehaviour
 		float rotation = Input.GetAxis("Horizontal") * rotationSpeed;
 		translation *= Time.deltaTime;
 
-		if(translation > 0.0f)
+		if(translation != 0.0f)
 		{
 			tempMoving = true;
 		}
@@ -167,6 +177,11 @@ public class CharacterAnims : MonoBehaviour
 					break;
 			}
 		}
+		
+		if (currentlyJumping)
+		{
+			Jump();
+		}
 	}
 
 	internal void StartAttack1()
@@ -200,6 +215,11 @@ public class CharacterAnims : MonoBehaviour
 	{
 		currentlyActing = true;
 		currentAction = 9;
+	}
+	
+	internal void StartJump()
+	{
+		currentlyJumping = true;
 	}
 	
 	void Movement()
@@ -437,6 +457,35 @@ public class CharacterAnims : MonoBehaviour
 			currentAction = 0;
 			currentlyActing = false;
 		}
+	}
+	
+	void Jump()
+	{
+		if (jumpTimer >= 0.5f && !jumpDir)
+		{
+			jumpDir = true;
+		}
+		else if (jumpTimer <= 0.2f && jumpDir)
+		{
+			currentlyJumping = false;
+			jumpDir = false;
+			jumpTimer = 0.0f;
+		}
+		
+		Vector3 newPosTemp = this.transform.position;
+		
+		if (!jumpDir)
+		{
+			jumpTimer += Time.deltaTime * jumpSpeed;
+			newPosTemp.y += jumpCurve.Evaluate(jumpTimer);
+		}
+		else if (jumpDir)
+		{
+			jumpTimer -= Time.deltaTime * jumpSpeed;
+			newPosTemp.y -= jumpCurve.Evaluate(jumpTimer);
+		}
+		
+		this.transform.position = newPosTemp;
 	}
 	
 	void ResetPosAndRotAttack()

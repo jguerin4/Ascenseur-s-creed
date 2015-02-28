@@ -80,7 +80,7 @@ public class CharacterAnims : MonoBehaviour
 			}
 		}
 		
-		if (Input.GetKeyDown(KeyCode.Space))
+		if (Input.GetButtonDown("Jump"))
 		{
 			StartJump();
 		}

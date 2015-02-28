@@ -4,6 +4,8 @@ using System.Collections;
 public class LevelProperties : MonoBehaviour {
 
 	public float timerMax;
+	public string levelName;
+	public int ScoreToPlay;
 	int spider;
 	int clown;
 	int dog;

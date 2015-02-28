@@ -5,11 +5,16 @@ public class AImob : MonoBehaviour {
 
 	public float speed;
 
+	private bool canAtack;
+	private BoxCollider collider;
+
 	private int health;
 	
 	void Start () 
 	{
 		health = 3;
+
+		collider = gameObject.GetComponent<BoxCollider>();
 	}
 	
 	// Update is called once per frame
@@ -66,5 +71,14 @@ public class AImob : MonoBehaviour {
 	{
 		Destroy(this.gameObject);
 		Destroy(this);
+	}
+
+	void OnTriggerEnter(Collider col)
+	{
+		if(col.name == "Character" && col.GetType() == typeof(CapsuleCollider))
+		{
+			col.gameObject.GetComponent<Pushback>().PushEnemy();
+			col.gameObject.GetComponent<Combos>().resetButtonList();
+		}
 	}
 }

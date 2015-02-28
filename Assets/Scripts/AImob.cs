@@ -6,7 +6,7 @@ public class AImob : MonoBehaviour {
 	public float speed;
 
 	private bool canAtack;
-	private BoxCollider collider;
+	private BoxCollider collide;
 
 	private int health;
 	
@@ -14,7 +14,7 @@ public class AImob : MonoBehaviour {
 	{
 		health = 3;
 
-		collider = gameObject.GetComponent<BoxCollider>();
+		collide = gameObject.GetComponent<BoxCollider>();
 	}
 	
 	// Update is called once per frame
@@ -23,6 +23,19 @@ public class AImob : MonoBehaviour {
 		if(getHealth() <= 0)
 		{
 			die ();
+		}
+
+		Ray ray = new Ray(transform.position + transform.forward * 1.2f, transform.forward);
+		RaycastHit hit;
+
+		Debug.DrawRay(ray.origin, ray.direction, Color.red);
+		if (Physics.Raycast(ray, out hit))
+		{
+			if(hit.collider.GetType() == typeof(CapsuleCollider))
+			{
+				//hit.collider.gameObject.GetComponent<Pushback>().PushEnemy();
+				canAtack = true;
+			}
 		}
 	}
 
@@ -33,16 +46,15 @@ public class AImob : MonoBehaviour {
 		{
 			if(!GetComponent<Pushback>().pushBacking)
 			{
-				//Debug.Log("lol");
 				float x = other.transform.position.x;
 				float y = other.transform.position.y;
 				float z = other.transform.position.z;
 
 				float rotationSpeed = 100f;
 				Vector3 direction = new Vector3(x,y,z);
-				Quaternion rotation = Quaternion.LookRotation(direction);
+				Quaternion rotation = Quaternion.LookRotation(direction - transform.position);
 
-				if((direction - transform.position).magnitude >= 3f)
+				if((direction - transform.position).magnitude >= 2f)
 				{
 					transform.position = Vector3.MoveTowards(transform.position, direction, step);
 				}
@@ -71,14 +83,5 @@ public class AImob : MonoBehaviour {
 	{
 		Destroy(this.gameObject);
 		Destroy(this);
-	}
-
-	void OnTriggerEnter(Collider col)
-	{
-		if(col.name == "Character" && col.GetType() == typeof(CapsuleCollider))
-		{
-			col.gameObject.GetComponent<Pushback>().PushEnemy();
-			col.gameObject.GetComponent<Combos>().resetButtonList();
-		}
 	}
 }

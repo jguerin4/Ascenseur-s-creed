@@ -11,17 +11,24 @@ public class CharacterAnims : MonoBehaviour
 	bool currentlyActing = false;
 	int currentAction = 0;
 	
+	float spearSpeed = 5;
+	float comboRotationSpeed = 800;
+	
 	Vector3 startPosLeftArm;
 	Vector3 startPosRightArm;
-	Vector3 startPosWeaponArm;
+	Vector3 startPosWeapon;
 	Vector3 startPosRightLeg;
 	Vector3 startPosLeftLeg;
+	Vector3 startPosHead;
+	Vector3 startPosTopBody;
 	
 	Quaternion startRotLeftArm;
 	Quaternion startRotRightArm;
-	Quaternion startRotWeaponArm;
+	Quaternion startRotWeapon;
 	Quaternion startRotRightLeg;
 	Quaternion startRotLeftLeg;
+	Quaternion startRotHead;
+	Quaternion startRotTopBody;
 	
 	bool movementSide = false;
 	
@@ -31,15 +38,19 @@ public class CharacterAnims : MonoBehaviour
 	{
 		startPosLeftArm = GameObject.Find ("LeftArm").transform.localPosition;
 		startPosRightArm = GameObject.Find ("RightArm").transform.localPosition;
-		startPosWeaponArm = GameObject.Find ("Weapon").transform.localPosition;
+		startPosWeapon = GameObject.Find ("Weapon").transform.localPosition;
 		startPosRightLeg = GameObject.Find ("RightLeg").transform.localPosition;
 		startPosLeftLeg = GameObject.Find ("LeftLeg").transform.localPosition;
+		startPosHead = GameObject.Find ("Head").transform.localPosition;
+		startPosTopBody = GameObject.Find ("TopBody").transform.localPosition;
 		
 		startRotLeftArm = GameObject.Find ("LeftArm").transform.localRotation;
 		startRotRightArm = GameObject.Find ("RightArm").transform.localRotation;
-		startRotWeaponArm = GameObject.Find ("Weapon").transform.localRotation;
+		startRotWeapon = GameObject.Find ("Weapon").transform.localRotation;
 		startRotRightLeg = GameObject.Find ("RightLeg").transform.localRotation;
 		startRotLeftLeg = GameObject.Find ("LeftLeg").transform.localRotation;
+		startRotHead = GameObject.Find ("Head").transform.localRotation;
+		startRotTopBody = GameObject.Find ("TopBody").transform.localRotation;
 	}
 
 	void Update() 
@@ -53,6 +64,14 @@ public class CharacterAnims : MonoBehaviour
 			else if (Input.GetKeyDown (KeyCode.Mouse1))
 			{
 				StartAttack2();
+			}
+			else if (Input.GetKeyDown (KeyCode.Q))
+			{
+				StartAttack3();
+			}
+			else if (Input.GetKeyDown (KeyCode.E))
+			{
+				StartCombo();
 			}
 		}
 		
@@ -134,20 +153,53 @@ public class CharacterAnims : MonoBehaviour
 				case (5):
 					Comeback2();
 					break;
+				case (6):
+					SetAttack3();
+					break;
+				case (7):
+					Attack3();
+					break;
+				case (8):
+					Comeback3();
+					break;
+				case (9):
+					Combo();
+					break;
 			}
 		}
 	}
 
 	internal void StartAttack1()
 	{
-		currentlyActing = true;
-		currentAction = 1;
+		if (!currentlyActing)
+		{
+			currentlyActing = true;
+			currentAction = 1;
+		}
 	}
 	
 	internal void StartAttack2()
 	{
+		if (!currentlyActing)
+		{
+			currentlyActing = true;
+			currentAction = 3;
+		}
+	}
+	
+	internal void StartAttack3()
+	{
+		if (!currentlyActing)
+		{
+			currentlyActing = true;
+			currentAction = 6;
+		}
+	}
+	
+	internal void StartCombo()
+	{
 		currentlyActing = true;
-		currentAction = 3;
+		currentAction = 9;
 	}
 	
 	void Movement()
@@ -329,14 +381,80 @@ public class CharacterAnims : MonoBehaviour
 		}
 	}
 	
+	void SetAttack3()
+	{
+		GameObject.Find ("LeftArm").transform.localPosition = new Vector3(GameObject.Find ("RightArm").transform.localPosition.x,
+		                                                                  GameObject.Find ("RightArm").transform.localPosition.y,
+		                                                                  GameObject.Find ("RightArm").transform.localPosition.z);
+		GameObject.Find ("Weapon").transform.localEulerAngles = new Vector3(GameObject.Find ("Weapon").transform.localRotation.eulerAngles.x,
+		                                                                    90,
+		                                                                    GameObject.Find ("Weapon").transform.localRotation.eulerAngles.z);
+		GameObject.Find ("Weapon").transform.localPosition = new Vector3(GameObject.Find ("RightArm").transform.localPosition.x,
+		                                                                 GameObject.Find ("RightArm").transform.localPosition.y,
+		                                                                 GameObject.Find ("RightArm").transform.localPosition.z + 1f);
+		
+		currentAction = 7;                                                                   
+	}
+	
+	void Attack3()
+	{
+		GameObject.Find ("RightArm").transform.Translate(new Vector3(0, spearSpeed * Time.deltaTime, 0));
+		GameObject.Find ("LeftArm").transform.Translate(new Vector3(0, spearSpeed * Time.deltaTime, 0));
+		GameObject.Find ("Weapon").transform.Translate(new Vector3(0, spearSpeed * Time.deltaTime, 0));
+		
+		if (GameObject.Find ("RightArm").transform.localPosition.z >= 1)
+		{
+			currentAction = 8;
+		}
+	}
+	
+	void Comeback3()
+	{
+		GameObject.Find ("RightArm").transform.Translate(new Vector3(0, -spearSpeed * Time.deltaTime, 0));
+		GameObject.Find ("LeftArm").transform.Translate(new Vector3(0, -spearSpeed * Time.deltaTime, 0));
+		GameObject.Find ("Weapon").transform.Translate(new Vector3(0, -spearSpeed * Time.deltaTime, 0));
+		
+		if (GameObject.Find ("RightArm").transform.localPosition.z <= 0)
+		{
+			ResetPosAndRotAttack();
+			
+			currentAction = 0;
+			currentlyActing = false;
+		}
+	}
+	
+	void Combo()
+	{
+		foreach (GameObject obj in GameObject.FindGameObjectsWithTag("combomembers"))
+		{
+			obj.transform.RotateAround(this.transform.position, new Vector3(0, 1, 0), comboRotationSpeed * Time.deltaTime);
+		}
+		
+		if (GameObject.Find("Weapon").transform.localRotation.eulerAngles.y > 330 && GameObject.Find("Weapon").transform.localRotation.eulerAngles.y < 360)
+		{
+			ResetPosAndRotAttack();
+			ResetPosAndRotBody();
+			currentAction = 0;
+			currentlyActing = false;
+		}
+	}
+	
 	void ResetPosAndRotAttack()
 	{
 		GameObject.Find ("RightArm").transform.localPosition = startPosRightArm;
 		GameObject.Find ("LeftArm").transform.localPosition = startPosLeftArm;
-		GameObject.Find ("Weapon").transform.localPosition = startPosWeaponArm;
+		GameObject.Find ("Weapon").transform.localPosition = startPosWeapon;
 		GameObject.Find ("RightArm").transform.localRotation = startRotRightArm;
 		GameObject.Find ("LeftArm").transform.localRotation = startRotLeftArm;
-		GameObject.Find ("Weapon").transform.localRotation = startRotWeaponArm;
+		GameObject.Find ("Weapon").transform.localRotation = startRotWeapon;
+	}
+	
+	void ResetPosAndRotBody()
+	{
+		GameObject.Find ("Head").transform.localPosition = startPosHead;
+		GameObject.Find ("TopBody").transform.localPosition = startPosTopBody;
+		GameObject.Find ("Head").transform.localRotation = startRotHead;
+		GameObject.Find ("TopBody").transform.localRotation = startRotTopBody;
 	}
 	
 	void ResetPosAndRotMovement()

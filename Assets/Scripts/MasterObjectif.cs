@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class MasterObjectif : MonoBehaviour {
@@ -11,6 +12,14 @@ public class MasterObjectif : MonoBehaviour {
 	int combos_n;
 	int scores_n;
 	LevelProperties Level;
+	CharacterScore MasterScore;
+	public GameObject ObjectifHud;
+
+	float timerValidateObjectif;
+	bool validate;
+	float endMenuTimer;
+
+	int winScore;
 	// Use this for initialization
 	void Start () {
 		kill_n = SceneObjectifs.Kill.toDo;
@@ -19,16 +28,52 @@ public class MasterObjectif : MonoBehaviour {
 		discovert_n = SceneObjectifs.Discovert.toDo;
 		combos_n = SceneObjectifs.Combos.toDo;
 		scores_n = SceneObjectifs.HighScores.toDo;
+		winScore = 0;
+		timerValidateObjectif = 2;
+		endMenuTimer = 3;
+		validate = false;
 
-		Level = GameObject.Find ("LevelProperties").GetComponent<LevelProperties> ();
+		Level = GameObject.Find ("Level").GetComponent<LevelProperties> ();
+		MasterScore = GameObject.Find ("MasterScore").GetComponent<CharacterScore> ();
+		Debug.Log (Level.endgame);
+		initialiseObjectif ();
+		ObjectifHud.SetActive (false);
+
 	}
 
+	void initialiseObjectif()
+	{
+		if (PlayerPrefs.GetString ("kill_" + Level.levelName) == "true") {
+			SceneObjectifs.Kill.alreadyDone = true;
+			SceneObjectifs.Kill.State = true;
+		}
+		if (PlayerPrefs.GetString ("combos_" + Level.levelName) == "true") {
+			SceneObjectifs.Combos.alreadyDone = true;
+			SceneObjectifs.Combos.State = true;
+		}
+		if (PlayerPrefs.GetString ("carry_" + Level.levelName) == "true") {
+			SceneObjectifs.Carry.alreadyDone = true;
+			SceneObjectifs.Carry.State = true;
+		}
+		if (PlayerPrefs.GetString ("ultime_" + Level.levelName) == "true") {
+			SceneObjectifs.Ultime.alreadyDone = true;
+			SceneObjectifs.Ultime.State = true;
+		}
+		if (PlayerPrefs.GetString ("discovert_" + Level.levelName) == "true") {
+			SceneObjectifs.Discovert.alreadyDone = true;
+			SceneObjectifs.Discovert.State = true;
+		}
+		if (PlayerPrefs.GetString ("highscore_" + Level.levelName) == "true") {
+			SceneObjectifs.HighScores.alreadyDone = true;
+			SceneObjectifs.HighScores.State = true;
+		}
+	}
 	public void kill()
 	{
 		// si le le nombre de kill de kill.ennemy est égale a kill.todo debloquer l'objectif
 		if (Level.getKill (SceneObjectifs.Kill.ennemy) == kill_n) {
 			SceneObjectifs.Kill.State = true;
-			PlayerPrefs.SetString("kill_"+Level.levelName,"true");
+
 		}
 
 	}
@@ -37,7 +82,7 @@ public class MasterObjectif : MonoBehaviour {
 		// si le nombre de combos est égale a combos.todo debloquer l'objectif
 		if (Level.getCombos() == combos_n) {
 			SceneObjectifs.Combos.State = true;
-			PlayerPrefs.SetString("combos_"+Level.levelName,"true");
+
 		}
 	}
 	public void carry()
@@ -47,7 +92,7 @@ public class MasterObjectif : MonoBehaviour {
 		if (carry_n == 0) {
 
 			SceneObjectifs.Carry.State = true;
-			PlayerPrefs.SetString("carry_"+Level.levelName,"true");
+
 		}
 
 	}
@@ -58,7 +103,7 @@ public class MasterObjectif : MonoBehaviour {
 		if(ultime_n == 0)
 		{
 			SceneObjectifs.Ultime.State = true;
-			PlayerPrefs.SetString("ultime_"+Level.levelName,"true");
+
 		}
 	}
 	public void discovert()
@@ -67,7 +112,7 @@ public class MasterObjectif : MonoBehaviour {
 		discovert_n--;
 		if (discovert_n == 0) {
 			SceneObjectifs.Discovert.State = true;
-			PlayerPrefs.SetString("discovert_"+Level.levelName,"true");
+
 		}
 	}
 	public void highscore()
@@ -75,13 +120,145 @@ public class MasterObjectif : MonoBehaviour {
 		// si le scores est egale a highscore.todo debloquer l'objectif
 		if (Level.getScores () == scores_n) {
 			SceneObjectifs.HighScores.State = true;
-			PlayerPrefs.SetString("highscore_"+Level.levelName,"true");
+
 		}
 	}
+	internal void PrintObjectifDone()
+	{
+		ObjectifHud.SetActive (true);
 
+		//Set les texts des objectif
+		ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Kill").GetComponent<Text> ().text = SceneObjectifs.Kill.name;
+		ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Combos").GetComponent<Text> ().text = SceneObjectifs.Combos.name;
+		ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Carry").GetComponent<Text> ().text = SceneObjectifs.Carry.name;
+		ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Ultime").GetComponent<Text> ().text = SceneObjectifs.Ultime.name;
+		ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Discovert").GetComponent<Text> ().text = SceneObjectifs.Discovert.name;
+		ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("High Score").GetComponent<Text> ().text = SceneObjectifs.HighScores.name;
+
+		if (SceneObjectifs.Kill.alreadyDone == true) {
+			ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Kill").GetComponent<Text> ().color = new Vector4 (150,150,150,255);
+			ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Kill").GetComponent<Text> ().fontStyle = FontStyle.Italic;
+			ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Kill").transform.FindChild("Check").GetComponent<Image>().color = new Vector4(150,150,150,255);
+		} else {
+			ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Kill").GetComponent<Text> ().color = new Vector4 (0, 0, 0, 255);
+			ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Kill").GetComponent<Text> ().fontStyle = FontStyle.Normal;
+			ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Kill").transform.FindChild("Check").GetComponent<Image>().color = new Vector4(0,0,0,0);
+		}
+		if (SceneObjectifs.Combos.alreadyDone == true) {
+			ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Combos").GetComponent<Text> ().color = new Vector4 (150,150,150,255);
+			ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Combos").GetComponent<Text> ().fontStyle = FontStyle.Italic;
+			ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Combos").transform.FindChild("Check").GetComponent<Image>().color = new Vector4(150,150,150,255);
+		} else {
+			ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Combos").GetComponent<Text> ().color = new Vector4 (0, 0, 0, 255);
+			ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Combos").GetComponent<Text> ().fontStyle = FontStyle.Normal;
+			ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Combos").transform.FindChild("Check").GetComponent<Image>().color = new Vector4(0,0,0,0);
+		}
+		if (SceneObjectifs.Carry.alreadyDone == true) {
+			ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Carry").GetComponent<Text> ().color = new Vector4 (150,150,150,255);
+			ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Carry").GetComponent<Text> ().fontStyle = FontStyle.Italic;
+			ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Carry").transform.FindChild("Check").GetComponent<Image>().color = new Vector4(150,150,150,255);
+		} else {
+			ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Carry").GetComponent<Text> ().color = new Vector4 (0, 0, 0, 255);
+			ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Carry").GetComponent<Text> ().fontStyle = FontStyle.Normal;
+			ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Carry").transform.FindChild("Check").GetComponent<Image>().color = new Vector4(0,0,0,0);
+		}
+		if (SceneObjectifs.Ultime.alreadyDone == true) {
+			ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Ultime").GetComponent<Text> ().color = new Vector4 (150,150,150,255);
+			ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Ultime").GetComponent<Text> ().fontStyle = FontStyle.Italic;
+			ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Ultime").transform.FindChild("Check").GetComponent<Image>().color = new Vector4(150,150,150,255);
+		} else {
+			ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Ultime").GetComponent<Text> ().color = new Vector4 (0, 0, 0, 255);
+			ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Ultime").GetComponent<Text> ().fontStyle = FontStyle.Normal;
+			ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Ultime").transform.FindChild("Check").GetComponent<Image>().color = new Vector4(0,0,0,0);
+		}
+		if (SceneObjectifs.Discovert.alreadyDone == true) {
+			ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Discovert").GetComponent<Text> ().color = new Vector4 (150,150,150,255);
+			ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Discovert").GetComponent<Text> ().fontStyle = FontStyle.Italic;
+			ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Discovert").transform.FindChild("Check").GetComponent<Image>().color = new Vector4(150,150,150,255);
+		} else {
+			ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Discovert").GetComponent<Text> ().color = new Vector4 (0, 0, 0, 255);
+			ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Discovert").GetComponent<Text> ().fontStyle = FontStyle.Normal;
+			ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Discovert").transform.FindChild("Check").GetComponent<Image>().color = new Vector4(0,0,0,0);
+		}
+		if (SceneObjectifs.HighScores.alreadyDone == true) {
+			ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("High Score").GetComponent<Text> ().color = new Vector4 (150,150,150,255);
+			ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("High Score").GetComponent<Text> ().fontStyle = FontStyle.Italic;
+			ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("High Score").transform.FindChild("Check").GetComponent<Image>().color = new Vector4(150,150,150,255);
+		} else {
+			ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("High Score").GetComponent<Text> ().color = new Vector4 (0, 0, 0, 255);
+			ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("High Score").GetComponent<Text> ().fontStyle = FontStyle.Normal;
+			ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("High Score").transform.FindChild("Check").GetComponent<Image>().color = new Vector4(0,0,0,0);
+		}
+	}
+	void ValidateObjectif()
+	{
+		if (!validate) {
+			if (SceneObjectifs.Kill.alreadyDone != true & SceneObjectifs.Kill.State == true) {
+				ObjectifHud.transform.FindChild ("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Kill").GetComponent<Text> ().color = new Vector4 (255, 0, 0, 255);
+				ObjectifHud.transform.FindChild ("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Kill").GetComponent<Text> ().fontStyle = FontStyle.Bold;
+				ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Kill").transform.FindChild("Check").GetComponent<Image>().color = new Vector4(150,150,150,255);
+				PlayerPrefs.SetString("kill_"+Level.levelName,"true");
+				winScore += SceneObjectifs.Kill.value; 
+			} 
+			if (SceneObjectifs.Combos.alreadyDone != true & SceneObjectifs.Combos.State == true) {
+				ObjectifHud.transform.FindChild ("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Combos").GetComponent<Text> ().color = new Vector4 (255, 0, 0, 255);
+				ObjectifHud.transform.FindChild ("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Combos").GetComponent<Text> ().fontStyle = FontStyle.Bold;
+				ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Combos").transform.FindChild("Check").GetComponent<Image>().color = new Vector4(150,150,150,255);
+				PlayerPrefs.SetString("combos_"+Level.levelName,"true");
+				winScore += SceneObjectifs.Combos.value; 
+			} 
+			if (SceneObjectifs.Carry.alreadyDone != true & SceneObjectifs.Carry.State == true) {
+				ObjectifHud.transform.FindChild ("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Carry").GetComponent<Text> ().color = new Vector4 (255, 0, 0, 255);
+				ObjectifHud.transform.FindChild ("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Carry").GetComponent<Text> ().fontStyle = FontStyle.Bold;
+				ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Carry").transform.FindChild("Check").GetComponent<Image>().color = new Vector4(150,150,150,255);
+				PlayerPrefs.SetString("carry_"+Level.levelName,"true");
+				winScore += SceneObjectifs.Carry.value; 
+			} 
+			if (SceneObjectifs.Ultime.alreadyDone != true & SceneObjectifs.Ultime.State == true) {
+				ObjectifHud.transform.FindChild ("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Ultime").GetComponent<Text> ().color = new Vector4 (255, 0, 0, 255);
+				ObjectifHud.transform.FindChild ("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Ultime").GetComponent<Text> ().fontStyle = FontStyle.Bold;
+				ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Ultime").transform.FindChild("Check").GetComponent<Image>().color = new Vector4(150,150,150,255);
+				PlayerPrefs.SetString("ultime_"+Level.levelName,"true");
+				winScore += SceneObjectifs.Ultime.value; 
+			} 
+			if (SceneObjectifs.Discovert.alreadyDone != true & SceneObjectifs.Discovert.State == true) {
+				ObjectifHud.transform.FindChild ("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Discovert").GetComponent<Text> ().color = new Vector4 (255, 0, 0, 255);
+				ObjectifHud.transform.FindChild ("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Discovert").GetComponent<Text> ().fontStyle = FontStyle.Bold;
+				ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Discovert").transform.FindChild("Check").GetComponent<Image>().color = new Vector4(150,150,150,255);
+				PlayerPrefs.SetString("discovert_"+Level.levelName,"true");
+				winScore += SceneObjectifs.Discovert.value; 
+			} 
+			if (SceneObjectifs.HighScores.alreadyDone != true & SceneObjectifs.HighScores.State == true) {
+				ObjectifHud.transform.FindChild ("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("High Score").GetComponent<Text> ().color = new Vector4 (255, 0, 0, 255);
+				ObjectifHud.transform.FindChild ("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("High Score").GetComponent<Text> ().fontStyle = FontStyle.Bold;
+				ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("High Score").transform.FindChild("Check").GetComponent<Image>().color = new Vector4(150,150,150,255);
+				PlayerPrefs.SetString("highscore_"+Level.levelName,"true");
+				winScore += SceneObjectifs.HighScores.value; 
+			}
+			ObjectifHud.transform.FindChild ("First Panel").transform.FindChild ("Score gagner").GetComponent<Text> ().text = "+ " + winScore.ToString ();
+			MasterScore.ScoreTotal += winScore;
+			PlayerPrefs.SetInt("TotalScore",MasterScore.ScoreTotal);
+		}
+		validate = true;
+	}
 	// Update is called once per frame
 	void Update () {
 	
+		if (Level.endgame) {
+			if(timerValidateObjectif <=0){
+				ValidateObjectif();
+				if(endMenuTimer <= 0){
+					Level.ActivateMenu = true;
+					ObjectifHud.SetActive(false);
+				}
+				else
+					endMenuTimer -= Time.deltaTime;
+			}
+			else{
+				PrintObjectifDone();
+				timerValidateObjectif -= Time.deltaTime;
+			}
+		}
 		kill ();
 		combos ();
 		highscore ();

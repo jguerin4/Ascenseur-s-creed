@@ -7,4 +7,5 @@ public struct Objectif{
 	public int toDo;
 	public string ennemy; //seulement pour les objectifs de kills
 	public int value;
+	public bool alreadyDone;
 }

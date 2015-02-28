@@ -50,6 +50,8 @@ public class LevelProperties : MonoBehaviour {
 			return clown;
 		else if (ennemy == "dog")
 			return dog;
+		else
+			return 0;
 	}
 	public int getCombos()
 	{

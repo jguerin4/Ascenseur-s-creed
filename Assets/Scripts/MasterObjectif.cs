@@ -8,22 +8,35 @@ public class MasterObjectif : MonoBehaviour {
 	int carry_n;
 	int ultime_n;
 	int discovert_n;
+	int combos_n;
+	int scores_n;
+	LevelProperties Level;
 	// Use this for initialization
 	void Start () {
-		DontDestroyOnLoad (this.gameObject);
 		kill_n = SceneObjectifs.Kill.toDo;
 		carry_n = SceneObjectifs.Carry.toDo;
 		ultime_n = SceneObjectifs.Ultime.toDo;
 		discovert_n = SceneObjectifs.Discovert.toDo;
+		combos_n = SceneObjectifs.Combos.toDo;
+		scores_n = SceneObjectifs.HighScores.toDo;
+
+		Level = GameObject.Find ("LevelProperties").GetComponent<LevelProperties> ();
 	}
 
 	public void kill()
 	{
 		// si le le nombre de kill de kill.ennemy est égale a kill.todo debloquer l'objectif
+		if (Level.getKill (SceneObjectifs.Kill.ennemy) == kill_n) {
+			SceneObjectifs.Kill.State = true;
+		}
+
 	}
 	public void combos()
 	{
 		// si le nombre de combos est égale a combos.todo debloquer l'objectif
+		if (Level.getCombos() == combos_n) {
+			SceneObjectifs.Combos.State = true;
+		}
 	}
 	public void carry()
 	{

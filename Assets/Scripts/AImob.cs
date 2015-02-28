@@ -6,7 +6,7 @@ public class AImob : MonoBehaviour {
 	public float speed;
 
 	private bool canAtack;
-	private BoxCollider collider;
+	private BoxCollider collide;
 
 	private int health;
 	
@@ -14,7 +14,7 @@ public class AImob : MonoBehaviour {
 	{
 		health = 3;
 
-		collider = gameObject.GetComponent<BoxCollider>();
+		collide = gameObject.GetComponent<BoxCollider>();
 	}
 	
 	// Update is called once per frame
@@ -24,6 +24,10 @@ public class AImob : MonoBehaviour {
 		{
 			die ();
 		}
+
+		Ray ray = new Ray(transform.position + transform.forward * 1.5f, transform.forward);
+		Debug.DrawRay(ray.origin, ray.direction, Color.red);
+		//Physics.Raycast()
 	}
 
 	void OnTriggerStay(Collider other)
@@ -40,7 +44,7 @@ public class AImob : MonoBehaviour {
 
 				float rotationSpeed = 100f;
 				Vector3 direction = new Vector3(x,y,z);
-				Quaternion rotation = Quaternion.LookRotation(direction);
+				Quaternion rotation = Quaternion.LookRotation(direction - transform.position);
 
 				if((direction - transform.position).magnitude >= 3f)
 				{
@@ -71,14 +75,5 @@ public class AImob : MonoBehaviour {
 	{
 		Destroy(this.gameObject);
 		Destroy(this);
-	}
-
-	void OnTriggerEnter(Collider col)
-	{
-		if(col.name == "Character" && col.GetType() == typeof(CapsuleCollider))
-		{
-			col.gameObject.GetComponent<Pushback>().PushEnemy();
-			col.gameObject.GetComponent<Combos>().resetButtonList();
-		}
 	}
 }

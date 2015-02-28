@@ -26,8 +26,17 @@ public class AImob : MonoBehaviour {
 		}
 
 		Ray ray = new Ray(transform.position + transform.forward * 1.2f, transform.forward);
+		RaycastHit hit;
+
 		Debug.DrawRay(ray.origin, ray.direction, Color.red);
-		//Physics.Raycast()
+		if (Physics.Raycast(ray, out hit))
+		{
+			if(hit.collider.GetType() == typeof(CapsuleCollider))
+			{
+				//hit.collider.gameObject.GetComponent<Pushback>().PushEnemy();
+				canAtack = true;
+			}
+		}
 	}
 
 	void OnTriggerStay(Collider other)
@@ -37,7 +46,6 @@ public class AImob : MonoBehaviour {
 		{
 			if(!GetComponent<Pushback>().pushBacking)
 			{
-				//Debug.Log("lol");
 				float x = other.transform.position.x;
 				float y = other.transform.position.y;
 				float z = other.transform.position.z;
@@ -46,7 +54,7 @@ public class AImob : MonoBehaviour {
 				Vector3 direction = new Vector3(x,y,z);
 				Quaternion rotation = Quaternion.LookRotation(direction - transform.position);
 
-				if((direction - transform.position).magnitude >= 3f)
+				if((direction - transform.position).magnitude >= 2f)
 				{
 					transform.position = Vector3.MoveTowards(transform.position, direction, step);
 				}

@@ -14,7 +14,7 @@ public class AImob : MonoBehaviour {
 	void Start () 
 	{
 		health = 3;
-		attackTimer = 1.0f;
+		attackTimer = 1.5f;
 		timer = 0.0f;
 
 		canAtack = true;
@@ -42,7 +42,21 @@ public class AImob : MonoBehaviour {
 
 		if(canAtack)
 		{
-			Ray ray = new Ray(transform.position + transform.forward  + new Vector3(0f, 1f, -0.75f), transform.forward);
+			Ray ray = new Ray();
+		
+			if (this.gameObject.tag == "Clown")
+			{
+				ray = new Ray(transform.position + transform.forward * 0.5f, transform.forward);
+			}
+			else if (this.gameObject.tag == "Spider")
+			{
+				ray = new Ray(transform.position + transform.forward * 0.75f, transform.forward);
+			}
+			else if (this.gameObject.tag == "Dog")
+			{
+				ray = new Ray(transform.position + transform.forward * 2f, transform.forward);
+			}
+			
 			RaycastHit hit = new RaycastHit();
 			Debug.DrawRay(ray.origin, ray.direction, Color.red);
 			if (Physics.Raycast(ray, out hit, 1f))
@@ -81,18 +95,18 @@ public class AImob : MonoBehaviour {
 				{
 					transform.position = Vector3.MoveTowards(transform.position, direction, step);
 
-					if(this.gameObject.name == "Clown(Clone)" || this.gameObject.name == "Dog(Clone)")
+					/*if(this.gameObject.tag == "Clown" || this.gameObject.tag == "Dog")
 					{
 						//Y est a vérifier
 						Vector3 directionSameY = new Vector3(direction.x,transform.position.y, direction.z);
 						rotation = Quaternion.LookRotation(transform.position - directionSameY);
 						
 						transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, Time.deltaTime * rotationSpeed);
-					}
-					else
-					{
+					}*/
+					/*else
+					{*/
 						transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, Time.deltaTime * rotationSpeed);
-					}
+					//}
 				}
 
 				transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * rotationSpeed);

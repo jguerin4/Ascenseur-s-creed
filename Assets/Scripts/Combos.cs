@@ -165,7 +165,7 @@ public class Combos : MonoBehaviour {
 			transform.GetComponent<CharacterAnims>().StartCombo(1);
 
 			damage = 2;
-			doDamage(damage, gameObject.GetComponentInChildren<GetOverlapping>().enemyList, enemyList);
+			doDamage(damage, GameObject.Find("ComboCollider").GetComponentInChildren<GetOverlapping>().enemyList, enemyList);
 
 			if(nbCol > 0)
 			{
@@ -176,8 +176,6 @@ public class Combos : MonoBehaviour {
 			{
 				comboCounter = 0;
 			}
-			
-			Debug.Log(combo3);
 			return;
 		}
 
@@ -188,7 +186,7 @@ public class Combos : MonoBehaviour {
 			transform.GetComponent<CharacterAnims>().StartCombo(2);
 
 			damage = 3;
-			doDamage(damage, gameObject.GetComponentInChildren<GetOverlapping>().enemyList, enemyList);
+			doDamage(damage, GameObject.Find("ComboCollider").GetComponentInChildren<GetOverlapping>().enemyList, enemyList);
 
 			if(nbCol > 0)
 			{
@@ -199,8 +197,6 @@ public class Combos : MonoBehaviour {
 			{
 				comboCounter = 0;
 			}
-			
-			Debug.Log(combo4);
 			return;
 		}
 
@@ -211,7 +207,7 @@ public class Combos : MonoBehaviour {
 			transform.GetComponent<CharacterAnims>().StartCombo(3);
 
 			damage = 2;
-			doDamage(damage, gameObject.GetComponentInChildren<GetOverlapping>().enemyList, enemyList);
+			doDamage(damage, GameObject.Find("ComboCollider").GetComponentInChildren<GetOverlapping>().enemyList, enemyList);
 
 			if(nbCol > 0)
 			{
@@ -222,8 +218,6 @@ public class Combos : MonoBehaviour {
 			{
 				comboCounter = 0;
 			}
-			
-			Debug.Log(combo5);
 			return;
 		}
 	
@@ -234,7 +228,7 @@ public class Combos : MonoBehaviour {
 			transform.GetComponent<CharacterAnims>().StartCombo(4);
 
 			damage = 3;
-			doDamage(damage, gameObject.GetComponentInChildren<GetOverlapping>().enemyList, enemyList);
+			doDamage(damage, GameObject.Find("ComboCollider").GetComponentInChildren<GetOverlapping>().enemyList, enemyList);
 
 			if(nbCol > 0)
 			{
@@ -245,8 +239,6 @@ public class Combos : MonoBehaviour {
 			{
 				comboCounter = 0;
 			}
-			
-			Debug.Log(combo7);
 			return;
 		}
 	}
@@ -269,8 +261,6 @@ public class Combos : MonoBehaviour {
 			{
 				comboCounter = 0;
 			}
-			
-			Debug.Log(attackX);
 		}
 
 		else if(str == attackB)
@@ -287,8 +277,6 @@ public class Combos : MonoBehaviour {
 			{
 				comboCounter = 0;
 			}
-			
-			Debug.Log(attackB);
 		}
 
 		else if(str == attackY)
@@ -305,18 +293,16 @@ public class Combos : MonoBehaviour {
 			{
 				comboCounter = 0;
 			}
-
-			Debug.Log(attackY);
 		}
 
-		doDamage(damage, enemyList, gameObject.GetComponentInChildren<GetOverlapping>().enemyList);
+		doDamage(damage, enemyList, GameObject.Find("ComboCollider").GetComponentInChildren<GetOverlapping>().enemyList);
 	}
 
 	void OnTriggerEnter(Collider col)
 	{
 		if((col.tag == "Spider" || col.tag == "Dog" || col.tag == "Clown") && col.GetType() == typeof(CapsuleCollider))
 		{
-			enemyList.Add(col.gameObject);
+			this.enemyList.Add(col.gameObject);
 
 			nbCol++;
 			rigidbody.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotation;
@@ -327,7 +313,7 @@ public class Combos : MonoBehaviour {
 	{
 		if((col.tag == "Spider" || col.tag == "Dog" || col.tag == "Clown") && col.GetType() == typeof(CapsuleCollider))
 		{
-			enemyList.Remove(col.gameObject);
+			this.enemyList.Remove(col.gameObject);
 
 			nbCol--;
 			rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
@@ -340,60 +326,100 @@ public class Combos : MonoBehaviour {
 
 		int sizeCurrent = current.Count;
 		int sizeOther = other.Count;
-		int it = 0;
 
 		foreach(GameObject enemy in current)
 		{
-			if(enemy.GetComponent<AImob>().getHealth() <= damage)
+			try
 			{
-				garbage.Add(enemy);
-				current[it] = null;
+				if(enemy.GetComponent<AImob>().getHealth() <= damage)
+				{
+					enemy.GetComponent<AImob>().toDestroy = true;
+					Destroy(enemy.gameObject);
+					garbage.Add(enemy);
+				}
+				else
+				{
+					enemy.GetComponent<Pushback>().PushEnemy();
+					enemy.GetComponent<AImob>().doDamage(damage);
+					enemy.GetComponent<AImob>().timer = 0f;
+					enemy.GetComponent<AImob>().canAtack = false;
+				}
 			}
-			else
+			catch (MissingReferenceException ex)
 			{
-				enemy.GetComponent<AImob>().doDamage(damage);
-				enemy.GetComponent<AImob>().timer = 0f;
-				enemy.GetComponent<AImob>().canAtack = false;
+				//GameObject.Find ("ComboCollider").GetComponent<GetOverlapping>().nbCol--;
 			}
 		}
 		
 		for (int i = 0; i < sizeCurrent; i++)
 		{
-			if(current[i] == null)
+			try
 			{
-				current.RemoveAt(i);
-
-				sizeCurrent--;
-				i--;
-
-				if(i < 0)
+				if(current[i].GetComponent<AImob>().toDestroy)
 				{
-					i = 0;
+					Debug.Log("i: " + i);
+					Debug.Log("size: " + sizeCurrent);
+					current.RemoveAt(i);
+
+					sizeCurrent--;
+					i--;
+
+					if(i <= 0)
+					{
+						i = 0;
+					}
+
+					if(sizeCurrent < 0)
+					{
+						Debug.Log("dafuq");
+						sizeCurrent = 0;
+					}
 				}
+			}
+			catch (MissingReferenceException ex)
+			{
+				//GameObject.Find ("ComboCollider").GetComponent<GetOverlapping>().nbCol--;
 			}
 
 			for (int j = 0; j < sizeOther; j++)
 			{
-				if(other[i].transform == null)
+				try
 				{
-					other.RemoveAt(i);
-					
-					sizeOther--;
-					j--;
-
-					if(j < 0)
+					if(other[j].GetComponent<AImob>().toDestroy)
 					{
-						j = 0;
+						other.RemoveAt(j);
+						
+						sizeOther--;
+						j--;
+
+						if(j <= 0)
+						{
+							j = 0;
+						}
+
+						if(sizeOther < 0)
+						{
+							Debug.Log("dafuq");
+							sizeOther = 0;
+						}
 					}
+				}
+				catch (MissingReferenceException ex)
+				{
+					//GameObject.Find ("ComboCollider").GetComponent<GetOverlapping>().nbCol--;
 				}
 			}
 
 			foreach(GameObject enemy in garbage)
 			{
-				enemy.GetComponent<AImob>().doDamage(damage);
+				if(!current.Contains(enemy) && !other.Contains(enemy))
+					Destroy(enemy);
 			}
 
 			garbage.Clear();
+
+			nbCol = enemyList.Count;
+			//GameObject.Find ("ComboCollider").GetComponent<GetOverlapping>().nbCol = GameObject.Find ("ComboCollider").GetComponent<GetOverlapping>().enemyList.Count;
 		}
 
 		/*

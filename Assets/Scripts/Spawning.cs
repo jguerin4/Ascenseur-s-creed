@@ -20,15 +20,11 @@ public class Spawning : MonoBehaviour {
 	private Terrain terr;
 
 	void Start() {
-		/*while(m_numberOfMobs <= 2)
-		{
-			spawnNewMob(30,60,30,60);
-		}*/
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if(m_numberOfMobs <= 70)
+		if(m_numberOfMobs <= 10)
 		{
 			spawnNewMob(40,100,40,100);
 		}
@@ -77,7 +73,7 @@ public class Spawning : MonoBehaviour {
 		if(currentHeight > 0 || hitCollider.GetLength(0) > 0 || xSpawnPosition > 2000 || zSpawnPosition > 2000 || xSpawnPosition < 0 || zSpawnPosition < 0)
 		{
 			getEnnemyType = 999;	//Ne spawn pas
-			Debug.Log("Hauteur: " + currentHeight + " Number of hit Collider: " + hitCollider.GetLength(0) + " Position : " + centerTestCollision.x + " " + centerTestCollision.z);
+			//Debug.Log("Hauteur: " + currentHeight + " Number of hit Collider: " + hitCollider.GetLength(0) + " Position : " + centerTestCollision.x + " " + centerTestCollision.z);
 		}                     
 		
 		

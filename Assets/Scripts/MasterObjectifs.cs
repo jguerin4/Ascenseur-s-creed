@@ -22,12 +22,20 @@ public class MasterObjectifs : MonoBehaviour {
 	int winScore;
 	// Use this for initialization
 	void Start () {
-		kill_n = SceneObjectifs.Kill.toDo;
-		carry_n = SceneObjectifs.Carry.toDo;
-		ultime_n = SceneObjectifs.Ultime.toDo;
-		discovert_n = SceneObjectifs.Discovert.toDo;
-		combos_n = SceneObjectifs.Combos.toDo;
-		scores_n = SceneObjectifs.HighScores.toDo;
+		if(MainMenuManager.loadedFromLevelSelection == true || resetObjectives.loadedFromReset == true)
+		{
+			Debug.Log("Reseting obj");
+			resetObjectif();
+		}
+		else
+		{
+			kill_n = SceneObjectifs.Kill.toDo;
+			carry_n = SceneObjectifs.Carry.toDo;
+			ultime_n = SceneObjectifs.Ultime.toDo;
+			discovert_n = SceneObjectifs.Discovert.toDo;
+			combos_n = SceneObjectifs.Combos.toDo;
+			scores_n = SceneObjectifs.HighScores.toDo;
+		}
 		
 		winScore = 0;
 		timerValidateObjectif = 0.5f;
@@ -40,10 +48,42 @@ public class MasterObjectifs : MonoBehaviour {
 		initialiseObjectif ();
 		ObjectifHud.SetActive (false);
 
+	}
+	void resetObjectif()
+	{
+		SceneObjectifs.Kill.toDo = 10;
+		SceneObjectifs.Carry.toDo = 3;
+		SceneObjectifs.Ultime.toDo = 1;
+		SceneObjectifs.Discovert.toDo = 1;
+		SceneObjectifs.Combos.toDo = 5;
+		SceneObjectifs.HighScores.toDo = 40000;
+		/*
+		PlayerPrefs.SetString ("kill_" + Level.levelName, "false");
+		PlayerPrefs.SetString ("combos_" + Level.levelName, "false");
+		PlayerPrefs.SetString ("carry_" + Level.levelName, "false");
+		PlayerPrefs.SetString ("ultime_" + Level.levelName, "false");
+		PlayerPrefs.SetString ("discovert_" + Level.levelName, "false");
+		PlayerPrefs.SetString ("highscore_" + Level.levelName, "false");
+*/
+		PlayerPrefs.DeleteAll();
 
+
+		kill_n = SceneObjectifs.Kill.toDo;
+		carry_n = SceneObjectifs.Carry.toDo;
+		ultime_n = SceneObjectifs.Ultime.toDo;
+		discovert_n = SceneObjectifs.Discovert.toDo;
+		combos_n = SceneObjectifs.Combos.toDo;
+		scores_n = SceneObjectifs.HighScores.toDo;
+
+		SceneObjectifs.Kill.State = false;
+		SceneObjectifs.Combos.State = false;
+		SceneObjectifs.Carry.State = false;
+		SceneObjectifs.Ultime.State = false;
+		SceneObjectifs.Discovert.State = false;
+		SceneObjectifs.HighScores.State = false;
 
 	}
-	
+
 	void initialiseObjectif()
 	{
 		if (PlayerPrefs.GetString ("kill_" + Level.levelName) == "true") {
@@ -113,7 +153,7 @@ public class MasterObjectifs : MonoBehaviour {
 	{
 		// a chaque fois qu'un endoirt a découvrir est découvert appeler discovert() et si discovert_n est égale a 0 debloquer l'objectif
 		discovert_n--;
-		if (discovert_n == 0) {
+		if (discovert_n <= 0) {
 			SceneObjectifs.Discovert.State = true;
 			
 		}

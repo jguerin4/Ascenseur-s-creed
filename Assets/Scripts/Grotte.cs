@@ -19,7 +19,6 @@ public class Grotte : MonoBehaviour {
 	{
 		if (other.gameObject.tag == "Player") {
 			Obj_Master.discovert();
-			Destroy(gameObject);
 		}
 	}
 }

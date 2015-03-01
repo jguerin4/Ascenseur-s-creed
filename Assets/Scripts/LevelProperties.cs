@@ -118,6 +118,7 @@ public class LevelProperties : MonoBehaviour {
 			if(bestScore < scores)
 			{
 				PlayerPrefs.SetInt("BestScore_" +levelName, scores);
+				PlayerPrefs.Save();
 			}
 			EndGame.transform.FindChild("YourScore").GetComponent<Text>().text = "Ton score: " + scores.ToString();
 			EndGame.transform.FindChild("BestScore").GetComponent<Text>().text = "Meilleur score: " + bestScore.ToString();

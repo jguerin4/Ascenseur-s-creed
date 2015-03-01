@@ -21,9 +21,11 @@ public class LevelSelection : MonoBehaviour {
 
 		if (nombreLevel > 1) {
 
+			UI.transform.FindChild ("Next").GetComponent<Button> ().interactable = true;
+			UI.transform.FindChild ("Prev").GetComponent<Button> ().interactable = true;
 		} else {
-			//UI.transform.FindChild ("Next").GetComponent<Button> ().sel
-				//UI.transform.FindChild ("Prev").GetComponent<Button> ().colors.pressedColor = new Vector4(150,150,150,0);
+			UI.transform.FindChild ("Next").GetComponent<Button> ().interactable = false;
+			UI.transform.FindChild ("Prev").GetComponent<Button> ().interactable = false;
 		}
 		levelName = "Mon premier reve";
 		UI.transform.FindChild ("Level Panel").transform.FindChild ("Image").GetComponent<Image> ().sprite = level1;

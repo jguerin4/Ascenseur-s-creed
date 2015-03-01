@@ -76,7 +76,7 @@ public class MasterObjectifs : MonoBehaviour {
 		// si le le nombre de kill de kill.ennemy est égale a kill.todo debloquer l'objectif
 		if (Level.getKill (SceneObjectifs.Kill.ennemy) == kill_n) {
 			SceneObjectifs.Kill.State = true;
-			Debug.Log("set true");
+//			Debug.Log("set true");
 		}
 		
 	}

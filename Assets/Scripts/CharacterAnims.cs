@@ -258,6 +258,10 @@ public class CharacterAnims : MonoBehaviour
 		{
 			GameObject.Find("Light").GetComponent<Light>().color = new Color(0f/255f, 0f/255f, 255f/255f, 1f);
 		}
+		else if (indice == 4)
+		{
+			GameObject.Find("Light").GetComponent<Light>().color = new Color(0f/255f, 0f/255f, 255f/255f, 1f);
+		}
 		
 		GameObject.Find("Master").GetComponent<UIManager>().StartAppearName(indice);
 	}

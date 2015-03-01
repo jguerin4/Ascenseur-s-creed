@@ -93,10 +93,7 @@ public class CharacterAnims : MonoBehaviour
 			}
 			else if (Input.GetKeyDown (KeyCode.E))
 			{
-<<<<<<< HEAD
 				source.PlayOneShot(sonAttack4,1F);
-				StartCombo();
-=======
 				StartCombo(1);
 			}
 			else if (Input.GetKeyDown (KeyCode.R))
@@ -106,7 +103,7 @@ public class CharacterAnims : MonoBehaviour
 			else if (Input.GetKeyDown (KeyCode.T))
 			{
 				StartCombo(3);
->>>>>>> 6fba24f42da43dff8302a659e07d1ae8aa3fc58c
+
 			}
 		}
 		

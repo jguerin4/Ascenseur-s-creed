@@ -7,26 +7,24 @@ public class AImob : MonoBehaviour {
 	private float attackTimer;
 	public float timer;
 	public Transform destroyedExplosion;
+	public Transform hitEnemie;
+	public bool toDestroy;
 
 	public bool canAtack;
 	
 	internal bool moving = false;
 
 	private int health;	
-
-	public LevelProperties level;
-
 	
 	void Start () 
 	{
-
-
-		speed = 7f;
+		speed = 2f;
 		health = 3;
 		attackTimer = 1.5f;
 		timer = 0.0f;
-		level = GameObject.Find ("Level").GetComponent<LevelProperties> ();
+
 		canAtack = true;
+		toDestroy = false;
 	}
 	
 	// Update is called once per frame
@@ -43,11 +41,11 @@ public class AImob : MonoBehaviour {
 				timer = 0.0f;
 			}
 		}
-
+		/*
 		if(getHealth() <= 0)
 		{
 			die ();
-		}
+		}*/
 
 		if(canAtack)
 		{
@@ -139,6 +137,9 @@ public class AImob : MonoBehaviour {
 	public void doDamage(int value)
 	{
 		health -= value;
+		Vector3 tempPosHit = transform.position;
+		tempPosHit.y = 0.1f;
+		Instantiate (hitEnemie, tempPosHit, transform.rotation);
 	}
 
 	public int getHealth()
@@ -146,15 +147,8 @@ public class AImob : MonoBehaviour {
 		return health;
 	}
 
-	private void die()
+	public void die()
 	{
-		Destroy(this.gameObject);
 		Instantiate (destroyedExplosion, transform.position, transform.rotation);
-		Spawning.m_numberOfMobs--;
-		level.updatEnnemy(this.gameObject.tag);
-		Debug.Log(("Tag string: " + this.gameObject.tag));
-		CharacterProperties.increaseFear(1);	//Increase by 1 on kill
-
-		Destroy(this);
 	}
 }

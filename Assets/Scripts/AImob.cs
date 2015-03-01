@@ -14,7 +14,7 @@ public class AImob : MonoBehaviour {
 	void Start () 
 	{
 		health = 3;
-		attackTimer = 10000.0f;
+		attackTimer = 1.0f;
 		timer = 0.0f;
 
 		canAtack = true;
@@ -42,16 +42,18 @@ public class AImob : MonoBehaviour {
 
 		if(canAtack)
 		{
-			Ray ray = new Ray(transform.position + transform.forward * 1.2f, transform.forward);
+			Ray ray = new Ray(transform.position + transform.forward  + new Vector3(0f, 1f, -0.75f), transform.forward);
 			RaycastHit hit = new RaycastHit();
-			Debug.DrawRay(ray.origin, ray.direction);
-			if (Physics.Raycast(ray, out hit))
+			Debug.DrawRay(ray.origin, ray.direction, Color.red);
+			if (Physics.Raycast(ray, out hit, 1f))
 			{
-				if(hit.collider.GetType() == typeof(CapsuleCollider))
+				if(hit.collider.GetType() == typeof(CapsuleCollider) && hit.collider.gameObject.name == "Character")
 				{
-					Debug.DrawRay(ray.origin, ray.direction, Color.red);
 					hit.collider.gameObject.GetComponent<Pushback>().PushEnemy();
-					Debug.Log(hit.collider.name);
+					hit.collider.gameObject.GetComponent<PlayerGetDamaged>().PlayerDamaged();
+
+					this.GetComponent<MobAttack>().EnemyAttackAnim();
+
 					canAtack = false;
 				}
 			}
@@ -74,7 +76,7 @@ public class AImob : MonoBehaviour {
 				Vector3 direction = new Vector3(x,y,z);
 				Quaternion rotation = Quaternion.LookRotation(direction - transform.position);
 
-				if((direction - transform.position).magnitude >= 2f)
+				if((direction - transform.position).magnitude >= 0.5f)
 				{
 					transform.position = Vector3.MoveTowards(transform.position, direction, step);
 

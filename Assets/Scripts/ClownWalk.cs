@@ -23,31 +23,31 @@ public class ClownWalk : MonoBehaviour
 	{
 		if (!movementSide)
 		{
-			GameObject.Find ("Rightleg").transform.RotateAround(GameObject.Find ("LowBodyClown").transform.position,
+			transform.FindChild ("Body/Rightleg").transform.RotateAround(transform.FindChild ("Body/LowBodyClown").transform.position,
 			                                                    transform.right,
 			                                                    moveRotationSpeed * Time.deltaTime);
-			GameObject.Find ("Leftleg").transform.RotateAround(GameObject.Find ("LowBodyClown").transform.position,
+			transform.FindChild ("Body/Leftleg").transform.RotateAround(transform.FindChild ("Body/LowBodyClown").transform.position,
 			                                                   transform.right,
 			                                                   -moveRotationSpeed * Time.deltaTime);
 		}
 		else
 		{
-			GameObject.Find ("Rightleg").transform.RotateAround(GameObject.Find ("LowBodyClown").transform.position,
+			transform.FindChild ("Body/Rightleg").transform.RotateAround(transform.FindChild ("Body/LowBodyClown").transform.position,
 			                                                    transform.right,
 			                                                    -moveRotationSpeed * Time.deltaTime);
-			GameObject.Find ("Leftleg").transform.RotateAround(GameObject.Find ("LowBodyClown").transform.position,
+			transform.FindChild ("Body/Leftleg").transform.RotateAround(transform.FindChild ("Body/LowBodyClown").transform.position,
 			                                                   transform.right,
 			                                                   moveRotationSpeed * Time.deltaTime);
 		}
 		
-		if (GameObject.Find ("Rightleg").transform.localRotation.eulerAngles.x <= 300 &&
-		    GameObject.Find ("Rightleg").transform.localRotation.eulerAngles.x > 270 &&
+		if (transform.FindChild ("Body/Rightleg").transform.localRotation.eulerAngles.x <= 300 &&
+		    transform.FindChild ("Body/Rightleg").transform.localRotation.eulerAngles.x > 270 &&
 		    !movementSide)
 		{
 			movementSide = true;
 		}
-		else if (GameObject.Find ("Rightleg").transform.localRotation.eulerAngles.x >= 60 &&
-		         GameObject.Find ("Rightleg").transform.localRotation.eulerAngles.x < 90 &&
+		else if (transform.FindChild ("Body/Rightleg").transform.localRotation.eulerAngles.x >= 60 &&
+		         transform.FindChild ("Body/Rightleg").transform.localRotation.eulerAngles.x < 90 &&
 		         movementSide)
 		{
 			movementSide = false;

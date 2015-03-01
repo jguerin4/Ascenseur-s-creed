@@ -331,7 +331,6 @@ public class Combos : MonoBehaviour {
 		{
 			try
 			{
-				CharacterProperties.increaseFear(damage);
 				if(enemy.GetComponent<AImob>().getHealth() <= damage)
 				{
 					enemy.GetComponent<AImob>().toDestroy = true;

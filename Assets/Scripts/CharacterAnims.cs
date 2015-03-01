@@ -3,8 +3,8 @@ using System.Collections;
 
 public class CharacterAnims : MonoBehaviour 
 {
-	float movementSpeed = 10f;
-	float movementSpeedKeyboard = 0.2f;
+	float movementSpeed = 15f;
+	float movementSpeedKeyboard = 0.3f;
 
 	float rotationSpeed = 1200;
 	float moveRotationSpeed = 400;

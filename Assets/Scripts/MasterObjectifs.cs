@@ -2,8 +2,8 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class MasterObjectif : MonoBehaviour {
-
+public class MasterObjectifs : MonoBehaviour {
+	
 	public Objectifs SceneObjectifs;
 	int kill_n;
 	int carry_n;
@@ -14,11 +14,11 @@ public class MasterObjectif : MonoBehaviour {
 	LevelProperties Level;
 	CharacterScore MasterScore;
 	public GameObject ObjectifHud;
-
+	
 	float timerValidateObjectif;
 	bool validate;
 	float endMenuTimer;
-
+	
 	int winScore;
 	// Use this for initialization
 	void Start () {
@@ -28,24 +28,20 @@ public class MasterObjectif : MonoBehaviour {
 		discovert_n = SceneObjectifs.Discovert.toDo;
 		combos_n = SceneObjectifs.Combos.toDo;
 		scores_n = SceneObjectifs.HighScores.toDo;
-
+		
 		winScore = 0;
 		timerValidateObjectif = 2;
 		endMenuTimer = 3;
 		validate = false;
-
+		
 		Level = GameObject.Find ("Level").GetComponent<LevelProperties> ();
 		MasterScore = GameObject.Find ("MasterScore").GetComponent<CharacterScore> ();
 
-		/*PlayerPrefs.DeleteAll ();
-		PlayerPrefs.Save ();*/
-		//initialiseObjectif ();
+		initialiseObjectif ();
 		ObjectifHud.SetActive (false);
 
-
-
 	}
-
+	
 	void initialiseObjectif()
 	{
 		if (PlayerPrefs.GetString ("kill_" + Level.levelName) == "true") {
@@ -78,16 +74,16 @@ public class MasterObjectif : MonoBehaviour {
 		// si le le nombre de kill de kill.ennemy est égale a kill.todo debloquer l'objectif
 		if (Level.getKill (SceneObjectifs.Kill.ennemy) == kill_n) {
 			SceneObjectifs.Kill.State = true;
-
+			
 		}
-
+		
 	}
 	public void combos()
 	{
 		// si le nombre de combos est égale a combos.todo debloquer l'objectif
 		if (Level.getCombos() == combos_n) {
 			SceneObjectifs.Combos.State = true;
-
+			
 		}
 	}
 	public void carry()
@@ -95,11 +91,11 @@ public class MasterObjectif : MonoBehaviour {
 		// si le nombre de carry object est égale a carry.todo debloquer l'objectif
 		carry_n--;
 		if (carry_n == 0) {
-
+			
 			SceneObjectifs.Carry.State = true;
-
+			
 		}
-
+		
 	}
 	public void Ultime()
 	{
@@ -108,7 +104,7 @@ public class MasterObjectif : MonoBehaviour {
 		if(ultime_n == 0)
 		{
 			SceneObjectifs.Ultime.State = true;
-
+			
 		}
 	}
 	public void discovert()
@@ -117,7 +113,7 @@ public class MasterObjectif : MonoBehaviour {
 		discovert_n--;
 		if (discovert_n == 0) {
 			SceneObjectifs.Discovert.State = true;
-
+			
 		}
 	}
 	public void highscore()
@@ -125,13 +121,13 @@ public class MasterObjectif : MonoBehaviour {
 		// si le scores est egale a highscore.todo debloquer l'objectif
 		if (Level.getScores () == scores_n) {
 			SceneObjectifs.HighScores.State = true;
-
+			
 		}
 	}
 	internal void PrintObjectifDone()
 	{
 		ObjectifHud.SetActive (true);
-
+		
 		//Set les texts des objectif
 		ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Kill").GetComponent<Text> ().text = SceneObjectifs.Kill.name;
 		ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Combos").GetComponent<Text> ().text = SceneObjectifs.Combos.name;
@@ -139,7 +135,7 @@ public class MasterObjectif : MonoBehaviour {
 		ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Ultime").GetComponent<Text> ().text = SceneObjectifs.Ultime.name;
 		ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Discovert").GetComponent<Text> ().text = SceneObjectifs.Discovert.name;
 		ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("High Score").GetComponent<Text> ().text = SceneObjectifs.HighScores.name;
-
+		
 		if (SceneObjectifs.Kill.alreadyDone == true) {
 			ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Kill").GetComponent<Text> ().color = new Vector4 (150,150,150,255);
 			ObjectifHud.transform.FindChild("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Kill").GetComponent<Text> ().fontStyle = FontStyle.Italic;
@@ -248,7 +244,7 @@ public class MasterObjectif : MonoBehaviour {
 	}
 	// Update is called once per frame
 	void Update () {
-	
+		
 		if (Level.endgame) {
 			if(timerValidateObjectif <=0){
 				ValidateObjectif();
@@ -269,3 +265,4 @@ public class MasterObjectif : MonoBehaviour {
 		highscore ();
 	}
 }
+

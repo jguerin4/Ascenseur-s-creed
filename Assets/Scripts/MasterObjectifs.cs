@@ -30,7 +30,7 @@ public class MasterObjectifs : MonoBehaviour {
 		scores_n = SceneObjectifs.HighScores.toDo;
 		
 		winScore = 0;
-		timerValidateObjectif = 2;
+		timerValidateObjectif = 0.5f;
 		endMenuTimer = 3;
 		validate = false;
 		
@@ -249,8 +249,8 @@ public class MasterObjectifs : MonoBehaviour {
 			if(timerValidateObjectif <=0){
 				ValidateObjectif();
 				if(endMenuTimer <= 0){
+					ObjectifHud.transform.FindChild ("First Panel").transform.FindChild ("Score gagner").GetComponent<Text> ().text = " " ;
 					Level.ActivateMenu = true;
-					ObjectifHud.SetActive(false);
 				}
 				else
 					endMenuTimer -= Time.deltaTime;

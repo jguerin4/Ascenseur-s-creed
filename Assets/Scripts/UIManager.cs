@@ -85,6 +85,11 @@ public class UIManager : MonoBehaviour
 			nameObj.GetComponent<Image>().color = new Color(0f/255f, 0f/255f, 200f/255f, 150f/255f);
 			nameObj.transform.GetComponentInChildren<Text>().text = "Crushing Blow!";
 		}
+		if (indice == 4)
+		{
+			nameObj.GetComponent<Image>().color = new Color(0f/255f, 0f/255f, 200f/255f, 150f/255f);
+			nameObj.transform.GetComponentInChildren<Text>().text = "Penis Blow!";
+		}
 		nameObj.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
 		
 		startedName = true;

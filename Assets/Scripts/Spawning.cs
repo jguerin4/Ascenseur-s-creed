@@ -39,8 +39,6 @@ public class Spawning : MonoBehaviour {
 		float heightmapWidth = terr.terrainData.heightmapWidth;
 		float heightmapHeight = terr.terrainData.heightmapHeight;
 		Terrain.activeTerrain.heightmapMaximumLOD = 0;
-		const int TERAIN_WIDTH = 2000;
-		const int TERAIN_HEIGHT = 2000;
 
 
 		m_random = new System.Random();
@@ -74,7 +72,7 @@ public class Spawning : MonoBehaviour {
 
 		//Debug.Log(heights.ToString());
 		ySpawnPosition = 2f;
-		ySpawnPosition = terr.terrainData.heightmapHeight - 510f;
+
 
 		float currentHeight;
 

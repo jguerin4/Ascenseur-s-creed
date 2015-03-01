@@ -162,7 +162,7 @@ public class Combos : MonoBehaviour {
 		{
 			buttonList.Clear();
 			onCooldown = true;
-			transform.GetComponent<CharacterAnims>().StartCombo();
+			transform.GetComponent<CharacterAnims>().StartCombo(1);
 
 			damage = 2;
 			doDamage(damage);
@@ -175,7 +175,7 @@ public class Combos : MonoBehaviour {
 		{
 			buttonList.Clear();
 			onCooldown = true;
-			transform.GetComponent<CharacterAnims>().StartCombo();
+			transform.GetComponent<CharacterAnims>().StartCombo(2);
 
 			damage = 2;
 			doDamage(damage);
@@ -188,7 +188,7 @@ public class Combos : MonoBehaviour {
 		{
 			buttonList.Clear();
 			onCooldown = true;
-			transform.GetComponent<CharacterAnims>().StartCombo();
+			transform.GetComponent<CharacterAnims>().StartCombo(3);
 
 			damage = 2;
 			doDamage(damage);
@@ -201,7 +201,7 @@ public class Combos : MonoBehaviour {
 		{
 			buttonList.Clear();
 			onCooldown = true;
-			transform.GetComponent<CharacterAnims>().StartCombo();
+			transform.GetComponent<CharacterAnims>().StartCombo(4);
 
 			damage = 3;
 			doDamage(damage);
@@ -214,7 +214,7 @@ public class Combos : MonoBehaviour {
 		{
 			buttonList.Clear();
 			onCooldown = true;
-			transform.GetComponent<CharacterAnims>().StartCombo();
+			transform.GetComponent<CharacterAnims>().StartCombo(5);
 
 			damage = 2;
 			doDamage(damage);
@@ -227,7 +227,7 @@ public class Combos : MonoBehaviour {
 		{
 			buttonList.Clear();
 			onCooldown = true;
-			transform.GetComponent<CharacterAnims>().StartCombo();
+			transform.GetComponent<CharacterAnims>().StartCombo(6);
 
 			damage = 2;
 			doDamage(damage);
@@ -240,7 +240,7 @@ public class Combos : MonoBehaviour {
 		{
 			buttonList.Clear();
 			onCooldown = true;
-			transform.GetComponent<CharacterAnims>().StartCombo();
+			transform.GetComponent<CharacterAnims>().StartCombo(7);
 
 			damage = 3;
 			doDamage(damage);
@@ -311,12 +311,19 @@ public class Combos : MonoBehaviour {
 			{
 				enemyList[i].gameObject.GetComponent<AImob>().doDamage(damage);
 				enemyList.RemoveAt(i);
+
 				nbCol--;
 				size--;
 				i--;
+
 				if(i < 0)
 				{
 					i = 0;
+				}
+
+				if(size == 0)
+				{
+					rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
 				}
 			}
 			else
@@ -324,5 +331,11 @@ public class Combos : MonoBehaviour {
 				enemyList[i].gameObject.GetComponent<AImob>().doDamage(damage);
 			}
 		}
+	}
+
+	public void resetButtonList()
+	{
+		Debug.Log("reset");
+		buttonList.Clear();
 	}
 }

@@ -6,12 +6,12 @@ public class CharacterAnims : MonoBehaviour
 	float movementSpeed = 10f;
 	float movementSpeedKeyboard = 0.2f;
 
-	float rotationSpeed = 800;
+	float rotationSpeed = 1200;
 	float moveRotationSpeed = 400;
 	bool currentlyActing = false;
 	int currentAction = 0;
 	
-	float spearSpeed = 5;
+	float spearSpeed = 8;
 	float comboRotationSpeed = 800;
 	
 	Vector3 startPosLeftArm;

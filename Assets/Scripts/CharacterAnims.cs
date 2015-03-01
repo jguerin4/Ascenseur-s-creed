@@ -44,11 +44,12 @@ public class CharacterAnims : MonoBehaviour
 	public AudioClip sonAttack2;
 	public AudioClip sonAttack3;
 	public AudioClip sonAttack4;
+	public AudioClip sonAttack5;
 	public AudioClip sonJump;
 	private AudioSource source;
-	
-	void Awake() {
 
+	void Awake() {
+		
 		source = GetComponent<AudioSource> ();
 	}
 
@@ -98,6 +99,7 @@ public class CharacterAnims : MonoBehaviour
 			}
 			else if (Input.GetKeyDown (KeyCode.R))
 			{
+				source.PlayOneShot(sonAttack5,1F);
 				StartCombo(2);
 			}
 			else if (Input.GetKeyDown (KeyCode.T))

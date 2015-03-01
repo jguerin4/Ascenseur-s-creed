@@ -13,6 +13,7 @@ public class Combos : MonoBehaviour {
 	private string combo4 = "XYXY";
 	private string combo5 = "YXY";
 	private string combo7 = "YBXX";
+	private string combo8 = "ULTIMATE";
 	private string attackX = "X";
 	private string attackY = "Y";
 	private string attackB = "B";
@@ -158,6 +159,20 @@ public class Combos : MonoBehaviour {
 					timerEndSimpleAttack = 0.0f;
 				}
 			}
+			
+			if (Input.GetAxis("Ultimate") < -0.9f)
+			{
+				buttonPressed = "ULTIMATE";
+				timerEndCombo = 0.0f;
+				
+				if (canAttack && CharacterProperties.UltimeActivate)
+				{
+					simpleAttack(buttonPressed);
+					canAttack = false;
+					timerEndSimpleAttack = 0.0f;
+					CharacterProperties.resetFearProgression();
+				}
+			}
 
 			if(buttonPressed != "")
 			{
@@ -301,6 +316,8 @@ public class Combos : MonoBehaviour {
 				comboCounter = 0;
 				comboCounterIncByOne = 0;
 			}
+			
+			doDamage(damage, enemyList, GameObject.Find("ComboCollider").GetComponentInChildren<GetOverlapping>().enemyList, true);
 		}
 
 		else if(str == attackB)
@@ -321,6 +338,8 @@ public class Combos : MonoBehaviour {
 				comboCounterIncByOne = 0;
 
 			}
+			
+			doDamage(damage, enemyList, GameObject.Find("ComboCollider").GetComponentInChildren<GetOverlapping>().enemyList, true);
 		}
 
 		else if(str == attackY)
@@ -341,9 +360,30 @@ public class Combos : MonoBehaviour {
 				comboCounterIncByOne = 0;
 
 			}
+			
+			doDamage(damage, enemyList, GameObject.Find("ComboCollider").GetComponentInChildren<GetOverlapping>().enemyList, true);
 		}
-
-		doDamage(damage, enemyList, GameObject.Find("ComboCollider").GetComponentInChildren<GetOverlapping>().enemyList, true);
+		
+		else if (str == combo8)
+		{
+			buttonList.Clear();
+			onCooldown = true;
+			transform.GetComponent<CharacterAnims>().StartCombo(5);
+			
+			damage = 10;
+			
+			if(nbCol > 0)
+			{
+				comboCounter += (nbCol * 5);
+				GameObject.Find("Master").GetComponent<UIManager>().StartAppearComboObj(comboCounter);
+			}
+			else
+			{
+				comboCounter = 0;
+			}
+			
+			doDamage(damage, GameObject.Find("ComboCollider").GetComponentInChildren<GetOverlapping>().enemyList, enemyList, true);
+		}
 	}
 
 	void OnTriggerEnter(Collider col)
@@ -379,11 +419,23 @@ public class Combos : MonoBehaviour {
 		
 		if (simpleAttack)
 		{
-			GameObject.Find ("Level").GetComponent<LevelProperties>().UpdateScore((sizeCurrent * 50) * comboCounter);
-			
-			if (((sizeCurrent * 50) * comboCounter) > 0)
+			if (damage == 10)
 			{
-				GameObject.Find("Master").GetComponent<UIManager>().StartAppearPoints((sizeCurrent * 50) * comboCounter);
+				GameObject.Find ("Level").GetComponent<LevelProperties>().UpdateScore(sizeCurrent * 1000);
+				
+				if ((sizeCurrent * 1000) > 0)
+				{
+					GameObject.Find("Master").GetComponent<UIManager>().StartAppearPoints(sizeCurrent * 1000);
+				}
+			}
+			else
+			{
+				GameObject.Find ("Level").GetComponent<LevelProperties>().UpdateScore((sizeCurrent * 50) * comboCounter);
+				
+				if (((sizeCurrent * 50) * comboCounter) > 0)
+				{
+					GameObject.Find("Master").GetComponent<UIManager>().StartAppearPoints((sizeCurrent * 50) * comboCounter);
+				}
 			}
 		}
 		else

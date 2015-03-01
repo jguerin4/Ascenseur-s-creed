@@ -35,6 +35,7 @@ public class CharacterProperties : MonoBehaviour {
 	static public void resetFearProgression()
 	{
 		fearProgression = 0;
+		UltimeActivate = false;
 	}
 
 	static public bool isSpecialAvailable()

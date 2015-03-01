@@ -266,6 +266,11 @@ public class MasterObjectifs : MonoBehaviour {
 		kill ();
 		combos ();
 		highscore ();
+
+		if (Input.GetButtonDown ("Back"))
+			PrintObjectifDone ();
+		if (Input.GetButtonUp ("Back") & !Level.endgame)
+			ObjectifHud.SetActive (false);
 	}
 }
 

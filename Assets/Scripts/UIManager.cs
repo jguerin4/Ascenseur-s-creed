@@ -78,7 +78,7 @@ public class UIManager : MonoBehaviour
 		if (indice == 2)
 		{
 			nameObj.GetComponent<Image>().color = new Color(0f/255f, 200f/255f, 0f/255f, 150f/255f);
-			nameObj.transform.GetComponentInChildren<Text>().text = "Annihilate!";
+			nameObj.transform.GetComponentInChildren<Text>().text = "Whirlwind!";
 		}
 		if (indice == 3)
 		{
@@ -87,8 +87,8 @@ public class UIManager : MonoBehaviour
 		}
 		if (indice == 4)
 		{
-			nameObj.GetComponent<Image>().color = new Color(0f/255f, 0f/255f, 200f/255f, 150f/255f);
-			nameObj.transform.GetComponentInChildren<Text>().text = "Penis Blow!";
+			nameObj.GetComponent<Image>().color = new Color(200f/255f, 200f/255f, 0f/255f, 150f/255f);
+			nameObj.transform.GetComponentInChildren<Text>().text = "Heavy Strike!";
 		}
 		nameObj.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
 		
@@ -101,6 +101,10 @@ public class UIManager : MonoBehaviour
 		{
 			timerScaleName += Time.deltaTime * speedScaleName;
 			nameObj.transform.localScale = new Vector3(timerScaleName, timerScaleName, timerScaleName);
+		}
+		else if (timerScaleName > 1.0f && timerScaleName <= 1.5f)
+		{
+			timerScaleName += Time.deltaTime * speedScaleName;
 		}
 		else
 		{

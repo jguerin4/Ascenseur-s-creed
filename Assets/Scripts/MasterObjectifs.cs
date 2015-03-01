@@ -116,6 +116,8 @@ public class MasterObjectifs : MonoBehaviour {
 		// si le le nombre de kill de kill.ennemy est égale a kill.todo debloquer l'objectif
 		if (Level.getKill (SceneObjectifs.Kill.ennemy) == kill_n) {
 			SceneObjectifs.Kill.State = true;
+			Level.PopObjectif(SceneObjectifs.Kill.name);
+
 //			Debug.Log("set true");
 		}
 		
@@ -125,6 +127,8 @@ public class MasterObjectifs : MonoBehaviour {
 		// si le nombre de combos est égale a combos.todo debloquer l'objectif
 		if (Level.getCombos() >= combos_n) {
 			SceneObjectifs.Combos.State = true;
+			Level.PopObjectif(SceneObjectifs.Combos.name);
+
 			
 		}
 	}
@@ -135,6 +139,9 @@ public class MasterObjectifs : MonoBehaviour {
 		if (carry_n == 0) {
 			
 			SceneObjectifs.Carry.State = true;
+			Level.PopObjectif(SceneObjectifs.Carry.name);
+
+
 			
 		}
 		
@@ -146,6 +153,9 @@ public class MasterObjectifs : MonoBehaviour {
 		if(ultime_n == 0)
 		{
 			SceneObjectifs.Ultime.State = true;
+			Level.PopObjectif(SceneObjectifs.Ultime.name);
+
+
 			
 		}
 	}
@@ -155,6 +165,8 @@ public class MasterObjectifs : MonoBehaviour {
 		discovert_n--;
 		if (discovert_n <= 0) {
 			SceneObjectifs.Discovert.State = true;
+			Level.PopObjectif(SceneObjectifs.Discovert.name);
+
 			
 		}
 	}
@@ -163,6 +175,8 @@ public class MasterObjectifs : MonoBehaviour {
 		// si le scores est egale a highscore.todo debloquer l'objectif
 		if (Level.getScores () == scores_n) {
 			SceneObjectifs.HighScores.State = true;
+			Level.PopObjectif(SceneObjectifs.HighScores.name);
+
 			
 		}
 	}

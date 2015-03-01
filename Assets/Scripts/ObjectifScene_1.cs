@@ -8,23 +8,23 @@ public class ObjectifScene_1 : Objectifs{
 	void Awake () {
 	
 		Kill.name = "Tuer 10 araignée";
-		Kill.toDo = 10;
+		Kill.toDo = 1;
 		Kill.ennemy = "Spider";
 
-		Combos.name = "Donnez 5 coups de suite";
+		Combos.name = "Faire 5 attaques réussites de suite";
 		Combos.toDo = 5;
 
-		Carry.name = "Recolte 3 veilleuses";
+		Carry.name = "Récolter 3 veilleuses";
 		Carry.toDo = 3;
 	
-		Ultime.name = "Faites une Attaque Ultime";
+		Ultime.name = "Faire une attaque Ultime";
 		Ultime.toDo = 1;
 	
-		Discovert.name = "Découvrez la caverne";
+		Discovert.name = "Découvrir la caverne";
 		Discovert.toDo = 1;
 
-		HighScores.name = " Ayez un score de 10 000";
-		HighScores.toDo = 10000;
+		HighScores.name = "Avoir un score d'au moins 40 000";
+		HighScores.toDo = 40000;
 
 		//Values init
 		Kill.State = false;

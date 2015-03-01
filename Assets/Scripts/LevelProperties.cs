@@ -21,6 +21,8 @@ public class LevelProperties : MonoBehaviour {
 	private bool flasfOff;
 	float lastFear;
 	float timerFear;
+	float timerPopUP;
+	bool PopUP;
 	//UI
 	public GameObject EndGame;
 	public GameObject HUD;
@@ -35,6 +37,10 @@ public class LevelProperties : MonoBehaviour {
 		scores = 0;
 		lastFear = 0;
 		timerFear = 0;
+		timerPopUP = 0;
+		PopUP = false;
+
+
 		flasfOff = false;
 		endgame = false;
 		ActivateMenu = false;
@@ -128,10 +134,15 @@ public class LevelProperties : MonoBehaviour {
 
 	}
 
-
+	public void PopObjectif(string theObjectif)
+	{
+		string Objectif = theObjectif;
+		HUD.transform.FindChild ("PopUP").GetComponent<Text> ().text = Objectif;
+	}
 	// Update is called once per frame
 	void Update () {
 	
+
 
 		if (!endgame) {
 			timerInTime += Time.deltaTime;

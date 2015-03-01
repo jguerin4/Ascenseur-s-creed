@@ -44,11 +44,12 @@ public class CharacterAnims : MonoBehaviour
 	public AudioClip sonAttack2;
 	public AudioClip sonAttack3;
 	public AudioClip sonAttack4;
+	public AudioClip sonAttack5;
 	public AudioClip sonJump;
 	private AudioSource source;
-	
-	void Awake() {
 
+	void Awake() {
+		
 		source = GetComponent<AudioSource> ();
 	}
 
@@ -98,6 +99,7 @@ public class CharacterAnims : MonoBehaviour
 			}
 			else if (Input.GetKeyDown (KeyCode.R))
 			{
+				source.PlayOneShot(sonAttack5,1F);
 				StartCombo(2);
 			}
 			else if (Input.GetKeyDown (KeyCode.T))
@@ -255,6 +257,10 @@ public class CharacterAnims : MonoBehaviour
 			GameObject.Find("Light").GetComponent<Light>().color = new Color(0f/255f, 155f/255f, 0f/255f, 1f);
 		}
 		else if (indice == 3)
+		{
+			GameObject.Find("Light").GetComponent<Light>().color = new Color(0f/255f, 0f/255f, 255f/255f, 1f);
+		}
+		else if (indice == 4)
 		{
 			GameObject.Find("Light").GetComponent<Light>().color = new Color(0f/255f, 0f/255f, 255f/255f, 1f);
 		}

@@ -3,9 +3,9 @@ using System.Collections;
 
 public class CharacterProperties : MonoBehaviour {
 
-	public int fearProgression;
+	static public int fearProgression;
 	public int fearAccumulationMax;
-	public bool UltimeActivate;
+	static public bool UltimeActivate;
 	// Use this for initialization
 	void Start () {
 		fearProgression = 0;

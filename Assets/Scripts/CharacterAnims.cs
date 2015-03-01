@@ -105,7 +105,10 @@ public class CharacterAnims : MonoBehaviour
 			else if (Input.GetKeyDown (KeyCode.T))
 			{
 				StartCombo(3);
-
+			}
+			else if (Input.GetKeyDown (KeyCode.Y))
+			{
+				StartCombo(4);
 			}
 		}
 		
@@ -262,7 +265,7 @@ public class CharacterAnims : MonoBehaviour
 		}
 		else if (indice == 4)
 		{
-			GameObject.Find("Light").GetComponent<Light>().color = new Color(0f/255f, 0f/255f, 255f/255f, 1f);
+			GameObject.Find("Light").GetComponent<Light>().color = new Color(255f/255f, 255f/255f, 0f/255f, 1f);
 		}
 		
 		GameObject.Find("Master").GetComponent<UIManager>().StartAppearName(indice);

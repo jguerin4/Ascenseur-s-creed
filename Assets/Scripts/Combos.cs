@@ -10,12 +10,9 @@ public class Combos : MonoBehaviour {
 
 	private BoxCollider collider;
 
-	private string combo1 = "XXX";
-	private string combo2 = "XXY";
 	private string combo3 = "XBB";
 	private string combo4 = "XYXY";
 	private string combo5 = "YXY";
-	private string combo6 = "YXX";
 	private string combo7 = "YBXX";
 	private string attackX = "X";
 	private string attackY = "Y";
@@ -158,32 +155,7 @@ public class Combos : MonoBehaviour {
 	public void checkCombo(string str)
 	{
 		int damage = 0;
-
-		if (str.Contains(combo1) && buttonList.Count == 3)
-		{
-			buttonList.Clear();
-			onCooldown = true;
-			transform.GetComponent<CharacterAnims>().StartCombo(1);
-
-			damage = 2;
-			doDamage(damage);
-
-			Debug.Log(combo1);
-			return;
-		}
-
-		if (str.Contains(combo2) && buttonList.Count == 3)
-		{
-			buttonList.Clear();
-			onCooldown = true;
-			transform.GetComponent<CharacterAnims>().StartCombo(2);
-
-			damage = 2;
-			doDamage(damage);
-
-			Debug.Log(combo2);
-			return;
-		}
+		
 
 		if (str.Contains(combo3) && buttonList.Count == 3)
 		{
@@ -223,20 +195,7 @@ public class Combos : MonoBehaviour {
 			Debug.Log(combo5);
 			return;
 		}
-
-		if (str.Contains(combo6) && buttonList.Count == 3)
-		{
-			buttonList.Clear();
-			onCooldown = true;
-			transform.GetComponent<CharacterAnims>().StartCombo(6);
-
-			damage = 2;
-			doDamage(damage);
-
-			Debug.Log(combo6);
-			return;
-		}
-
+	
 		if (str.Contains(combo7) && buttonList.Count == 4)
 		{
 			buttonList.Clear();

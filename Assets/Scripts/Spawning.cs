@@ -27,7 +27,7 @@ public class Spawning : MonoBehaviour {
 		if(m_numberOfMobs <= 30)
 		{
 			spawnNewMob(40,100,40,100);
-			Debug.Log("Spawning");
+			//Debug.Log("Spawning");
 		}
 
 	}

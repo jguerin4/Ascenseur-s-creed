@@ -30,6 +30,8 @@ public class Combos : MonoBehaviour {
 	private bool onCooldown;
 
 	public int comboCounter;
+	
+	private float comboNotHitTimer;
 
 	void Start () 
 	{
@@ -40,6 +42,7 @@ public class Combos : MonoBehaviour {
 		cooldownTimer = 0.5f;
 		comboTimer = 0.25f;
 		simpleAttackTimer = 0.2f;
+		comboNotHitTimer = 2f;
 
 		buttonList = new List<string>();
 		enemyList = new List<GameObject>();
@@ -54,6 +57,15 @@ public class Combos : MonoBehaviour {
 
 	void Update () 
 	{
+		if (comboNotHitTimer <= 0)
+		{
+			comboCounter = 0;
+		}
+		else
+		{
+			comboNotHitTimer -= Time.deltaTime;
+		}
+	
 		if(nbCol > 0)
 		{
 			canCombo = true;
@@ -165,7 +177,7 @@ public class Combos : MonoBehaviour {
 			transform.GetComponent<CharacterAnims>().StartCombo(1);
 
 			damage = 2;
-			doDamage(damage, GameObject.Find("ComboCollider").GetComponentInChildren<GetOverlapping>().enemyList, enemyList);
+			doDamage(damage, GameObject.Find("ComboCollider").GetComponentInChildren<GetOverlapping>().enemyList, enemyList, false);
 
 			if(nbCol > 0)
 			{
@@ -186,7 +198,7 @@ public class Combos : MonoBehaviour {
 			transform.GetComponent<CharacterAnims>().StartCombo(2);
 
 			damage = 3;
-			doDamage(damage, GameObject.Find("ComboCollider").GetComponentInChildren<GetOverlapping>().enemyList, enemyList);
+			doDamage(damage, GameObject.Find("ComboCollider").GetComponentInChildren<GetOverlapping>().enemyList, enemyList, false);
 
 			if(nbCol > 0)
 			{
@@ -207,7 +219,7 @@ public class Combos : MonoBehaviour {
 			transform.GetComponent<CharacterAnims>().StartCombo(3);
 
 			damage = 2;
-			doDamage(damage, GameObject.Find("ComboCollider").GetComponentInChildren<GetOverlapping>().enemyList, enemyList);
+			doDamage(damage, GameObject.Find("ComboCollider").GetComponentInChildren<GetOverlapping>().enemyList, enemyList, false);
 
 			if(nbCol > 0)
 			{
@@ -228,7 +240,7 @@ public class Combos : MonoBehaviour {
 			transform.GetComponent<CharacterAnims>().StartCombo(4);
 
 			damage = 3;
-			doDamage(damage, GameObject.Find("ComboCollider").GetComponentInChildren<GetOverlapping>().enemyList, enemyList);
+			doDamage(damage, GameObject.Find("ComboCollider").GetComponentInChildren<GetOverlapping>().enemyList, enemyList, false);
 
 			if(nbCol > 0)
 			{
@@ -295,7 +307,7 @@ public class Combos : MonoBehaviour {
 			}
 		}
 
-		doDamage(damage, enemyList, GameObject.Find("ComboCollider").GetComponentInChildren<GetOverlapping>().enemyList);
+		doDamage(damage, enemyList, GameObject.Find("ComboCollider").GetComponentInChildren<GetOverlapping>().enemyList, true);
 	}
 
 	void OnTriggerEnter(Collider col)
@@ -320,18 +332,38 @@ public class Combos : MonoBehaviour {
 		}
 	}
 
-	private void doDamage(int damage, List<GameObject> current, List<GameObject> other)
+	private void doDamage(int damage, List<GameObject> current, List<GameObject> other, bool simpleAttack)
 	{
 		List<GameObject> garbage = new List<GameObject>();
 
 		int sizeCurrent = current.Count;
 		int sizeOther = other.Count;
+		
+		comboNotHitTimer = 2.0f;
+		
+		if (simpleAttack)
+		{
+			GameObject.Find ("Level").GetComponent<LevelProperties>().UpdateScore((sizeCurrent * 50) * comboCounter);
+			
+			if (((sizeCurrent * 50) * comboCounter) > 0)
+			{
+				GameObject.Find("Master").GetComponent<UIManager>().StartAppearPoints((sizeCurrent * 50) * comboCounter);
+			}
+		}
+		else
+		{
+			GameObject.Find ("Level").GetComponent<LevelProperties>().UpdateScore((damage * 500) * sizeCurrent);
+			
+			if (((damage * 500) * sizeCurrent) > 0)
+			{
+				GameObject.Find("Master").GetComponent<UIManager>().StartAppearPoints((damage * 500) * sizeCurrent);
+			}
+		}
 
 		foreach(GameObject enemy in current)
 		{
 			try
 			{
-				CharacterProperties.increaseFear(damage);
 				if(enemy.GetComponent<AImob>().getHealth() <= damage)
 				{
 					enemy.GetComponent<AImob>().toDestroy = true;

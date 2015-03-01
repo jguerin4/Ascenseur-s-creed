@@ -5,7 +5,7 @@ public class ObjectifScene_1 : Objectifs{
 
 	
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 	
 		Kill.name = "Tuer 10 araignées";
 		Kill.toDo = 10;

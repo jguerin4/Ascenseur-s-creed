@@ -3,11 +3,11 @@ using System.Collections;
 
 public class CarryObject : MonoBehaviour {
 
-	MasterObjectif Obj_Master;
+	MasterObjectifs Obj_Master;
 	// Use this for initialization
 	void Start () {
 	
-		Obj_Master = GameObject.Find("MasterObjectif").GetComponent<MasterObjectif>();
+		Obj_Master = GameObject.Find("MasterObjectif").GetComponent<MasterObjectifs>();
 	}
 
 	void OnTriggerEnter(Collider other)

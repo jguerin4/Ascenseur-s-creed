@@ -40,15 +40,12 @@ public class Spawning : MonoBehaviour {
 	void spawnNewMob(int xMin, int xMax, int zMin, int zMax)
 	{
 		terr = Terrain.FindObjectOfType<Terrain>();
-		float heightmapWidth = terr.terrainData.heightmapWidth;
-		float heightmapHeight = terr.terrainData.heightmapHeight;
 		Terrain.activeTerrain.heightmapMaximumLOD = 0;
-		
-		m_random = new System.Random(Environment.TickCount);
-		
 		SpawnRef = SpawningReferenceGO.transform.position;
-		
+
+		m_random = new System.Random(Environment.TickCount);
 		int x = m_random.Next(xMin, xMax);
+		m_random = new System.Random(Environment.TickCount);
 		int z = m_random.Next(zMin, zMax);
 		
 		int inverseX = m_random.Next(0,2);
@@ -56,10 +53,7 @@ public class Spawning : MonoBehaviour {
 		int inverseZ = m_random.Next(0,2);
 		m_random = new System.Random(Environment.TickCount);
 		int getEnnemyType = m_random.Next(1,4);
-		
-		
-		
-		
+
 		if(inverseX == 1)	//Une chance sur deux d'inverser, pour faire un cercle
 		{
 			x *= -1;
@@ -68,21 +62,11 @@ public class Spawning : MonoBehaviour {
 		{
 			z *= -1;
 		}
-		
 		float xSpawnPosition = x + SpawnRef.x;	//Position relative au personnages (selon main caméra)
-		float ySpawnPosition;
+		float ySpawnPosition= 2f;
 		float zSpawnPosition = SpawnRef.z + z;
-		
-		//float[,] heights = terr.terrainData.GetHeights((int)(xSpawnPosition),(int)(zSpawnPosition),1,1);
-		
-		//Debug.Log(heights.ToString());
-		ySpawnPosition = 2f;
-		
-		
-		float currentHeight;
-		
-		
-		currentHeight = terr.SampleHeight(new Vector3(xSpawnPosition,ySpawnPosition,zSpawnPosition));
+
+		float currentHeight = terr.SampleHeight(new Vector3(xSpawnPosition,ySpawnPosition,zSpawnPosition));
 		//Debug.Log("Hauteur relative: " + currentHeight.ToString());
 		
 		float testCollisionRadius = 0.5f;
@@ -91,7 +75,7 @@ public class Spawning : MonoBehaviour {
 		Collider [] hitCollider = Physics.OverlapSphere(centerTestCollision, testCollisionRadius);
 		
 		
-		if(currentHeight > 0 || hitCollider.GetLength(0) > 1)
+		if(currentHeight > 0 || hitCollider.GetLength(0) > 0)
 		{
 			getEnnemyType = 999;	//Ne spawn pas
 			Debug.Log("Hauteur: " + currentHeight + " Number of hit Collider: " + hitCollider.GetLength(0));

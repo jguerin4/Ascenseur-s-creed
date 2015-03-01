@@ -20,15 +20,15 @@ public class Spawning : MonoBehaviour {
 	private Terrain terr;
 
 	void Start() {
-		while(m_numberOfMobs <= 2)
+		/*while(m_numberOfMobs <= 2)
 		{
 			spawnNewMob(30,60,30,60);
-		}
+		}*/
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if(m_numberOfMobs <= 20)
+		if(m_numberOfMobs <= 70)
 		{
 			spawnNewMob(40,100,40,100);
 		}

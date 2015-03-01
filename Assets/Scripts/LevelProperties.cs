@@ -86,13 +86,13 @@ public class LevelProperties : MonoBehaviour {
 	}
 	public void reload()
 	{
+		Spawning.m_numberOfMobs = 0;
 		Application.LoadLevel (Application.loadedLevel);
 	}
 	public void endGame()
 	{
 		endgame = true;
 		if (ActivateMenu) {
-			HUD.SetActive (false);
 			EndGame.SetActive (true);
 			EndGame.transform.FindChild ("Menu").transform.FindChild("Score text").GetComponent<Text>().text = MasterScore.ScoreTotal.ToString();
 			if(bestScore < scores)
@@ -101,21 +101,37 @@ public class LevelProperties : MonoBehaviour {
 			}
 			EndGame.transform.FindChild("YourScore").GetComponent<Text>().text = "Ton score: " + scores.ToString();
 			EndGame.transform.FindChild("BestScore").GetComponent<Text>().text = "Meilleur score: " + bestScore.ToString();
+			GameObject.Find("Character").GetComponent<CharacterAnims>().enabled = false;
 
 		}
 
 	}
+
+
 	// Update is called once per frame
 	void Update () {
 	
 		if (!endgame) {
 			timerInTime += Time.deltaTime;
-			HUD.transform.FindChild("FearBar").GetComponent<RawImage>().color = new Vector4((25.5f*timerInTime)/25.5f,0,0,255);
+			HUD.transform.FindChild ("FearBar").GetComponent<RawImage> ().color = new Vector4 (/*(25.5f **/ timerInTime/25.5f/*CharacterProperties.fearProgression*/, 0, 0, 255);
 			HUD.transform.FindChild ("TimerButton").GetComponentInChildren<Text> ().text = TimeSpan.FromMinutes (Math.Round (timerMax - timerInTime, 1)).ToString ();
-		}
+		} else
+			HUD.SetActive (false);
 		if (timerInTime >= timerMax) {
 			//end level
 			endGame();
+		}
+
+		//Input
+		if(Input.GetButtonDown("Jump") & ActivateMenu)
+		{
+			reload();
+		}
+		if (Input.GetButtonDown ("B") & ActivateMenu) {
+			//Aller a la selection de niveau
+		}
+		if(Input.GetButtonDown("Back")& ActivateMenu){
+			//Quitter
 		}
 	}
 }

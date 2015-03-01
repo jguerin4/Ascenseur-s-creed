@@ -71,6 +71,10 @@ public class LevelProperties : MonoBehaviour {
 	{
 		combos++;
 	}
+	public void setCombo(int nbComboMax)
+	{
+		combos = nbComboMax;
+	}
 	public void DeleteCombos()
 	{
 		combos = 0;

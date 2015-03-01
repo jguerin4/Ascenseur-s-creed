@@ -171,6 +171,7 @@ public class Combos : MonoBehaviour {
 					canAttack = false;
 					timerEndSimpleAttack = 0.0f;
 					CharacterProperties.resetFearProgression();
+					Obj_Master.Ultime();
 				}
 			}
 

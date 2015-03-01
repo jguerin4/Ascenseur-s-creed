@@ -26,6 +26,8 @@ public class UIManager : MonoBehaviour
 	private float xStartCombo;
 	private float yStartCombo;
 
+	bool ultimate = false;
+
 	void Start() 
 	{
 		timerScaleCombo = 0.5f;
@@ -78,7 +80,7 @@ public class UIManager : MonoBehaviour
 		if (indice == 2)
 		{
 			nameObj.GetComponent<Image>().color = new Color(0f/255f, 200f/255f, 0f/255f, 150f/255f);
-			nameObj.transform.GetComponentInChildren<Text>().text = "Annihilate!";
+			nameObj.transform.GetComponentInChildren<Text>().text = "Whirlwind!";
 		}
 		if (indice == 3)
 		{
@@ -87,8 +89,15 @@ public class UIManager : MonoBehaviour
 		}
 		if (indice == 4)
 		{
-			nameObj.GetComponent<Image>().color = new Color(0f/255f, 0f/255f, 200f/255f, 150f/255f);
-			nameObj.transform.GetComponentInChildren<Text>().text = "Penis Blow!";
+			nameObj.GetComponent<Image>().color = new Color(200f/255f, 200f/255f, 0f/255f, 150f/255f);
+			nameObj.transform.GetComponentInChildren<Text>().text = "Heavy Strike!";
+		}
+		if (indice == 5)
+		{
+			nameObj.GetComponent<Image>().color = new Color(255f/255f, 255f/255f, 255f/255f, 150f/255f);
+			nameObj.transform.GetComponentInChildren<Text>().text = "Ultimate Attack!";
+			ultimate = true;
+			
 		}
 		nameObj.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
 		
@@ -102,12 +111,25 @@ public class UIManager : MonoBehaviour
 			timerScaleName += Time.deltaTime * speedScaleName;
 			nameObj.transform.localScale = new Vector3(timerScaleName, timerScaleName, timerScaleName);
 		}
+		else if (timerScaleName > 1.0f && timerScaleName <= 1.5f)
+		{
+			timerScaleName += Time.deltaTime * speedScaleName;
+		}
 		else
 		{
 			startedName = false;
 			nameObj.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+			ultimate = false;
 			nameObj.SetActive(false);
 			timerScaleName = 0.5f;
+		}
+		
+		if (ultimate)
+		{
+			nameObj.GetComponent<Image>().color = new Color(Random.Range(0.0f, 1.0f),
+			                                                Random.Range(0.0f, 1.0f), 
+			                                                Random.Range(0.0f, 1.0f),
+			  												150f/255f);
 		}
 	}
 	

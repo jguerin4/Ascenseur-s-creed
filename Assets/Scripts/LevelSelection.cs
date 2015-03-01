@@ -10,15 +10,24 @@ public class LevelSelection : MonoBehaviour {
 	public GameObject UI;
 	public Objectifs objectif;
 
+	public int nombreLevel;
+
 	string levelName;
 
 	public Sprite level1;
 	public Sprite level2;
 	void Start () {
 	
+
+		if (nombreLevel > 1) {
+
+		} else {
+			//UI.transform.FindChild ("Next").GetComponent<Button> ().sel
+				//UI.transform.FindChild ("Prev").GetComponent<Button> ().colors.pressedColor = new Vector4(150,150,150,0);
+		}
 		levelName = "Mon premier reve";
 		UI.transform.FindChild ("Level Panel").transform.FindChild ("Image").GetComponent<Image> ().sprite = level1;
-		UI.transform.FindChild ("Level Panel").transform.FindChild ("Text").GetComponent<Text> ().text = levelName;
+		UI.transform.FindChild ("Level Panel").transform.FindChild ("Text").GetComponent<Text> ().text = "<< " + levelName + " >>";
 
 
 		UI.transform.FindChild ("Level Panel").transform.FindChild ("Kill").GetComponent<Text> ().text = objectif.Kill.name;
@@ -80,7 +89,16 @@ public class LevelSelection : MonoBehaviour {
 			UI.transform.FindChild ("Level Panel").transform.FindChild ("High Score").FindChild ("Check").GetComponent<Image> ().color = new Vector4 (0, 0, 0, 0);
 		}
 	}
-	
+
+	public void loadLevel()
+	{
+		if(levelName == "Mon premier reve")
+			Application.LoadLevel ("Map");
+	}
+	public void Back()
+	{
+		Application.LoadLevel ("MainMenu");
+	}
 	// Update is called once per frame
 	void Update () {
 	

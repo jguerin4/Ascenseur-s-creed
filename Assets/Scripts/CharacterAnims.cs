@@ -110,6 +110,10 @@ public class CharacterAnims : MonoBehaviour
 			{
 				StartCombo(4);
 			}
+			else if (Input.GetKeyDown (KeyCode.F))
+			{
+				StartCombo(5);
+			}
 		}
 		
 		if (Input.GetButtonDown("Jump"))
@@ -215,8 +219,17 @@ public class CharacterAnims : MonoBehaviour
 		{
 			Jump();
 		}
+		
+		if (currentCombo == 5)
+		{
+			GameObject.Find("Light").GetComponent<Light>().color = 
+				new Color(Random.Range(0.0f, 1.0f),
+			          Random.Range(0.0f, 1.0f), 
+			          Random.Range(0.0f, 1.0f),
+			          150f/255f);
+		}
 	}
-
+	
 	internal void StartAttack1()
 	{
 		if (!currentlyActing)
@@ -266,6 +279,10 @@ public class CharacterAnims : MonoBehaviour
 		else if (indice == 4)
 		{
 			GameObject.Find("Light").GetComponent<Light>().color = new Color(255f/255f, 255f/255f, 0f/255f, 1f);
+		}
+		else if (indice == 5)
+		{
+			GameObject.Find("Light").GetComponent<Light>().color = new Color(50f/255f, 50f/255f, 50f/255f, 1f);
 		}
 		
 		GameObject.Find("Master").GetComponent<UIManager>().StartAppearName(indice);
@@ -514,6 +531,7 @@ public class CharacterAnims : MonoBehaviour
 			ResetPosAndRotBody();
 			currentAction = 0;
 			currentlyActing = false;
+			currentCombo = 0;
 			GameObject.Find("Light").GetComponent<Light>().enabled = false;
 		}
 	}

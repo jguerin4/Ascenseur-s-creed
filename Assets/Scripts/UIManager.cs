@@ -26,6 +26,8 @@ public class UIManager : MonoBehaviour
 	private float xStartCombo;
 	private float yStartCombo;
 
+	bool ultimate = false;
+
 	void Start() 
 	{
 		timerScaleCombo = 0.5f;
@@ -90,6 +92,13 @@ public class UIManager : MonoBehaviour
 			nameObj.GetComponent<Image>().color = new Color(200f/255f, 200f/255f, 0f/255f, 150f/255f);
 			nameObj.transform.GetComponentInChildren<Text>().text = "Heavy Strike!";
 		}
+		if (indice == 5)
+		{
+			nameObj.GetComponent<Image>().color = new Color(255f/255f, 255f/255f, 255f/255f, 150f/255f);
+			nameObj.transform.GetComponentInChildren<Text>().text = "Ultimate Attack!";
+			ultimate = true;
+			
+		}
 		nameObj.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
 		
 		startedName = true;
@@ -110,8 +119,17 @@ public class UIManager : MonoBehaviour
 		{
 			startedName = false;
 			nameObj.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+			ultimate = false;
 			nameObj.SetActive(false);
 			timerScaleName = 0.5f;
+		}
+		
+		if (ultimate)
+		{
+			nameObj.GetComponent<Image>().color = new Color(Random.Range(0.0f, 1.0f),
+			                                                Random.Range(0.0f, 1.0f), 
+			                                                Random.Range(0.0f, 1.0f),
+			  												150f/255f);
 		}
 	}
 	

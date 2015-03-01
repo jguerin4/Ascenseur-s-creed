@@ -7,14 +7,15 @@ public class ObjectifScene_1 : Objectifs{
 	// Use this for initialization
 	void Awake () {
 	
-		Kill.name = "Tuer 10 araignées";
+		Kill.name = "Tuer 10 araignée";
 		Kill.toDo = 10;
+		Kill.ennemy = "Spider";
 
 		Combos.name = "Donnez 5 coups de suite";
 		Combos.toDo = 5;
 
-		Carry.name = "Recolte 5 veilleuses";
-		Carry.toDo = 5;
+		Carry.name = "Recolte 3 veilleuses";
+		Carry.toDo = 3;
 	
 		Ultime.name = "Faites une Attaque Ultime";
 		Ultime.toDo = 1;

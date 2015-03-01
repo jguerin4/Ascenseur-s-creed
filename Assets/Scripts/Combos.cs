@@ -331,6 +331,7 @@ public class Combos : MonoBehaviour {
 		{
 			try
 			{
+				CharacterProperties.increaseFear(damage);
 				if(enemy.GetComponent<AImob>().getHealth() <= damage)
 				{
 					enemy.GetComponent<AImob>().toDestroy = true;
@@ -358,8 +359,8 @@ public class Combos : MonoBehaviour {
 			{
 				if(current[i].GetComponent<AImob>().toDestroy)
 				{
-					Debug.Log("i: " + i);
-					Debug.Log("size: " + sizeCurrent);
+				//	Debug.Log("i: " + i);
+				//	Debug.Log("size: " + sizeCurrent);
 					current.RemoveAt(i);
 
 					sizeCurrent--;

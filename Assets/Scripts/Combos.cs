@@ -30,6 +30,8 @@ public class Combos : MonoBehaviour {
 	private bool canAttack;
 	private bool onCooldown;
 
+	public int comboCounter;
+
 	void Start () 
 	{
 		collider = gameObject.GetComponent<BoxCollider>();
@@ -48,6 +50,8 @@ public class Combos : MonoBehaviour {
 
 		canAttack = true;
 		onCooldown = false;
+
+		comboCounter = 0;
 	}
 
 	void Update () 
@@ -160,11 +164,21 @@ public class Combos : MonoBehaviour {
 		{
 			buttonList.Clear();
 			onCooldown = true;
-			transform.GetComponent<CharacterAnims>().StartCombo(3);
+			transform.GetComponent<CharacterAnims>().StartCombo(1);
 
 			damage = 2;
 			doDamage(damage);
 
+			if(nbCol > 0)
+			{
+				comboCounter += (nbCol * 2);
+				GameObject.Find("Master").GetComponent<UIManager>().StartAppearComboObj(comboCounter);
+			}
+			else
+			{
+				comboCounter = 0;
+			}
+			
 			Debug.Log(combo3);
 			return;
 		}
@@ -173,11 +187,21 @@ public class Combos : MonoBehaviour {
 		{
 			buttonList.Clear();
 			onCooldown = true;
-			transform.GetComponent<CharacterAnims>().StartCombo(4);
+			transform.GetComponent<CharacterAnims>().StartCombo(2);
 
 			damage = 3;
 			doDamage(damage);
 
+			if(nbCol > 0)
+			{
+				comboCounter += (nbCol * 3);
+				GameObject.Find("Master").GetComponent<UIManager>().StartAppearComboObj(comboCounter);
+			}
+			else
+			{
+				comboCounter = 0;
+			}
+			
 			Debug.Log(combo4);
 			return;
 		}
@@ -186,11 +210,21 @@ public class Combos : MonoBehaviour {
 		{
 			buttonList.Clear();
 			onCooldown = true;
-			transform.GetComponent<CharacterAnims>().StartCombo(5);
+			transform.GetComponent<CharacterAnims>().StartCombo(3);
 
 			damage = 2;
 			doDamage(damage);
 
+			if(nbCol > 0)
+			{
+				comboCounter += (nbCol * 2);
+				GameObject.Find("Master").GetComponent<UIManager>().StartAppearComboObj(comboCounter);
+			}
+			else
+			{
+				comboCounter = 0;
+			}
+			
 			Debug.Log(combo5);
 			return;
 		}
@@ -199,11 +233,21 @@ public class Combos : MonoBehaviour {
 		{
 			buttonList.Clear();
 			onCooldown = true;
-			transform.GetComponent<CharacterAnims>().StartCombo(7);
+			transform.GetComponent<CharacterAnims>().StartCombo(4);
 
 			damage = 3;
 			doDamage(damage);
 
+			if(nbCol > 0)
+			{
+				comboCounter += (nbCol * 3);
+				GameObject.Find("Master").GetComponent<UIManager>().StartAppearComboObj(comboCounter);
+			}
+			else
+			{
+				comboCounter = 0;
+			}
+			
 			Debug.Log(combo7);
 			return;
 		}
@@ -217,6 +261,17 @@ public class Combos : MonoBehaviour {
 		{
 			transform.GetComponent<CharacterAnims>().StartAttack1();
 			damage = 1;
+
+			if(nbCol > 0)
+			{
+				comboCounter += nbCol;
+				GameObject.Find("Master").GetComponent<UIManager>().StartAppearComboObj(comboCounter);
+			}
+			else
+			{
+				comboCounter = 0;
+			}
+			
 			Debug.Log(attackX);
 		}
 
@@ -224,6 +279,17 @@ public class Combos : MonoBehaviour {
 		{
 			transform.GetComponent<CharacterAnims>().StartAttack2();
 			damage = 1;
+
+			if(nbCol > 0)
+			{
+				comboCounter += nbCol;
+				GameObject.Find("Master").GetComponent<UIManager>().StartAppearComboObj(comboCounter);
+			}
+			else
+			{
+				comboCounter = 0;
+			}
+			
 			Debug.Log(attackB);
 		}
 
@@ -231,6 +297,17 @@ public class Combos : MonoBehaviour {
 		{
 			transform.GetComponent<CharacterAnims>().StartAttack3();
 			damage = 1;
+
+			if(nbCol > 0)
+			{
+				comboCounter += nbCol;
+				GameObject.Find("Master").GetComponent<UIManager>().StartAppearComboObj(comboCounter);
+			}
+			else
+			{
+				comboCounter = 0;
+			}
+
 			Debug.Log(attackY);
 		}
 

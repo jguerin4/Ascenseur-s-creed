@@ -51,6 +51,7 @@ public class AImob : MonoBehaviour {
 				{
 					hit.collider.gameObject.GetComponent<Pushback>().PushEnemy();
 					hit.collider.gameObject.GetComponent<PlayerGetDamaged>().PlayerDamaged();
+					hit.collider.gameObject.GetComponent<Combos>().comboCounter = 0;
 
 					this.GetComponent<MobAttack>().EnemyAttackAnim();
 
@@ -94,7 +95,7 @@ public class AImob : MonoBehaviour {
 					}
 				}
 
-				//transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * rotationSpeed);
+				transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * rotationSpeed);
 
 
 			}

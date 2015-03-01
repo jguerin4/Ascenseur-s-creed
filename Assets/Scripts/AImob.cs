@@ -3,15 +3,16 @@ using System.Collections;
 
 public class AImob : MonoBehaviour {
 
-	private float speed;
+	public float speed;
 	private float attackTimer;
 	public float timer;
+	public Transform destroyedExplosion;
 
 	public bool canAtack;
 	
 	internal bool moving = false;
 
-	private int health;
+	private int health;	
 	
 	void Start () 
 	{
@@ -143,6 +144,7 @@ public class AImob : MonoBehaviour {
 	private void die()
 	{
 		Destroy(this.gameObject);
+		Instantiate (destroyedExplosion, transform.position, transform.rotation);
 		Destroy(this);
 	}
 }

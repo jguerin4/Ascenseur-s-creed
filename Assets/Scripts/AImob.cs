@@ -8,6 +8,7 @@ public class AImob : MonoBehaviour {
 	public float timer;
 	public Transform destroyedExplosion;
 	public Transform hitEnemie;
+	public bool toDestroy;
 
 	public bool canAtack;
 	
@@ -17,12 +18,13 @@ public class AImob : MonoBehaviour {
 	
 	void Start () 
 	{
-		speed = 7f;
+		speed = 2f;
 		health = 3;
 		attackTimer = 1.5f;
 		timer = 0.0f;
 
 		canAtack = true;
+		toDestroy = false;
 	}
 	
 	// Update is called once per frame
@@ -39,11 +41,11 @@ public class AImob : MonoBehaviour {
 				timer = 0.0f;
 			}
 		}
-
+		/*
 		if(getHealth() <= 0)
 		{
 			die ();
-		}
+		}*/
 
 		if(canAtack)
 		{
@@ -145,10 +147,8 @@ public class AImob : MonoBehaviour {
 		return health;
 	}
 
-	private void die()
+	public void die()
 	{
-		Destroy(this.gameObject);
 		Instantiate (destroyedExplosion, transform.position, transform.rotation);
-		Destroy(this);
 	}
 }

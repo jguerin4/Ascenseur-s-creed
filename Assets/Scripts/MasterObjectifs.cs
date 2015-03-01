@@ -165,9 +165,9 @@ public class MasterObjectifs : MonoBehaviour {
 	public void highscore()
 	{
 		// si le scores est egale a highscore.todo debloquer l'objectif
-		if (Level.getScores () == scores_n) {
+		if (Level.getScores () >= scores_n) {
 			SceneObjectifs.HighScores.State = true;
-			if(scorespop){
+			if(!scorespop){
 			Level.PopObjectif(SceneObjectifs.HighScores.name);
 				scorespop = true;
 			}
@@ -322,6 +322,9 @@ public class MasterObjectifs : MonoBehaviour {
 		if (Input.GetButtonUp ("Back") & !Level.endgame) {
 			ObjectifHud.SetActive (false);
 			validate = false;
+		}
+		if (Input.GetKeyDown (KeyCode.Escape)) {
+			Application.Quit();
 		}
 	}
 }

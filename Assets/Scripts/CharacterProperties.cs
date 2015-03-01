@@ -3,8 +3,8 @@ using System.Collections;
 
 public class CharacterProperties : MonoBehaviour {
 
-	static public int fearProgression;
-	static public int fearAccumulationMax = 30;
+	static public float fearProgression;
+	static public float fearAccumulationMax = 10f;
 	static public bool UltimeActivate;
 	// Use this for initialization
 	void Start () {
@@ -29,6 +29,7 @@ public class CharacterProperties : MonoBehaviour {
 		{
 			UltimeActivate = true;
 		}
+		Debug.Log("Fear progression: " + fearProgression);
 	}
 
 	static public void resetFearProgression()

@@ -7,8 +7,8 @@ public class ObjectifScene_1 : Objectifs{
 	// Use this for initialization
 	void Awake () {
 	
-		Kill.name = "Tuer 10 araignées";
-		Kill.toDo = 10;
+		Kill.name = "Tuer 1 araignée";
+		Kill.toDo = 1;
 
 		Combos.name = "Donnez 5 coups de suite";
 		Combos.toDo = 5;

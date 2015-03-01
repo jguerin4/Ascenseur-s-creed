@@ -18,17 +18,21 @@ public class LevelProperties : MonoBehaviour {
 	public bool endgame;
 	public bool ActivateMenu;
 	CharacterScore MasterScore;
+	private bool flasfOff;
+
 	//UI
 	public GameObject EndGame;
 	public GameObject HUD;
 	// Use this for initialization
 	void Start () {
+
 		timerInTime = 0;
 		spider = 0;
 		clown = 0;
 		dog = 0;
 		combos = 0;
 		scores = 0;
+		flasfOff = false;
 		endgame = false;
 		ActivateMenu = false;
 		EndGame.SetActive(false);
@@ -121,7 +125,23 @@ public class LevelProperties : MonoBehaviour {
 	
 		if (!endgame) {
 			timerInTime += Time.deltaTime;
-			HUD.transform.FindChild ("FearBar").GetComponent<RawImage> ().color = new Vector4 (/*(25.5f **/ /*timerInTime/25.5f*/(CharacterProperties.fearProgression/CharacterProperties.fearAccumulationMax)*255, 255, 0, 255);
+			if(CharacterProperties.isSpecialAvailable())
+			{
+				if(flasfOff == true)
+				{
+					flasfOff = false;
+					HUD.transform.FindChild ("FearBar").GetComponent<RawImage> ().color = new Vector4 (255, 255/2, 0, 255/2);
+				}
+				else
+				{
+					flasfOff = true;
+					HUD.transform.FindChild ("FearBar").GetComponent<RawImage> ().color = new Vector4 (255, 0, 0, 255);
+				}
+			}
+			else
+			{
+				HUD.transform.FindChild ("FearBar").GetComponent<RawImage> ().color = new Vector4 (0/*(25.5f **/ /*timerInTime/25.5f*//*(CharacterProperties.fearProgression/CharacterProperties.fearAccumulationMax)*255*/, 0, 0, (CharacterProperties.fearProgression/CharacterProperties.fearAccumulationMax));	                                                                                  
+			}
 			HUD.transform.FindChild ("TimerButton").GetComponentInChildren<Text> ().text = TimeSpan.FromMinutes (Math.Round (timerMax - timerInTime, 1)).ToString ();
 		} else
 			HUD.SetActive (false);

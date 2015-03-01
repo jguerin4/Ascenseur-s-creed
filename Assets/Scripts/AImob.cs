@@ -7,7 +7,6 @@ public class AImob : MonoBehaviour {
 	private float attackTimer;
 	public float timer;
 	public Transform destroyedExplosion;
-	public Transform hitEnemie;
 
 	public bool canAtack;
 	
@@ -139,9 +138,6 @@ public class AImob : MonoBehaviour {
 	public void doDamage(int value)
 	{
 		health -= value;
-		Vector3 tempPosHit = transform.position;
-		tempPosHit.y = 0.1f;
-		Instantiate (hitEnemie, tempPosHit, transform.rotation);
 	}
 
 	public int getHealth()
@@ -154,8 +150,8 @@ public class AImob : MonoBehaviour {
 		Destroy(this.gameObject);
 		Instantiate (destroyedExplosion, transform.position, transform.rotation);
 		Spawning.m_numberOfMobs--;
-		//GetComponent<Combos>().currentLevel.updatEnnemy(this.gameObject.tag);
-		//CharacterProperties.increaseFear(1);	//Increase by 1 on kill
+		GetComponent<Combos>().currentLevel.updatEnnemy(this.gameObject.tag);
+		CharacterProperties.increaseFear(1);	//Increase by 1 on kill
 
 		Destroy(this);
 	}

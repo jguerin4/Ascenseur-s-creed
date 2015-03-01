@@ -5,9 +5,9 @@ public class AImob : MonoBehaviour {
 
 	public float speed;
 	private float attackTimer;
-	private float timer;
+	public float timer;
 
-	private bool canAtack;
+	public bool canAtack;
 
 	private int health;
 	

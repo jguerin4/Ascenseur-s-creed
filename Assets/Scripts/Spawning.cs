@@ -20,17 +20,14 @@ public class Spawning : MonoBehaviour {
 	private Terrain terr;
 
 	void Start() {
-		while(m_numberOfMobs <= 2)
-		{
-			spawnNewMob(30,60,30,60);
-		}
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if(m_numberOfMobs <= 20)
+		if(m_numberOfMobs <= 30)
 		{
 			spawnNewMob(40,100,40,100);
+			Debug.Log("Spawning");
 		}
 
 	}
@@ -68,7 +65,7 @@ public class Spawning : MonoBehaviour {
 		float currentHeight = terr.SampleHeight(new Vector3(xSpawnPosition,ySpawnPosition,zSpawnPosition));
 		//Debug.Log("Hauteur relative: " + currentHeight.ToString());
 		
-		float testCollisionRadius = 0.5f;
+		float testCollisionRadius = 0.3f;
 		Vector3 centerTestCollision = new Vector3(xSpawnPosition,ySpawnPosition+1,zSpawnPosition);
 		
 		Collider [] hitCollider = Physics.OverlapSphere(centerTestCollision, testCollisionRadius);
@@ -77,7 +74,7 @@ public class Spawning : MonoBehaviour {
 		if(currentHeight > 0 || hitCollider.GetLength(0) > 0 || xSpawnPosition > 2000 || zSpawnPosition > 2000 || xSpawnPosition < 0 || zSpawnPosition < 0)
 		{
 			getEnnemyType = 999;	//Ne spawn pas
-			Debug.Log("Hauteur: " + currentHeight + " Number of hit Collider: " + hitCollider.GetLength(0) + " Position : " + centerTestCollision.x + " " + centerTestCollision.z);
+			//Debug.Log("Hauteur: " + currentHeight + " Number of hit Collider: " + hitCollider.GetLength(0) + " Position : " + centerTestCollision.x + " " + centerTestCollision.z);
 		}                     
 		
 		

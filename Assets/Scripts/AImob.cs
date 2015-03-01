@@ -3,16 +3,19 @@ using System.Collections;
 
 public class AImob : MonoBehaviour {
 
-	public float speed;
+	private float speed;
 	private float attackTimer;
-	private float timer;
+	public float timer;
 
-	private bool canAtack;
+	public bool canAtack;
+	
+	internal bool moving = false;
 
 	private int health;
 	
 	void Start () 
 	{
+		speed = 7f;
 		health = 3;
 		attackTimer = 1.5f;
 		timer = 0.0f;
@@ -82,6 +85,8 @@ public class AImob : MonoBehaviour {
 		{
 			if(!GetComponent<Pushback>().pushBacking)
 			{
+				moving = true;
+				
 				float x = other.transform.position.x;
 				float y = other.transform.position.y;
 				float z = other.transform.position.z;
@@ -112,6 +117,10 @@ public class AImob : MonoBehaviour {
 				transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * rotationSpeed);
 
 
+			}
+			else
+			{
+				moving = true;
 			}
 		}
 	}

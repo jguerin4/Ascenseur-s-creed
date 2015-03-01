@@ -24,7 +24,7 @@ public class Spawning : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(m_numberOfMobs <= 9)
+		if(m_numberOfMobs <= 16)
 		{
 			spawnNewMob(30,50,30,50);
 			//Debug.Log("Spawning");

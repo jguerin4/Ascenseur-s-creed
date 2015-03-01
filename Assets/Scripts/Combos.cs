@@ -470,7 +470,9 @@ public class Combos : MonoBehaviour {
 			}
 			catch (MissingReferenceException ex)
 			{
-				//GameObject.Find ("ComboCollider").GetComponent<GetOverlapping>().nbCol--;
+				GameObject.Find ("ComboCollider").GetComponent<GetOverlapping>().enemyList.Clear ();
+				enemyList.Clear ();
+				nbCol = 0;
 			}
 		}
 		
@@ -501,7 +503,9 @@ public class Combos : MonoBehaviour {
 			}
 			catch (MissingReferenceException ex)
 			{
-				//GameObject.Find ("ComboCollider").GetComponent<GetOverlapping>().nbCol--;
+				GameObject.Find ("ComboCollider").GetComponent<GetOverlapping>().enemyList.Clear ();
+				enemyList.Clear ();
+				nbCol = 0;
 			}
 
 			for (int j = 0; j < sizeOther; j++)
@@ -529,7 +533,9 @@ public class Combos : MonoBehaviour {
 				}
 				catch (MissingReferenceException ex)
 				{
-					//GameObject.Find ("ComboCollider").GetComponent<GetOverlapping>().nbCol--;
+					GameObject.Find ("ComboCollider").GetComponent<GetOverlapping>().enemyList.Clear ();
+					enemyList.Clear ();
+					nbCol = 0;
 				}
 			}
 

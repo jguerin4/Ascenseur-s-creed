@@ -82,6 +82,11 @@ public class MasterObjectifs : MonoBehaviour {
 		SceneObjectifs.Discovert.State = false;
 		SceneObjectifs.HighScores.State = false;
 
+		MainMenuManager.loadedFromLevelSelection = false;
+		resetObjectives.loadedFromReset = false;
+
+
+
 	}
 
 	void initialiseObjectif()

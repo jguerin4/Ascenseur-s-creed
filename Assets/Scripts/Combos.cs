@@ -346,6 +346,8 @@ public class Combos : MonoBehaviour {
 			if(enemyList[i].gameObject.GetComponent<AImob>().getHealth() <= damage)
 			{
 				enemyList[i].gameObject.GetComponent<AImob>().doDamage(damage);
+				enemyList[i].gameObject.GetComponent<AImob>().timer = 0;
+				enemyList[i].gameObject.GetComponent<AImob>().canAtack = false;
 				enemyList.RemoveAt(i);
 
 				nbCol--;
@@ -365,6 +367,8 @@ public class Combos : MonoBehaviour {
 			else
 			{
 				enemyList[i].gameObject.GetComponent<AImob>().doDamage(damage);
+				enemyList[i].gameObject.GetComponent<AImob>().timer = 0;
+				enemyList[i].gameObject.GetComponent<AImob>().canAtack = false;
 			}
 		}
 	}

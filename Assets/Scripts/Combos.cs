@@ -34,7 +34,6 @@ public class Combos : MonoBehaviour {
 	{
 		collider = gameObject.GetComponent<BoxCollider>();
 		canCombo = false;
-
 		timerEndCooldown = 0.0f;
 		timerEndCombo = 0.0f;
 		timerEndSimpleAttack = 0.0f;

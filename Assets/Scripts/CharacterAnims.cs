@@ -40,6 +40,18 @@ public class CharacterAnims : MonoBehaviour
 	
 	Vector3 initialJumpPos;
 
+	public AudioClip sonAttack1;
+	public AudioClip sonAttack2;
+	public AudioClip sonAttack3;
+	public AudioClip sonAttack4;
+	public AudioClip sonJump;
+	private AudioSource source;
+	
+	void Awake() {
+
+		source = GetComponent<AudioSource> ();
+	}
+
 	void Start() 
 	{
 		startPosLeftArm = GameObject.Find ("LeftArm").transform.localPosition;
@@ -65,18 +77,23 @@ public class CharacterAnims : MonoBehaviour
 		{
 			if (Input.GetKeyDown (KeyCode.Mouse0))
 			{
+				source.PlayOneShot(sonAttack1,1F);
 				StartAttack1();
+
 			}
 			else if (Input.GetKeyDown (KeyCode.Mouse1))
 			{
+				source.PlayOneShot(sonAttack2,1F);
 				StartAttack2();
 			}
 			else if (Input.GetKeyDown (KeyCode.Q))
 			{
+				source.PlayOneShot(sonAttack3,1F);
 				StartAttack3();
 			}
 			else if (Input.GetKeyDown (KeyCode.E))
 			{
+				source.PlayOneShot(sonAttack4,1F);
 				StartCombo(1);
 			}
 			else if (Input.GetKeyDown (KeyCode.R))
@@ -86,11 +103,13 @@ public class CharacterAnims : MonoBehaviour
 			else if (Input.GetKeyDown (KeyCode.T))
 			{
 				StartCombo(3);
+
 			}
 		}
 		
 		if (Input.GetButtonDown("Jump"))
 		{
+			source.PlayOneShot(sonJump,1F);
 			StartJump();
 		}
 		

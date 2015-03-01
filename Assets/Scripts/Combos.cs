@@ -41,7 +41,7 @@ public class Combos : MonoBehaviour {
 		timerEndSimpleAttack = 0.0f;
 		cooldownTimer = 0.5f;
 		comboTimer = 0.25f;
-		simpleAttackTimer = 0.5f;
+		simpleAttackTimer = 0.2f;
 
 		buttonList = new List<string>();
 		enemyList = new List<GameObject>();

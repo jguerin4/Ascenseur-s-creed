@@ -44,7 +44,11 @@ public class CharacterAnims : MonoBehaviour
 	public AudioClip sonAttack2;
 	public AudioClip sonAttack3;
 	public AudioClip sonAttack4;
-	public AudioClip sonAttack5;
+	public AudioClip sonCombo1;
+	public AudioClip sonCombo2;
+	public AudioClip sonCombo3;
+	public AudioClip sonCombo4;
+	public AudioClip sonCombo5;
 	public AudioClip sonJump;
 	private AudioSource source;
 
@@ -94,24 +98,27 @@ public class CharacterAnims : MonoBehaviour
 			}
 			else if (Input.GetKeyDown (KeyCode.E))
 			{
-				source.PlayOneShot(sonAttack4,1F);
+				source.PlayOneShot(sonCombo1,1F);
 				StartCombo(1);
 			}
 			else if (Input.GetKeyDown (KeyCode.R))
 			{
-				source.PlayOneShot(sonAttack5,1F);
+				source.PlayOneShot(sonCombo2,1F);
 				StartCombo(2);
 			}
 			else if (Input.GetKeyDown (KeyCode.T))
 			{
+				source.PlayOneShot(sonCombo3,1F);
 				StartCombo(3);
 			}
 			else if (Input.GetKeyDown (KeyCode.Y))
 			{
+				source.PlayOneShot(sonCombo4,1F);
 				StartCombo(4);
 			}
 			else if (Input.GetKeyDown (KeyCode.F))
 			{
+				source.PlayOneShot(sonCombo5,1F);
 				StartCombo(5);
 			}
 		}

@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 
 public class Combos : MonoBehaviour {
 
@@ -172,6 +171,8 @@ public class Combos : MonoBehaviour {
 					timerEndSimpleAttack = 0.0f;
 					CharacterProperties.resetFearProgression();
 					Obj_Master.Ultime();
+					comboCounter = 0;
+					comboCounterIncByOne = 0;
 				}
 			}
 
@@ -453,26 +454,27 @@ public class Combos : MonoBehaviour {
 		{
 			try
 			{
-				if(enemy.GetComponent<AImob>().getHealth() <= damage)
+				if (enemy)
 				{
-					enemy.GetComponent<AImob>().toDestroy = true;
-					Destroy(enemy.gameObject);
-					enemy.GetComponent<AImob>().die ();
-					garbage.Add(enemy);
-				}
-				else
-				{
-					enemy.GetComponent<Pushback>().PushEnemy();
-					enemy.GetComponent<AImob>().doDamage(damage);
-					enemy.GetComponent<AImob>().timer = 0f;
-					enemy.GetComponent<AImob>().canAtack = false;
+					if(enemy.GetComponent<AImob>().getHealth() <= damage)
+					{
+						enemy.GetComponent<AImob>().toDestroy = true;
+						Destroy(enemy.gameObject);
+						enemy.GetComponent<AImob>().die ();
+						garbage.Add(enemy);
+					}
+					else
+					{
+						enemy.GetComponent<Pushback>().PushEnemy();
+						enemy.GetComponent<AImob>().doDamage(damage);
+						enemy.GetComponent<AImob>().timer = 0f;
+						enemy.GetComponent<AImob>().canAtack = false;
+					}
 				}
 			}
 			catch (MissingReferenceException ex)
 			{
-				GameObject.Find ("ComboCollider").GetComponent<GetOverlapping>().enemyList.Clear ();
-				enemyList.Clear ();
-				nbCol = 0;
+				//GameObject.Find ("ComboCollider").GetComponent<GetOverlapping>().nbCol--;
 			}
 		}
 		
@@ -480,65 +482,105 @@ public class Combos : MonoBehaviour {
 		{
 			try
 			{
-				if(current[i].GetComponent<AImob>().toDestroy)
+				if (current[i])
 				{
-				//	Debug.Log("i: " + i);
-				//	Debug.Log("size: " + sizeCurrent);
-					current.RemoveAt(i);
-
-					sizeCurrent--;
-					i--;
-
-					if(i <= 0)
+					if(current[i].GetComponent<AImob>().toDestroy)
 					{
-						i = 0;
-					}
-
-					if(sizeCurrent < 0)
-					{
-						Debug.Log("dafuq");
-						sizeCurrent = 0;
+					//	Debug.Log("i: " + i);
+					//	Debug.Log("size: " + sizeCurrent);
+						current.RemoveAt(i);
+	
+						sizeCurrent--;
+						i--;
+	
+						if(i <= 0)
+						{
+							i = 0;
+						}
+	
+						if(sizeCurrent < 0)
+						{
+							Debug.Log("dafuq");
+							sizeCurrent = 0;
+						}
 					}
 				}
 			}
 			catch (MissingReferenceException ex)
 			{
-				GameObject.Find ("ComboCollider").GetComponent<GetOverlapping>().enemyList.Clear ();
-				enemyList.Clear ();
-				nbCol = 0;
+				//GameObject.Find ("ComboCollider").GetComponent<GetOverlapping>().nbCol--;
 			}
 
 			for (int j = 0; j < sizeOther; j++)
 			{
 				try
 				{
-					if(other[j].GetComponent<AImob>().toDestroy)
+					if (other[j])
 					{
-						other.RemoveAt(j);
-						
-						sizeOther--;
-						j--;
-
-						if(j <= 0)
+						if(other[j].GetComponent<AImob>().toDestroy)
 						{
-							j = 0;
-						}
-
-						if(sizeOther < 0)
-						{
-							Debug.Log("dafuq");
-							sizeOther = 0;
+							other.RemoveAt(j);
+							
+							sizeOther--;
+							j--;
+	
+							if(j <= 0)
+							{
+								j = 0;
+							}
+	
+							if(sizeOther < 0)
+							{
+								Debug.Log("dafuq");
+								sizeOther = 0;
+							}
 						}
 					}
 				}
 				catch (MissingReferenceException ex)
 				{
-					GameObject.Find ("ComboCollider").GetComponent<GetOverlapping>().enemyList.Clear ();
-					enemyList.Clear ();
-					nbCol = 0;
+					//GameObject.Find ("ComboCollider").GetComponent<GetOverlapping>().nbCol--;
 				}
 			}
-
+			
+			bool temptemp = false;
+			
+			do
+			{
+				temptemp = false;
+			
+				foreach(GameObject enemy in current)
+				{
+					if(!enemy)
+					{
+						current.Remove(enemy);
+						temptemp = true;
+						comboCounter = 0;
+						comboCounterIncByOne = 0;
+					}
+				}
+			}
+			while (temptemp);
+			
+			temptemp = false;
+			
+			do
+			{
+				temptemp = false;
+			
+				foreach(GameObject enemy in other)
+				{
+					if(!enemy)
+					{
+						other.Remove(enemy);
+						temptemp = true;
+						comboCounter = 0;
+						comboCounterIncByOne = 0;
+					}
+				}
+			}
+			while (temptemp);
+			
 			foreach(GameObject enemy in garbage)
 			{
 				if(!current.Contains(enemy) && !other.Contains(enemy))

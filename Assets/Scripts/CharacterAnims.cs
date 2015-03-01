@@ -37,6 +37,8 @@ public class CharacterAnims : MonoBehaviour
 	
 	float jumpTimer = 0.0f;
 	float jumpSpeed = 1.5f;
+	
+	Vector3 initialJumpPos;
 
 	public AudioClip sonAttack1;
 	public AudioClip sonAttack2;
@@ -265,7 +267,11 @@ public class CharacterAnims : MonoBehaviour
 	
 	internal void StartJump()
 	{
-		currentlyJumping = true;
+		if (!currentlyJumping)
+		{
+			initialJumpPos = this.transform.position;
+			currentlyJumping = true;
+		}
 	}
 	
 	void Movement()
@@ -516,7 +522,7 @@ public class CharacterAnims : MonoBehaviour
 		
 		jumpTimer += Time.deltaTime * jumpSpeed;
 		Vector3 newPosTemp = this.transform.position;
-		newPosTemp.y = 3 * Mathf.Sin(Mathf.PI * jumpTimer);
+		newPosTemp.y = initialJumpPos.y + (3 * Mathf.Sin(Mathf.PI * jumpTimer));
 		//newPosTemp.y += jumpCurve.Evaluate(jumpTimer);
 		
 		this.transform.position = newPosTemp;

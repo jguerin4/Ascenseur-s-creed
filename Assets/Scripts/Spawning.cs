@@ -43,6 +43,8 @@ public class Spawning : MonoBehaviour {
 		const int TERAIN_HEIGHT = 2000;
 
 
+		m_random = new System.Random();
+
 		SpawnRef = SpawningReferenceGO.transform.position;
 
 		int x = m_random.Next(20, 50);
@@ -89,7 +91,7 @@ public class Spawning : MonoBehaviour {
 		{
 		case 1:
 
-			Instantiate(dog, new Vector3(xSpawnPosition, ySpawnPosition+1.8f, zSpawnPosition), Quaternion.identity);
+			Instantiate(dog, new Vector3(xSpawnPosition, ySpawnPosition, zSpawnPosition), Quaternion.identity);
 			m_numberOfMobs++;
 			//Debug.Log("NumberOfMob = " + m_numberOfMobs);
 

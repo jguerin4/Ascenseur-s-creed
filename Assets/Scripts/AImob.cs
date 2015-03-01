@@ -4,37 +4,56 @@ using System.Collections;
 public class AImob : MonoBehaviour {
 
 	public float speed;
+	private float attackTimer;
+	private float timer;
 
 	private bool canAtack;
-	private BoxCollider collide;
 
 	private int health;
 	
 	void Start () 
 	{
 		health = 3;
+		attackTimer = 10000.0f;
+		timer = 0.0f;
 
-		collide = gameObject.GetComponent<BoxCollider>();
+		canAtack = true;
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
+		Debug.Log(canAtack);
+		if(!canAtack)
+		{
+			canAtack = false;
+			timer += Time.deltaTime;
+			if(timer >= attackTimer)
+			{
+				canAtack = true;
+				timer = 0.0f;
+			}
+		}
+
 		if(getHealth() <= 0)
 		{
 			die ();
 		}
 
-		Ray ray = new Ray(transform.position + transform.forward * 1.2f, transform.forward);
-		RaycastHit hit;
-
-		Debug.DrawRay(ray.origin, ray.direction, Color.red);
-		if (Physics.Raycast(ray, out hit))
+		if(canAtack)
 		{
-			if(hit.collider.GetType() == typeof(CapsuleCollider))
+			Ray ray = new Ray(transform.position + transform.forward * 1.2f, transform.forward);
+			RaycastHit hit = new RaycastHit();
+			Debug.DrawRay(ray.origin, ray.direction);
+			if (Physics.Raycast(ray, out hit))
 			{
-				//hit.collider.gameObject.GetComponent<Pushback>().PushEnemy();
-				canAtack = true;
+				if(hit.collider.GetType() == typeof(CapsuleCollider))
+				{
+					Debug.DrawRay(ray.origin, ray.direction, Color.red);
+					hit.collider.gameObject.GetComponent<Pushback>().PushEnemy();
+					Debug.Log(hit.collider.name);
+					canAtack = false;
+				}
 			}
 		}
 	}
@@ -51,15 +70,31 @@ public class AImob : MonoBehaviour {
 				float z = other.transform.position.z;
 
 				float rotationSpeed = 100f;
+
 				Vector3 direction = new Vector3(x,y,z);
 				Quaternion rotation = Quaternion.LookRotation(direction - transform.position);
 
 				if((direction - transform.position).magnitude >= 2f)
 				{
 					transform.position = Vector3.MoveTowards(transform.position, direction, step);
+
+					if(this.gameObject.name == "Clown(Clone)" || this.gameObject.name == "Dog(Clone)")
+					{
+						//Y est a vérifier
+						Vector3 directionSameY = new Vector3(direction.x,transform.position.y, direction.z);
+						rotation = Quaternion.LookRotation(transform.position - directionSameY);
+						
+						transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, Time.deltaTime * rotationSpeed);
+					}
+					else
+					{
+						transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, Time.deltaTime * rotationSpeed);
+					}
 				}
 
-				transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * rotationSpeed);
+				//transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * rotationSpeed);
+
+
 			}
 		}
 	}

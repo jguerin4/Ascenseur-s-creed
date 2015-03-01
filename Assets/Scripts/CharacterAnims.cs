@@ -82,43 +82,34 @@ public class CharacterAnims : MonoBehaviour
 		{
 			if (Input.GetKeyDown (KeyCode.Mouse0))
 			{
-				source.PlayOneShot(sonAttack1,1F);
 				StartAttack1();
-
 			}
 			else if (Input.GetKeyDown (KeyCode.Mouse1))
 			{
-				source.PlayOneShot(sonAttack2,1F);
 				StartAttack2();
 			}
 			else if (Input.GetKeyDown (KeyCode.Q))
 			{
-				source.PlayOneShot(sonAttack3,1F);
 				StartAttack3();
 			}
 			else if (Input.GetKeyDown (KeyCode.E))
 			{
-				source.PlayOneShot(sonCombo1,1F);
 				StartCombo(1);
 			}
 			else if (Input.GetKeyDown (KeyCode.R))
 			{
-				source.PlayOneShot(sonCombo2,1F);
 				StartCombo(2);
 			}
 			else if (Input.GetKeyDown (KeyCode.T))
 			{
-				source.PlayOneShot(sonCombo3,1F);
 				StartCombo(3);
 			}
 			else if (Input.GetKeyDown (KeyCode.Y))
 			{
-				source.PlayOneShot(sonCombo4,1F);
 				StartCombo(4);
 			}
 			else if (Input.GetKeyDown (KeyCode.F))
 			{
-				source.PlayOneShot(sonCombo5,1F);
 				StartCombo(5);
 			}
 		}
@@ -243,6 +234,7 @@ public class CharacterAnims : MonoBehaviour
 		{
 			currentlyActing = true;
 			currentAction = 1;
+			source.PlayOneShot(sonAttack1,1F);
 		}
 	}
 	
@@ -252,6 +244,7 @@ public class CharacterAnims : MonoBehaviour
 		{
 			currentlyActing = true;
 			currentAction = 3;
+			source.PlayOneShot(sonAttack2,1F);
 		}
 	}
 	
@@ -261,6 +254,7 @@ public class CharacterAnims : MonoBehaviour
 		{
 			currentlyActing = true;
 			currentAction = 6;
+			source.PlayOneShot(sonAttack3,1F);
 		}
 	}
 	
@@ -274,22 +268,27 @@ public class CharacterAnims : MonoBehaviour
 		if (indice == 1)
 		{
 			GameObject.Find("Light").GetComponent<Light>().color = new Color(255f/255f, 0f/255f, 0f/255f, 1f);
+			source.PlayOneShot(sonCombo1,1F);
 		}
 		else if (indice == 2)
 		{
 			GameObject.Find("Light").GetComponent<Light>().color = new Color(0f/255f, 155f/255f, 0f/255f, 1f);
+			source.PlayOneShot(sonCombo2,1F);
 		}
 		else if (indice == 3)
 		{
 			GameObject.Find("Light").GetComponent<Light>().color = new Color(0f/255f, 0f/255f, 255f/255f, 1f);
+			source.PlayOneShot(sonCombo3,1F);
 		}
 		else if (indice == 4)
 		{
 			GameObject.Find("Light").GetComponent<Light>().color = new Color(255f/255f, 255f/255f, 0f/255f, 1f);
+			source.PlayOneShot(sonCombo4,1F);
 		}
 		else if (indice == 5)
 		{
 			GameObject.Find("Light").GetComponent<Light>().color = new Color(50f/255f, 50f/255f, 50f/255f, 1f);
+			source.PlayOneShot(sonCombo5,1F);
 		}
 		
 		GameObject.Find("Master").GetComponent<UIManager>().StartAppearName(indice);

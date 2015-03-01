@@ -102,6 +102,7 @@ public class LevelProperties : MonoBehaviour {
 	public void reload()
 	{
 		Spawning.m_numberOfMobs = 0;
+		CharacterProperties.fearProgression = 0;
 		Application.LoadLevel (Application.loadedLevel);
 	}
 	public void endGame()
@@ -177,9 +178,14 @@ public class LevelProperties : MonoBehaviour {
 		}
 		if (Input.GetButtonDown ("B") & ActivateMenu) {
 			//Aller a la selection de niveau
+			Spawning.m_numberOfMobs = 0;
+			CharacterProperties.fearProgression = 0;
+			Application.LoadLevel("LevelSelection");
 		}
 		if(Input.GetButtonDown("Back")& ActivateMenu){
 			//Quitter
+			Application.Quit();
+		
 		}
 	}
 }

@@ -24,7 +24,7 @@ public class Spawning : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(m_numberOfMobs <= 30)
+		if(m_numberOfMobs <= 50)
 		{
 			spawnNewMob(40,100,40,100);
 			//Debug.Log("Spawning");
@@ -71,10 +71,10 @@ public class Spawning : MonoBehaviour {
 		Collider [] hitCollider = Physics.OverlapSphere(centerTestCollision, testCollisionRadius);
 		
 		
-		if(currentHeight > 0 || hitCollider.GetLength(0) > 0 || xSpawnPosition > 2000 || zSpawnPosition > 2000 || xSpawnPosition < 0 || zSpawnPosition < 0)
+		if(currentHeight > 0 || hitCollider.GetLength(0) > 1 || xSpawnPosition > 2000 || zSpawnPosition > 2000 || xSpawnPosition < 0 || zSpawnPosition < 0)
 		{
 			getEnnemyType = 999;	//Ne spawn pas
-			//Debug.Log("Hauteur: " + currentHeight + " Number of hit Collider: " + hitCollider.GetLength(0) + " Position : " + centerTestCollision.x + " " + centerTestCollision.z);
+			Debug.Log("Hauteur: " + currentHeight + " Number of hit Collider: " + hitCollider.GetLength(0) + " Position : " + centerTestCollision.x + " " + centerTestCollision.z);
 		}                     
 		
 		

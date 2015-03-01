@@ -24,9 +24,10 @@ public class Spawning : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(m_numberOfMobs <= 10)
+		if(m_numberOfMobs <= 30)
 		{
 			spawnNewMob(40,100,40,100);
+			Debug.Log("Spawning");
 		}
 
 	}
@@ -64,7 +65,7 @@ public class Spawning : MonoBehaviour {
 		float currentHeight = terr.SampleHeight(new Vector3(xSpawnPosition,ySpawnPosition,zSpawnPosition));
 		//Debug.Log("Hauteur relative: " + currentHeight.ToString());
 		
-		float testCollisionRadius = 0.5f;
+		float testCollisionRadius = 0.3f;
 		Vector3 centerTestCollision = new Vector3(xSpawnPosition,ySpawnPosition+1,zSpawnPosition);
 		
 		Collider [] hitCollider = Physics.OverlapSphere(centerTestCollision, testCollisionRadius);

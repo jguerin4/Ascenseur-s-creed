@@ -1,14 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 
 public class Combos : MonoBehaviour {
 
 	private string buttonPressed;
 	private List<string> buttonList; 
-	private List<GameObject> enemyList;
-
-	private BoxCollider collider;
+	public List<GameObject> enemyList;
 
 	private string combo3 = "XBB";
 	private string combo4 = "XYXY";
@@ -34,7 +33,6 @@ public class Combos : MonoBehaviour {
 
 	void Start () 
 	{
-		collider = gameObject.GetComponent<BoxCollider>();
 		canCombo = false;
 		timerEndCooldown = 0.0f;
 		timerEndCombo = 0.0f;
@@ -167,7 +165,7 @@ public class Combos : MonoBehaviour {
 			transform.GetComponent<CharacterAnims>().StartCombo(1);
 
 			damage = 2;
-			doDamage(damage);
+			doDamage(damage, GameObject.Find("ComboCollider").GetComponentInChildren<GetOverlapping>().enemyList, enemyList);
 
 			if(nbCol > 0)
 			{
@@ -178,8 +176,6 @@ public class Combos : MonoBehaviour {
 			{
 				comboCounter = 0;
 			}
-			
-			Debug.Log(combo3);
 			return;
 		}
 
@@ -190,7 +186,7 @@ public class Combos : MonoBehaviour {
 			transform.GetComponent<CharacterAnims>().StartCombo(2);
 
 			damage = 3;
-			doDamage(damage);
+			doDamage(damage, GameObject.Find("ComboCollider").GetComponentInChildren<GetOverlapping>().enemyList, enemyList);
 
 			if(nbCol > 0)
 			{
@@ -201,8 +197,6 @@ public class Combos : MonoBehaviour {
 			{
 				comboCounter = 0;
 			}
-			
-			Debug.Log(combo4);
 			return;
 		}
 
@@ -213,7 +207,7 @@ public class Combos : MonoBehaviour {
 			transform.GetComponent<CharacterAnims>().StartCombo(3);
 
 			damage = 2;
-			doDamage(damage);
+			doDamage(damage, GameObject.Find("ComboCollider").GetComponentInChildren<GetOverlapping>().enemyList, enemyList);
 
 			if(nbCol > 0)
 			{
@@ -224,8 +218,6 @@ public class Combos : MonoBehaviour {
 			{
 				comboCounter = 0;
 			}
-			
-			Debug.Log(combo5);
 			return;
 		}
 	
@@ -236,7 +228,7 @@ public class Combos : MonoBehaviour {
 			transform.GetComponent<CharacterAnims>().StartCombo(4);
 
 			damage = 3;
-			doDamage(damage);
+			doDamage(damage, GameObject.Find("ComboCollider").GetComponentInChildren<GetOverlapping>().enemyList, enemyList);
 
 			if(nbCol > 0)
 			{
@@ -247,8 +239,6 @@ public class Combos : MonoBehaviour {
 			{
 				comboCounter = 0;
 			}
-			
-			Debug.Log(combo7);
 			return;
 		}
 	}
@@ -271,8 +261,6 @@ public class Combos : MonoBehaviour {
 			{
 				comboCounter = 0;
 			}
-			
-			Debug.Log(attackX);
 		}
 
 		else if(str == attackB)
@@ -289,8 +277,6 @@ public class Combos : MonoBehaviour {
 			{
 				comboCounter = 0;
 			}
-			
-			Debug.Log(attackB);
 		}
 
 		else if(str == attackY)
@@ -307,18 +293,16 @@ public class Combos : MonoBehaviour {
 			{
 				comboCounter = 0;
 			}
-
-			Debug.Log(attackY);
 		}
 
-		doDamage(damage);
+		doDamage(damage, enemyList, GameObject.Find("ComboCollider").GetComponentInChildren<GetOverlapping>().enemyList);
 	}
 
 	void OnTriggerEnter(Collider col)
 	{
 		if((col.tag == "Spider" || col.tag == "Dog" || col.tag == "Clown") && col.GetType() == typeof(CapsuleCollider))
 		{
-			enemyList.Add(col.gameObject);
+			this.enemyList.Add(col.gameObject);
 
 			nbCol++;
 			rigidbody.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotation;
@@ -329,15 +313,117 @@ public class Combos : MonoBehaviour {
 	{
 		if((col.tag == "Spider" || col.tag == "Dog" || col.tag == "Clown") && col.GetType() == typeof(CapsuleCollider))
 		{
-			enemyList.Remove(col.gameObject);
+			this.enemyList.Remove(col.gameObject);
 
 			nbCol--;
 			rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
 		}
 	}
 
-	private void doDamage(int damage)
+	private void doDamage(int damage, List<GameObject> current, List<GameObject> other)
 	{
+		List<GameObject> garbage = new List<GameObject>();
+
+		int sizeCurrent = current.Count;
+		int sizeOther = other.Count;
+
+		foreach(GameObject enemy in current)
+		{
+			try
+			{
+				if(enemy.GetComponent<AImob>().getHealth() <= damage)
+				{
+					enemy.GetComponent<AImob>().toDestroy = true;
+					Destroy(enemy.gameObject);
+					enemy.GetComponent<AImob>().die ();
+					garbage.Add(enemy);
+				}
+				else
+				{
+					enemy.GetComponent<Pushback>().PushEnemy();
+					enemy.GetComponent<AImob>().doDamage(damage);
+					enemy.GetComponent<AImob>().timer = 0f;
+					enemy.GetComponent<AImob>().canAtack = false;
+				}
+			}
+			catch (MissingReferenceException ex)
+			{
+				//GameObject.Find ("ComboCollider").GetComponent<GetOverlapping>().nbCol--;
+			}
+		}
+		
+		for (int i = 0; i < sizeCurrent; i++)
+		{
+			try
+			{
+				if(current[i].GetComponent<AImob>().toDestroy)
+				{
+					Debug.Log("i: " + i);
+					Debug.Log("size: " + sizeCurrent);
+					current.RemoveAt(i);
+
+					sizeCurrent--;
+					i--;
+
+					if(i <= 0)
+					{
+						i = 0;
+					}
+
+					if(sizeCurrent < 0)
+					{
+						Debug.Log("dafuq");
+						sizeCurrent = 0;
+					}
+				}
+			}
+			catch (MissingReferenceException ex)
+			{
+				//GameObject.Find ("ComboCollider").GetComponent<GetOverlapping>().nbCol--;
+			}
+
+			for (int j = 0; j < sizeOther; j++)
+			{
+				try
+				{
+					if(other[j].GetComponent<AImob>().toDestroy)
+					{
+						other.RemoveAt(j);
+						
+						sizeOther--;
+						j--;
+
+						if(j <= 0)
+						{
+							j = 0;
+						}
+
+						if(sizeOther < 0)
+						{
+							Debug.Log("dafuq");
+							sizeOther = 0;
+						}
+					}
+				}
+				catch (MissingReferenceException ex)
+				{
+					//GameObject.Find ("ComboCollider").GetComponent<GetOverlapping>().nbCol--;
+				}
+			}
+
+			foreach(GameObject enemy in garbage)
+			{
+				if(!current.Contains(enemy) && !other.Contains(enemy))
+					Destroy(enemy);
+			}
+
+			garbage.Clear();
+
+			nbCol = enemyList.Count;
+			//GameObject.Find ("ComboCollider").GetComponent<GetOverlapping>().nbCol = GameObject.Find ("ComboCollider").GetComponent<GetOverlapping>().enemyList.Count;
+		}
+
+		/*
 		int size = enemyList.Count;
 		for (int i = 0; i < size; i++)
 		{
@@ -370,7 +456,7 @@ public class Combos : MonoBehaviour {
 				enemyList[i].gameObject.GetComponent<AImob>().timer = 0;
 				enemyList[i].gameObject.GetComponent<AImob>().canAtack = false;
 			}
-		}
+		}*/
 	}
 
 	public void resetButtonList()

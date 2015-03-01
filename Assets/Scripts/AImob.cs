@@ -13,9 +13,13 @@ public class AImob : MonoBehaviour {
 	internal bool moving = false;
 
 	private int health;	
+
+
 	
 	void Start () 
 	{
+
+
 		speed = 7f;
 		health = 3;
 		attackTimer = 1.5f;
@@ -145,6 +149,10 @@ public class AImob : MonoBehaviour {
 	{
 		Destroy(this.gameObject);
 		Instantiate (destroyedExplosion, transform.position, transform.rotation);
+		Spawning.m_numberOfMobs--;
+		//GetComponent<Combos>().currentLevel.updatEnnemy(this.gameObject.tag);
+		//CharacterProperties.increaseFear(1);	//Increase by 1 on kill
+
 		Destroy(this);
 	}
 }

@@ -5,9 +5,9 @@ using System;
 
 public class Spawning : MonoBehaviour {
 
-	public Transform clown;
-	public Transform spider;
-	public Transform dog;
+	public GameObject clown;
+	public GameObject spider;
+	public GameObject dog;
 
 	public GameObject SpawningReferenceGO;
 
@@ -27,7 +27,7 @@ public class Spawning : MonoBehaviour {
 		if(m_numberOfMobs <= 30)
 		{
 			spawnNewMob(40,100,40,100);
-			Debug.Log("Spawning");
+			//Debug.Log("Spawning");
 		}
 
 	}
@@ -59,13 +59,13 @@ public class Spawning : MonoBehaviour {
 			z *= -1;
 		}
 		float xSpawnPosition = x + SpawnRef.x;	//Position relative au personnages (selon main caméra)
-		float ySpawnPosition= 2f;
+		float ySpawnPosition= 2.5f;
 		float zSpawnPosition = SpawnRef.z + z;
 
 		float currentHeight = terr.SampleHeight(new Vector3(xSpawnPosition,ySpawnPosition,zSpawnPosition));
 		//Debug.Log("Hauteur relative: " + currentHeight.ToString());
 		
-		float testCollisionRadius = 0.3f;
+		float testCollisionRadius = 0.8f;
 		Vector3 centerTestCollision = new Vector3(xSpawnPosition,ySpawnPosition+1,zSpawnPosition);
 		
 		Collider [] hitCollider = Physics.OverlapSphere(centerTestCollision, testCollisionRadius);
@@ -82,7 +82,7 @@ public class Spawning : MonoBehaviour {
 		{
 		case 1:
 			
-			Instantiate(dog, new Vector3(xSpawnPosition, ySpawnPosition, zSpawnPosition), Quaternion.identity);
+			Instantiate(dog, new Vector3(xSpawnPosition, ySpawnPosition, zSpawnPosition), dog.transform.rotation);
 			m_numberOfMobs++;
 			//Debug.Log("NumberOfMob = " + m_numberOfMobs);
 			
@@ -90,14 +90,14 @@ public class Spawning : MonoBehaviour {
 			
 		case 2:
 			
-			Instantiate(clown, new Vector3(xSpawnPosition, ySpawnPosition, zSpawnPosition), Quaternion.identity);
+			Instantiate(clown, new Vector3(xSpawnPosition, ySpawnPosition, zSpawnPosition), clown.transform.rotation);
 			m_numberOfMobs++;
 			//Debug.Log("NumberOfMob = " + m_numberOfMobs);
 			break;
 			
 		case 3:
 			
-			Instantiate(spider, new Vector3(xSpawnPosition, ySpawnPosition - 2.6f, zSpawnPosition), Quaternion.identity);
+			Instantiate(spider, new Vector3(xSpawnPosition, ySpawnPosition - 2.6f, zSpawnPosition), dog.transform.rotation);
 			m_numberOfMobs++;
 			//Debug.Log("NumberOfMob = " + m_numberOfMobs);
 			break;

@@ -6,6 +6,7 @@ public class UIManager : MonoBehaviour
 {
 	public GameObject comboObj;
 	public GameObject nameObj;
+	public GameObject pointsObj;
 	
 	private Vector3 currentScaleCombo;
 	private float timerScaleCombo;
@@ -17,6 +18,11 @@ public class UIManager : MonoBehaviour
 	private float timerScaleName;
 	private Vector3 currentScaleName;
 	private float speedScaleName = 1f;
+	
+	private bool startedPoints;
+	private float timerScalePoints;
+	private Vector3 currentScalePoints;
+	private float speedScalePoints = 1f;
 	
 	private float testTimer = 0.0f;
 	private int testScore = 0;
@@ -39,6 +45,11 @@ public class UIManager : MonoBehaviour
 		currentScaleName = new Vector3(timerScaleName, timerScaleName,timerScaleName);
 		nameObj.SetActive(false);
 		startedName = false;
+		
+		timerScalePoints = 0.5f;
+		currentScalePoints = new Vector3(timerScalePoints, timerScalePoints,timerScalePoints);
+		pointsObj.SetActive(false);
+		startedPoints = false;
 		
 		xStartCombo = comboObj.transform.position.x;
 		yStartCombo = comboObj.transform.position.y;
@@ -65,6 +76,11 @@ public class UIManager : MonoBehaviour
 		if (startedName)
 		{
 			AppearName();
+		}
+		
+		if (startedPoints)
+		{
+			AppearPoints();
 		}
 	}
 	
@@ -165,6 +181,30 @@ public class UIManager : MonoBehaviour
 			comboObj.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
 			comboObj.SetActive(false);
 			timerScaleCombo = 0.5f;
+		}
+	}
+	
+	internal void StartAppearPoints(int score)
+	{
+		startedPoints = true;
+		timerScalePoints -= 0.2f;
+		pointsObj.SetActive(true);
+		pointsObj.transform.GetComponentInChildren<Text>().text = "+" + score;
+	}
+	
+	internal void AppearPoints()
+	{
+		if (timerScalePoints <= 1.3f)
+		{
+			timerScalePoints += Time.deltaTime * speedScalePoints;
+			pointsObj.transform.localScale = new Vector3(timerScalePoints, timerScalePoints, timerScalePoints);
+		}
+		else
+		{
+			startedPoints = false;
+			pointsObj.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+			pointsObj.SetActive(false);
+			timerScalePoints = 0.5f;
 		}
 	}
 }

@@ -315,10 +315,14 @@ public class MasterObjectifs : MonoBehaviour {
 		combos ();
 		highscore ();
 
-		if (Input.GetButtonDown ("Back"))
+		if (Input.GetButtonDown ("Back")) {
 			PrintObjectifDone ();
-		if (Input.GetButtonUp ("Back") & !Level.endgame)
+			ValidateObjectif();
+		}
+		if (Input.GetButtonUp ("Back") & !Level.endgame) {
 			ObjectifHud.SetActive (false);
+			validate = false;
+		}
 	}
 }
 

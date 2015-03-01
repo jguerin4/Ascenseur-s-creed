@@ -19,7 +19,7 @@ public class AImob : MonoBehaviour {
 	
 	void Start () 
 	{
-		speed = 2f;
+		speed = 4f;
 		health = 3;
 		attackTimer = 1.5f;
 		timer = 0.0f;

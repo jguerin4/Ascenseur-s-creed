@@ -29,7 +29,7 @@ public class CharacterProperties : MonoBehaviour {
 		{
 			UltimeActivate = true;
 		}
-		Debug.Log("Fear progression: " + fearProgression);
+		//Debug.Log("Fear progression: " + fearProgression);
 	}
 
 	static public void resetFearProgression()

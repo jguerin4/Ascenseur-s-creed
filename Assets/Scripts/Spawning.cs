@@ -24,9 +24,9 @@ public class Spawning : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(m_numberOfMobs <= 50)
+		if(m_numberOfMobs <= 9)
 		{
-			spawnNewMob(40,100,40,100);
+			spawnNewMob(30,50,30,50);
 			//Debug.Log("Spawning");
 		}
 
@@ -39,15 +39,15 @@ public class Spawning : MonoBehaviour {
 		Terrain.activeTerrain.heightmapMaximumLOD = 0;
 		SpawnRef = SpawningReferenceGO.transform.position;
 
-		m_random = new System.Random(Environment.TickCount);
+		m_random = new System.Random(Environment.TickCount+1);
 		int x = m_random.Next(xMin, xMax);
-		m_random = new System.Random(Environment.TickCount);
+		m_random = new System.Random(Environment.TickCount+20);
 		int z = m_random.Next(zMin, zMax);
 		
 		int inverseX = m_random.Next(0,2);
-		m_random = new System.Random(Environment.TickCount);
+		m_random = new System.Random(Environment.TickCount+24);
 		int inverseZ = m_random.Next(0,2);
-		m_random = new System.Random(Environment.TickCount);
+		m_random = new System.Random(Environment.TickCount+28);
 		int getEnnemyType = m_random.Next(1,4);
 
 		if(inverseX == 1)	//Une chance sur deux d'inverser, pour faire un cercle
@@ -71,10 +71,11 @@ public class Spawning : MonoBehaviour {
 		Collider [] hitCollider = Physics.OverlapSphere(centerTestCollision, testCollisionRadius);
 		
 		
-		if(currentHeight > 0 || hitCollider.GetLength(0) > 1 || xSpawnPosition > 2000 || zSpawnPosition > 2000 || xSpawnPosition < 0 || zSpawnPosition < 0)
+		if(currentHeight > 1 || hitCollider.GetLength(0) > 3 || xSpawnPosition > 2000 || zSpawnPosition > 2000 || xSpawnPosition < 0 || zSpawnPosition < 0)
 		{
 			getEnnemyType = 999;	//Ne spawn pas
 			//Debug.Log("Hauteur: " + currentHeight + " Number of hit Collider: " + hitCollider.GetLength(0) + " Position : " + centerTestCollision.x + " " + centerTestCollision.z);
+			//Debug.Log("Nombre mob:" + m_numberOfMobs);
 		}                     
 		
 		
@@ -84,7 +85,7 @@ public class Spawning : MonoBehaviour {
 			
 			Instantiate(dog, new Vector3(xSpawnPosition, ySpawnPosition, zSpawnPosition), dog.transform.rotation);
 			m_numberOfMobs++;
-			//Debug.Log("NumberOfMob = " + m_numberOfMobs);
+			Debug.Log("NumberOfMob = " + m_numberOfMobs);
 			
 			break;
 			
@@ -92,18 +93,18 @@ public class Spawning : MonoBehaviour {
 			
 			Instantiate(clown, new Vector3(xSpawnPosition, ySpawnPosition, zSpawnPosition), clown.transform.rotation);
 			m_numberOfMobs++;
-			//Debug.Log("NumberOfMob = " + m_numberOfMobs);
+			Debug.Log("NumberOfMob = " + m_numberOfMobs);
 			break;
 			
 		case 3:
 			
 			Instantiate(spider, new Vector3(xSpawnPosition, ySpawnPosition - 2.6f, zSpawnPosition), dog.transform.rotation);
 			m_numberOfMobs++;
-			//Debug.Log("NumberOfMob = " + m_numberOfMobs);
+			Debug.Log("NumberOfMob = " + m_numberOfMobs);
 			break;
 			
 		default:
-			//Debug.Log("Respawning object, too high or on unavailable spot.);
+			Debug.Log("Respawning object, too high or on unavailable spot.");
 			break;
 		}
 		

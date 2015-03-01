@@ -76,7 +76,7 @@ public class MasterObjectifs : MonoBehaviour {
 		// si le le nombre de kill de kill.ennemy est égale a kill.todo debloquer l'objectif
 		if (Level.getKill (SceneObjectifs.Kill.ennemy) == kill_n) {
 			SceneObjectifs.Kill.State = true;
-			
+//			Debug.Log("set true");
 		}
 		
 	}
@@ -196,6 +196,7 @@ public class MasterObjectifs : MonoBehaviour {
 	void ValidateObjectif()
 	{
 		if (!validate) {
+			Debug.Log(SceneObjectifs.Kill.State);
 			if (SceneObjectifs.Kill.alreadyDone != true & SceneObjectifs.Kill.State == true) {
 				ObjectifHud.transform.FindChild ("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Kill").GetComponent<Text> ().color = new Vector4 (255, 0, 0, 255);
 				ObjectifHud.transform.FindChild ("First Panel").transform.FindChild ("Objectif Name").transform.FindChild ("Kill").GetComponent<Text> ().fontStyle = FontStyle.Bold;

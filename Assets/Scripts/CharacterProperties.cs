@@ -3,13 +3,12 @@ using System.Collections;
 
 public class CharacterProperties : MonoBehaviour {
 
-	static public int fearProgression;
-	public int fearAccumulationMax;
+	static public float fearProgression;
+	static public float fearAccumulationMax = 10f;
 	static public bool UltimeActivate;
 	// Use this for initialization
 	void Start () {
 		fearProgression = 0;
-		fearAccumulationMax = 10;
 		UltimeActivate = false;
 	}
 	
@@ -17,4 +16,36 @@ public class CharacterProperties : MonoBehaviour {
 	void Update () {
 	
 	}
+
+	static public void increaseFear(int addFear)
+	{
+		fearProgression += addFear;
+		if (fearProgression > fearAccumulationMax)
+		{
+			UltimeActivate = true;
+			fearProgression = fearAccumulationMax;
+		}
+		else if(fearProgression == fearAccumulationMax)
+		{
+			UltimeActivate = true;
+		}
+		Debug.Log("Fear progression: " + fearProgression);
+	}
+
+	static public void resetFearProgression()
+	{
+		fearProgression = 0;
+	}
+
+	static public bool isSpecialAvailable()
+	{
+		if (UltimeActivate == true)
+		{
+			return true;
+		}
+		else
+			return false;
+	}
+
+
 }

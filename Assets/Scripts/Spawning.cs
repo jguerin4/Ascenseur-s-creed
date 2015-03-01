@@ -74,7 +74,7 @@ public class Spawning : MonoBehaviour {
 		if(currentHeight > 0 || hitCollider.GetLength(0) > 1 || xSpawnPosition > 2000 || zSpawnPosition > 2000 || xSpawnPosition < 0 || zSpawnPosition < 0)
 		{
 			getEnnemyType = 999;	//Ne spawn pas
-			Debug.Log("Hauteur: " + currentHeight + " Number of hit Collider: " + hitCollider.GetLength(0) + " Position : " + centerTestCollision.x + " " + centerTestCollision.z);
+			//Debug.Log("Hauteur: " + currentHeight + " Number of hit Collider: " + hitCollider.GetLength(0) + " Position : " + centerTestCollision.x + " " + centerTestCollision.z);
 		}                     
 		
 		

@@ -7,6 +7,7 @@ public class AImob : MonoBehaviour {
 	private float attackTimer;
 	public float timer;
 	public Transform destroyedExplosion;
+	public Transform hitEnemie;
 	public bool toDestroy;
 
 	public bool canAtack;
@@ -136,6 +137,9 @@ public class AImob : MonoBehaviour {
 	public void doDamage(int value)
 	{
 		health -= value;
+		Vector3 tempPosHit = transform.position;
+		tempPosHit.y = 0.1f;
+		Instantiate (hitEnemie, tempPosHit, transform.rotation);
 	}
 
 	public int getHealth()

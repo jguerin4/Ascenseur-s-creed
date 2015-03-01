@@ -30,8 +30,14 @@ public class Combos : MonoBehaviour {
 	private bool onCooldown;
 
 	public int comboCounter;
+	public int comboCounterIncByOne;
+
+	public int maxComboCounterObj;
+	public int nbObjectifCombo;
 	
 	private float comboNotHitTimer;
+
+	MasterObjectifs Obj_Master;
 
 	void Start () 
 	{
@@ -53,13 +59,25 @@ public class Combos : MonoBehaviour {
 		onCooldown = false;
 
 		comboCounter = 0;
+		comboCounterIncByOne = 0;
+
+		Obj_Master = GameObject.Find("MasterObjectif").GetComponent<MasterObjectifs>();
 	}
 
 	void Update () 
 	{
+		if(maxComboCounterObj < comboCounterIncByOne)
+		{
+			maxComboCounterObj = comboCounterIncByOne;
+			Obj_Master.Level.setCombo(maxComboCounterObj);
+		}
+
+
+
 		if (comboNotHitTimer <= 0)
 		{
 			comboCounter = 0;
+			comboCounterIncByOne = 0;
 		}
 		else
 		{
@@ -182,11 +200,13 @@ public class Combos : MonoBehaviour {
 			if(nbCol > 0)
 			{
 				comboCounter += (nbCol * 2);
+				comboCounterIncByOne++;
 				GameObject.Find("Master").GetComponent<UIManager>().StartAppearComboObj(comboCounter);
 			}
 			else
 			{
 				comboCounter = 0;
+				comboCounterIncByOne = 0;
 			}
 			return;
 		}
@@ -203,11 +223,13 @@ public class Combos : MonoBehaviour {
 			if(nbCol > 0)
 			{
 				comboCounter += (nbCol * 3);
+				comboCounterIncByOne++;
 				GameObject.Find("Master").GetComponent<UIManager>().StartAppearComboObj(comboCounter);
 			}
 			else
 			{
 				comboCounter = 0;
+				comboCounterIncByOne = 0;
 			}
 			return;
 		}
@@ -224,11 +246,13 @@ public class Combos : MonoBehaviour {
 			if(nbCol > 0)
 			{
 				comboCounter += (nbCol * 2);
+				comboCounterIncByOne++;
 				GameObject.Find("Master").GetComponent<UIManager>().StartAppearComboObj(comboCounter);
 			}
 			else
 			{
 				comboCounter = 0;
+				comboCounterIncByOne = 0;
 			}
 			return;
 		}
@@ -245,11 +269,13 @@ public class Combos : MonoBehaviour {
 			if(nbCol > 0)
 			{
 				comboCounter += (nbCol * 3);
+				comboCounterIncByOne++;
 				GameObject.Find("Master").GetComponent<UIManager>().StartAppearComboObj(comboCounter);
 			}
 			else
 			{
 				comboCounter = 0;
+				comboCounterIncByOne = 0;
 			}
 			return;
 		}
@@ -267,11 +293,13 @@ public class Combos : MonoBehaviour {
 			if(nbCol > 0)
 			{
 				comboCounter += nbCol;
+				comboCounterIncByOne++;
 				GameObject.Find("Master").GetComponent<UIManager>().StartAppearComboObj(comboCounter);
 			}
 			else
 			{
 				comboCounter = 0;
+				comboCounterIncByOne = 0;
 			}
 		}
 
@@ -283,11 +311,15 @@ public class Combos : MonoBehaviour {
 			if(nbCol > 0)
 			{
 				comboCounter += nbCol;
+				comboCounterIncByOne++;
+
 				GameObject.Find("Master").GetComponent<UIManager>().StartAppearComboObj(comboCounter);
 			}
 			else
 			{
 				comboCounter = 0;
+				comboCounterIncByOne = 0;
+
 			}
 		}
 
@@ -299,11 +331,15 @@ public class Combos : MonoBehaviour {
 			if(nbCol > 0)
 			{
 				comboCounter += nbCol;
+				comboCounterIncByOne++;
+
 				GameObject.Find("Master").GetComponent<UIManager>().StartAppearComboObj(comboCounter);
 			}
 			else
 			{
 				comboCounter = 0;
+				comboCounterIncByOne = 0;
+
 			}
 		}
 

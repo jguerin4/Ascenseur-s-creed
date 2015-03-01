@@ -11,7 +11,7 @@ public class MasterObjectifs : MonoBehaviour {
 	int discovert_n;
 	int combos_n;
 	int scores_n;
-	LevelProperties Level;
+	public LevelProperties Level;
 	CharacterScore MasterScore;
 	public GameObject ObjectifHud;
 	
@@ -83,7 +83,7 @@ public class MasterObjectifs : MonoBehaviour {
 	public void combos()
 	{
 		// si le nombre de combos est égale a combos.todo debloquer l'objectif
-		if (Level.getCombos() == combos_n) {
+		if (Level.getCombos() >= combos_n) {
 			SceneObjectifs.Combos.State = true;
 			
 		}

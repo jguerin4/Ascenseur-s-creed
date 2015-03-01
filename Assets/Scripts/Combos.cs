@@ -1,14 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 
 public class Combos : MonoBehaviour {
 
 	private string buttonPressed;
 	private List<string> buttonList; 
-	private List<GameObject> enemyList;
-
-	private BoxCollider collider;
+	public List<GameObject> enemyList;
 
 	private string combo3 = "XBB";
 	private string combo4 = "XYXY";
@@ -34,7 +33,6 @@ public class Combos : MonoBehaviour {
 
 	void Start () 
 	{
-		collider = gameObject.GetComponent<BoxCollider>();
 		canCombo = false;
 		timerEndCooldown = 0.0f;
 		timerEndCombo = 0.0f;
@@ -167,7 +165,7 @@ public class Combos : MonoBehaviour {
 			transform.GetComponent<CharacterAnims>().StartCombo(1);
 
 			damage = 2;
-			doDamage(damage);
+			doDamage(damage, gameObject.GetComponentInChildren<GetOverlapping>().enemyList, enemyList);
 
 			if(nbCol > 0)
 			{
@@ -190,7 +188,7 @@ public class Combos : MonoBehaviour {
 			transform.GetComponent<CharacterAnims>().StartCombo(2);
 
 			damage = 3;
-			doDamage(damage);
+			doDamage(damage, gameObject.GetComponentInChildren<GetOverlapping>().enemyList, enemyList);
 
 			if(nbCol > 0)
 			{
@@ -213,7 +211,7 @@ public class Combos : MonoBehaviour {
 			transform.GetComponent<CharacterAnims>().StartCombo(3);
 
 			damage = 2;
-			doDamage(damage);
+			doDamage(damage, gameObject.GetComponentInChildren<GetOverlapping>().enemyList, enemyList);
 
 			if(nbCol > 0)
 			{
@@ -236,7 +234,7 @@ public class Combos : MonoBehaviour {
 			transform.GetComponent<CharacterAnims>().StartCombo(4);
 
 			damage = 3;
-			doDamage(damage);
+			doDamage(damage, gameObject.GetComponentInChildren<GetOverlapping>().enemyList, enemyList);
 
 			if(nbCol > 0)
 			{
@@ -311,7 +309,7 @@ public class Combos : MonoBehaviour {
 			Debug.Log(attackY);
 		}
 
-		doDamage(damage);
+		doDamage(damage, enemyList, gameObject.GetComponentInChildren<GetOverlapping>().enemyList);
 	}
 
 	void OnTriggerEnter(Collider col)
@@ -338,17 +336,64 @@ public class Combos : MonoBehaviour {
 
 	private void doDamage(int damage, List<GameObject> current, List<GameObject> other)
 	{
-		List<GameObject> tempKeep = new List<GameObject>();
+		List<GameObject> garbage = new List<GameObject>();
+
+		int sizeCurrent = current.Count;
+		int sizeOther = other.Count;
+		int it = 0;
 
 		foreach(GameObject enemy in current)
 		{
-			if(enemy.GetComponent<AImob>().getHealth <= damage)
+			if(enemy.GetComponent<AImob>().getHealth() <= damage)
 			{
-				foreach(GameObject garbage in other)
+				garbage.Add(enemy);
+				current[it] = null;
+			}
+			else
+			{
+				enemy.GetComponent<AImob>().doDamage(damage);
+				enemy.GetComponent<AImob>().timer = 0f;
+				enemy.GetComponent<AImob>().canAtack = false;
+			}
+		}
+		
+		for (int i = 0; i < sizeCurrent; i++)
+		{
+			if(current[i] == null)
+			{
+				current.RemoveAt(i);
+
+				sizeCurrent--;
+				i--;
+
+				if(i < 0)
 				{
-					other.Remove(enemy);
+					i = 0;
 				}
 			}
+
+			for (int j = 0; j < sizeOther; j++)
+			{
+				if(other[i].transform == null)
+				{
+					other.RemoveAt(i);
+					
+					sizeOther--;
+					j--;
+
+					if(j < 0)
+					{
+						j = 0;
+					}
+				}
+			}
+
+			foreach(GameObject enemy in garbage)
+			{
+				enemy.GetComponent<AImob>().doDamage(damage);
+			}
+
+			garbage.Clear();
 		}
 
 		/*

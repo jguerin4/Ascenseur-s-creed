@@ -23,7 +23,7 @@ public class AImob : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-		Debug.Log(canAtack);
+//		Debug.Log(canAtack);
 		if(!canAtack)
 		{
 			canAtack = false;

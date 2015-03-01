@@ -20,6 +20,12 @@ public class Spawning : MonoBehaviour {
 	private Terrain terr;
 
 	void Start() {
+		while(m_numberOfMobs <= 10)
+		{
+			m_random = new System.Random();
+			spawnNewMob();
+			Debug.Log("Nombre de mob: " + m_numberOfMobs);
+		}
 	}
 	
 	// Update is called once per frame
@@ -40,7 +46,7 @@ public class Spawning : MonoBehaviour {
 		float heightmapHeight = terr.terrainData.heightmapHeight;
 		Terrain.activeTerrain.heightmapMaximumLOD = 0;
 
-
+		System.Threading.Thread.Sleep(1);
 		m_random = new System.Random();
 
 		SpawnRef = SpawningReferenceGO.transform.position;
@@ -80,11 +86,12 @@ public class Spawning : MonoBehaviour {
 		currentHeight = terr.SampleHeight(new Vector3(xSpawnPosition,ySpawnPosition,zSpawnPosition));
 		//Debug.Log("Hauteur relative: " + currentHeight.ToString());
 
-		if(currentHeight != 0)
+		if(currentHeight > 0.5f)
 		{
-			getEnnemyType = 999;
+			getEnnemyType = 999;	//Ne spawn pas
 		}                     
 			
+
 		switch(getEnnemyType)	//Chance égale de spawner chaque mobs
 		{
 		case 1:
@@ -110,7 +117,7 @@ public class Spawning : MonoBehaviour {
 			break;
 
 		default:
-			//Debug.Log("Respawning object, too high);
+			//Debug.Log("Respawning object, too high or on unavailable spot.);
 			break;
 		}
 

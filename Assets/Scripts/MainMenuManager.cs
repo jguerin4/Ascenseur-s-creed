@@ -21,6 +21,10 @@ public class MainMenuManager : MonoBehaviour {
 	{
 		Application.Quit ();
 	}
+	public void Instruc()
+	{
+		Application.LoadLevel ("Instruction");
+	}
 	// Update is called once per frame
 	void Update () {
 	

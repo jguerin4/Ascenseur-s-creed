@@ -137,14 +137,6 @@ public class LevelProperties : MonoBehaviour {
 	{
 		string Objectif = theObjectif;
 		HUD.transform.FindChild ("PopUP").GetComponent<Text> ().text = Objectif;
-		timerPopUP += Time.deltaTime;
-		if (timerPopUP < 1.0)
-			PopObjectif (Objectif);
-		else {
-			timerPopUP = 0;
-			HUD.transform.FindChild ("PopUP").GetComponent<Text> ().text = " ";
-		}
-
 	}
 	// Update is called once per frame
 	void Update () {

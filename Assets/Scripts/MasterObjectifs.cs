@@ -40,6 +40,8 @@ public class MasterObjectifs : MonoBehaviour {
 		initialiseObjectif ();
 		ObjectifHud.SetActive (false);
 
+
+
 	}
 	
 	void initialiseObjectif()

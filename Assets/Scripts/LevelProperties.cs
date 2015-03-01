@@ -79,11 +79,11 @@ public class LevelProperties : MonoBehaviour {
 	}
 	public int getKill(string ennemy)
 	{
-		if (ennemy == "spider")
+		if (ennemy == "Spider")
 			return spider;
-		else if (ennemy == "clown")
+		else if (ennemy == "Clown")
 			return clown;
-		else if (ennemy == "dog")
+		else if (ennemy == "Dog")
 			return dog;
 		else
 			return 0;
@@ -140,7 +140,7 @@ public class LevelProperties : MonoBehaviour {
 			}
 			else
 			{
-				HUD.transform.FindChild ("FearBar").GetComponent<RawImage> ().color = new Vector4 (0/*(25.5f **/ /*timerInTime/25.5f*//*(CharacterProperties.fearProgression/CharacterProperties.fearAccumulationMax)*255*/, 0, 0, (CharacterProperties.fearProgression/CharacterProperties.fearAccumulationMax));	                                                                                  
+				HUD.transform.FindChild ("FearBar").GetComponent<RawImage> ().color = new Vector4 (/*64 + (*/CharacterProperties.fearProgression/CharacterProperties.fearAccumulationMax/*)/4*/, 0, 0, 255);	                                                                                  
 			}
 			HUD.transform.FindChild ("TimerButton").GetComponentInChildren<Text> ().text = TimeSpan.FromMinutes (Math.Round (timerMax - timerInTime, 1)).ToString ();
 		} else

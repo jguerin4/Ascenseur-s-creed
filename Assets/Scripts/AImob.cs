@@ -14,6 +14,7 @@ public class AImob : MonoBehaviour {
 
 	private int health;	
 
+	public LevelProperties level;
 
 	
 	void Start () 
@@ -24,7 +25,7 @@ public class AImob : MonoBehaviour {
 		health = 3;
 		attackTimer = 1.5f;
 		timer = 0.0f;
-
+		level = GameObject.Find ("Level").GetComponent<LevelProperties> ();
 		canAtack = true;
 	}
 	
@@ -150,7 +151,8 @@ public class AImob : MonoBehaviour {
 		Destroy(this.gameObject);
 		Instantiate (destroyedExplosion, transform.position, transform.rotation);
 		Spawning.m_numberOfMobs--;
-		GetComponent<Combos>().currentLevel.updatEnnemy(this.gameObject.tag);
+		level.updatEnnemy(this.gameObject.tag);
+		Debug.Log(("Tag string: " + this.gameObject.tag));
 		CharacterProperties.increaseFear(1);	//Increase by 1 on kill
 
 		Destroy(this);

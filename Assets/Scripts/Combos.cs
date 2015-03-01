@@ -8,8 +8,7 @@ public class Combos : MonoBehaviour {
 	private List<string> buttonList; 
 	private List<GameObject> enemyList;
 	
-	private BoxCollider collider;
-	
+
 	private string combo3 = "XBB";
 	private string combo4 = "XYXY";
 	private string combo5 = "YXY";
@@ -36,7 +35,6 @@ public class Combos : MonoBehaviour {
 	
 	void Start () 
 	{
-		collider = gameObject.GetComponent<BoxCollider>();
 		canCombo = false;
 		timerEndCooldown = 0.0f;
 		timerEndCombo = 0.0f;

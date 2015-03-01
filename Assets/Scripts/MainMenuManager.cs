@@ -15,7 +15,7 @@ public class MainMenuManager : MonoBehaviour {
 
 	public void loadSelection()
 	{
-		loadedFromLevelSelection = false;
+	
 		Application.LoadLevel ("LevelSelection");
 	}
 
@@ -26,6 +26,11 @@ public class MainMenuManager : MonoBehaviour {
 	public void Instruc()
 	{
 		Application.LoadLevel ("Instruction");
+	}
+	public void NewGame()
+	{
+		PlayerPrefs.DeleteAll ();
+		loadSelection ();
 	}
 	// Update is called once per frame
 	void Update () {

@@ -136,13 +136,20 @@ public class LevelProperties : MonoBehaviour {
 
 	public void PopObjectif(string theObjectif)
 	{
-		string Objectif = theObjectif;
-		HUD.transform.FindChild ("PopUP").GetComponent<Text> ().text = Objectif;
+		HUD.transform.FindChild ("PopUP").GetComponent<Text> ().text = theObjectif;
+		PopUP = true;
 	}
 	// Update is called once per frame
 	void Update () {
 	
-
+		if (PopUP) {
+			timerPopUP += Time.deltaTime;
+			if(timerPopUP >= 1.0){
+				PopUP = false;
+				timerPopUP = 0;
+			}
+		}else
+			HUD.transform.FindChild ("PopUP").GetComponent<Text> ().text = "  ";
 
 		if (!endgame) {
 			timerInTime += Time.deltaTime;
@@ -191,6 +198,7 @@ public class LevelProperties : MonoBehaviour {
 		if(Input.GetButtonDown("Jump") & ActivateMenu)
 		{
 			reload();
+			CharacterProperties.fearProgression = 0;
 		}
 		if (Input.GetButtonDown ("B") & ActivateMenu) {
 			//Aller a la selection de niveau

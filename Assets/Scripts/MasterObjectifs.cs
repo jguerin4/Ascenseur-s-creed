@@ -14,7 +14,20 @@ public class MasterObjectifs : MonoBehaviour {
 	public LevelProperties Level;
 	CharacterScore MasterScore;
 	public GameObject ObjectifHud;
-	
+
+
+	/// <summary>
+	/// Valeur pour le popup
+	/// </summary>
+	/// 
+
+	bool killpop;
+	bool combospop;
+	bool carrypop;
+	bool ultimepop;
+	bool discoverpop;
+	bool scorespop;
+
 	float timerValidateObjectif;
 	bool validate;
 	float endMenuTimer;
@@ -22,20 +35,20 @@ public class MasterObjectifs : MonoBehaviour {
 	int winScore;
 	// Use this for initialization
 	void Start () {
-		if(MainMenuManager.loadedFromLevelSelection == true || resetObjectives.loadedFromReset == true)
-		{
-			Debug.Log("Reseting obj");
-			resetObjectif();
-		}
-		else
-		{
+
 			kill_n = SceneObjectifs.Kill.toDo;
 			carry_n = SceneObjectifs.Carry.toDo;
 			ultime_n = SceneObjectifs.Ultime.toDo;
 			discovert_n = SceneObjectifs.Discovert.toDo;
 			combos_n = SceneObjectifs.Combos.toDo;
 			scores_n = SceneObjectifs.HighScores.toDo;
-		}
+
+		killpop = false;
+		 combospop = false;
+		carrypop = false;
+		ultimepop = false;
+		discoverpop = false;
+		scorespop = false;
 		
 		winScore = 0;
 		timerValidateObjectif = 0.5f;
@@ -49,40 +62,7 @@ public class MasterObjectifs : MonoBehaviour {
 		ObjectifHud.SetActive (false);
 
 	}
-	void resetObjectif()
-	{
-		SceneObjectifs.Kill.toDo = 10;
-		SceneObjectifs.Carry.toDo = 3;
-		SceneObjectifs.Ultime.toDo = 1;
-		SceneObjectifs.Discovert.toDo = 1;
-		SceneObjectifs.Combos.toDo = 5;
-		SceneObjectifs.HighScores.toDo = 40000;
-		/*
-		PlayerPrefs.SetString ("kill_" + Level.levelName, "false");
-		PlayerPrefs.SetString ("combos_" + Level.levelName, "false");
-		PlayerPrefs.SetString ("carry_" + Level.levelName, "false");
-		PlayerPrefs.SetString ("ultime_" + Level.levelName, "false");
-		PlayerPrefs.SetString ("discovert_" + Level.levelName, "false");
-		PlayerPrefs.SetString ("highscore_" + Level.levelName, "false");
-*/
-		PlayerPrefs.DeleteAll();
 
-
-		kill_n = SceneObjectifs.Kill.toDo;
-		carry_n = SceneObjectifs.Carry.toDo;
-		ultime_n = SceneObjectifs.Ultime.toDo;
-		discovert_n = SceneObjectifs.Discovert.toDo;
-		combos_n = SceneObjectifs.Combos.toDo;
-		scores_n = SceneObjectifs.HighScores.toDo;
-
-		SceneObjectifs.Kill.State = false;
-		SceneObjectifs.Combos.State = false;
-		SceneObjectifs.Carry.State = false;
-		SceneObjectifs.Ultime.State = false;
-		SceneObjectifs.Discovert.State = false;
-		SceneObjectifs.HighScores.State = false;
-
-	}
 
 	void initialiseObjectif()
 	{
@@ -116,7 +96,10 @@ public class MasterObjectifs : MonoBehaviour {
 		// si le le nombre de kill de kill.ennemy est égale a kill.todo debloquer l'objectif
 		if (Level.getKill (SceneObjectifs.Kill.ennemy) == kill_n) {
 			SceneObjectifs.Kill.State = true;
-			Level.PopObjectif(SceneObjectifs.Kill.name);
+			if(!killpop){
+				Level.PopObjectif(SceneObjectifs.Kill.name);
+				killpop = true;
+			}
 
 //			Debug.Log("set true");
 		}
@@ -127,7 +110,10 @@ public class MasterObjectifs : MonoBehaviour {
 		// si le nombre de combos est égale a combos.todo debloquer l'objectif
 		if (Level.getCombos() >= combos_n) {
 			SceneObjectifs.Combos.State = true;
+			if(!combospop){
 			Level.PopObjectif(SceneObjectifs.Combos.name);
+				combospop = true;
+			}
 
 			
 		}
@@ -139,10 +125,11 @@ public class MasterObjectifs : MonoBehaviour {
 		if (carry_n == 0) {
 			
 			SceneObjectifs.Carry.State = true;
+			if(!carrypop){
 			Level.PopObjectif(SceneObjectifs.Carry.name);
+				carrypop = true;
+			}
 
-
-			
 		}
 		
 	}
@@ -153,7 +140,10 @@ public class MasterObjectifs : MonoBehaviour {
 		if(ultime_n == 0)
 		{
 			SceneObjectifs.Ultime.State = true;
+			if(!ultimepop){
 			Level.PopObjectif(SceneObjectifs.Ultime.name);
+				ultimepop = true;
+			}
 
 
 			
@@ -165,8 +155,10 @@ public class MasterObjectifs : MonoBehaviour {
 		discovert_n--;
 		if (discovert_n <= 0) {
 			SceneObjectifs.Discovert.State = true;
+			if(!discoverpop){
 			Level.PopObjectif(SceneObjectifs.Discovert.name);
-
+				discoverpop = true;
+			}
 			
 		}
 	}
@@ -175,9 +167,10 @@ public class MasterObjectifs : MonoBehaviour {
 		// si le scores est egale a highscore.todo debloquer l'objectif
 		if (Level.getScores () == scores_n) {
 			SceneObjectifs.HighScores.State = true;
+			if(scorespop){
 			Level.PopObjectif(SceneObjectifs.HighScores.name);
-
-			
+				scorespop = true;
+			}
 		}
 	}
 	internal void PrintObjectifDone()
@@ -317,6 +310,7 @@ public class MasterObjectifs : MonoBehaviour {
 				timerValidateObjectif -= Time.deltaTime;
 			}
 		}
+
 		kill ();
 		combos ();
 		highscore ();

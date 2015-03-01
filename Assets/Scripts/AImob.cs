@@ -120,7 +120,7 @@ public class AImob : MonoBehaviour {
 			}
 			else
 			{
-				moving = true;
+				moving = false;
 			}
 		}
 	}

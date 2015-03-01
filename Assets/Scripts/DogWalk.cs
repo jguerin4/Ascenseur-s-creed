@@ -23,43 +23,43 @@ public class DogWalk : MonoBehaviour
 	{
 		if (!movementSide)
 		{
-			GameObject.Find ("Leg1").transform.RotateAround(GameObject.Find ("LowBodyDogFront").transform.position,
+			transform.FindChild("Body/Leg1").RotateAround(transform.FindChild ("Body/LowBodyDogFront").transform.position,
 			                                                    transform.right,
 			                                                moveRotationSpeed * Time.deltaTime);
-			GameObject.Find ("Leg4").transform.RotateAround(GameObject.Find ("LowBodyDogBack").transform.position,
+			transform.FindChild("Body/Leg4").transform.RotateAround(transform.FindChild ("Body/LowBodyDogBack").transform.position,
 			                                                transform.right,
 			                                                moveRotationSpeed * Time.deltaTime);
-			GameObject.Find ("Leg2").transform.RotateAround(GameObject.Find ("LowBodyDogFront").transform.position,
+			transform.FindChild("Body/Leg2").transform.RotateAround(transform.FindChild ("Body/LowBodyDogFront").transform.position,
 			                                                transform.right,
 			                                                -moveRotationSpeed * Time.deltaTime);
-			GameObject.Find ("Leg3").transform.RotateAround(GameObject.Find ("LowBodyDogBack").transform.position,
+			transform.FindChild("Body/Leg3").transform.RotateAround(transform.FindChild ("Body/LowBodyDogBack").transform.position,
 			                                                transform.right,
 			                                                -moveRotationSpeed * Time.deltaTime);
 		}
 		else
 		{
-			GameObject.Find ("Leg1").transform.RotateAround(GameObject.Find ("LowBodyDogFront").transform.position,
+			transform.FindChild ("Body/Leg1").transform.RotateAround(transform.FindChild ("Body/LowBodyDogFront").transform.position,
 			                                                transform.right,
 			                                                -moveRotationSpeed * Time.deltaTime);
-			GameObject.Find ("Leg4").transform.RotateAround(GameObject.Find ("LowBodyDogBack").transform.position,
+			transform.FindChild ("Body/Leg4").transform.RotateAround(transform.FindChild ("Body/LowBodyDogBack").transform.position,
 			                                                transform.right,
 			                                                -moveRotationSpeed * Time.deltaTime);
-			GameObject.Find ("Leg2").transform.RotateAround(GameObject.Find ("LowBodyDogFront").transform.position,
+			transform.FindChild ("Body/Leg2").transform.RotateAround(transform.FindChild ("Body/LowBodyDogFront").transform.position,
 			                                                transform.right,
 			                                                moveRotationSpeed * Time.deltaTime);
-			GameObject.Find ("Leg3").transform.RotateAround(GameObject.Find ("LowBodyDogBack").transform.position,
+			transform.FindChild ("Body/Leg3").transform.RotateAround(transform.FindChild ("Body/LowBodyDogBack").transform.position,
 			                                                transform.right,
 			                                                moveRotationSpeed * Time.deltaTime);
 		}
 		
-		if (GameObject.Find ("Leg1").transform.localRotation.eulerAngles.x <= 300 &&
-		    GameObject.Find ("Leg1").transform.localRotation.eulerAngles.x > 270 &&
+		if (transform.FindChild ("Body/Leg1").transform.localRotation.eulerAngles.x <= 300 &&
+		    transform.FindChild ("Body/Leg1").transform.localRotation.eulerAngles.x > 270 &&
 		    !movementSide)
 		{
 			movementSide = true;
 		}
-		else if (GameObject.Find ("Leg1").transform.localRotation.eulerAngles.x >= 60 &&
-		         GameObject.Find ("Leg1").transform.localRotation.eulerAngles.x < 90 &&
+		else if (transform.FindChild ("Body/Leg1").transform.localRotation.eulerAngles.x >= 60 &&
+		         transform.FindChild ("Body/Leg1").transform.localRotation.eulerAngles.x < 90 &&
 		         movementSide)
 		{
 			movementSide = false;

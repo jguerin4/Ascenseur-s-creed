@@ -343,6 +343,7 @@ public class Combos : MonoBehaviour {
 		int size = enemyList.Count;
 		for (int i = 0; i < size; i++)
 		{
+			CharacterProperties.increaseFear(damage);
 			enemyList[i].GetComponent<Pushback>().PushEnemy();
 			
 			if(enemyList[i].gameObject.GetComponent<AImob>().getHealth() <= damage)

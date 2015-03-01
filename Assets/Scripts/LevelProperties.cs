@@ -121,7 +121,7 @@ public class LevelProperties : MonoBehaviour {
 	
 		if (!endgame) {
 			timerInTime += Time.deltaTime;
-			HUD.transform.FindChild ("FearBar").GetComponent<RawImage> ().color = new Vector4 (/*(25.5f **/ /*timerInTime/25.5f*/(CharacterProperties.fearProgression/CharacterProperties.fearAccumulationMax)*255, 0, 0, 255);
+			HUD.transform.FindChild ("FearBar").GetComponent<RawImage> ().color = new Vector4 (/*(25.5f **/ /*timerInTime/25.5f*/(CharacterProperties.fearProgression/CharacterProperties.fearAccumulationMax)*255, 255, 0, 255);
 			HUD.transform.FindChild ("TimerButton").GetComponentInChildren<Text> ().text = TimeSpan.FromMinutes (Math.Round (timerMax - timerInTime, 1)).ToString ();
 		} else
 			HUD.SetActive (false);

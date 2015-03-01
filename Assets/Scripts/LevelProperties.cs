@@ -19,7 +19,8 @@ public class LevelProperties : MonoBehaviour {
 	public bool ActivateMenu;
 	CharacterScore MasterScore;
 	private bool flasfOff;
-
+	float lastFear;
+	float timerFear;
 	//UI
 	public GameObject EndGame;
 	public GameObject HUD;
@@ -32,6 +33,8 @@ public class LevelProperties : MonoBehaviour {
 		dog = 0;
 		combos = 0;
 		scores = 0;
+		lastFear = 0;
+		timerFear = 0;
 		flasfOff = false;
 		endgame = false;
 		ActivateMenu = false;
@@ -123,6 +126,7 @@ public class LevelProperties : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
+
 		if (!endgame) {
 			timerInTime += Time.deltaTime;
 			if(CharacterProperties.isSpecialAvailable())
@@ -137,9 +141,24 @@ public class LevelProperties : MonoBehaviour {
 					flasfOff = true;
 					HUD.transform.FindChild ("FearBar").GetComponent<RawImage> ().color = new Vector4 (255, 0, 0, 255);
 				}
+				HUD.transform.FindChild ("FearBar").GetComponentInChildren<Text> ().text = "Ultime Valide"; 
+				HUD.transform.FindChild ("FearBar").GetComponentInChildren<Text> ().color = new Vector4 (255, 0, 0, 255);
 			}
 			else
 			{
+				HUD.transform.FindChild ("FearBar").GetComponentInChildren<Text> ().color = new Vector4 (0, 0, 0, 255);
+				if(lastFear != CharacterProperties.fearProgression){
+					HUD.transform.FindChild ("FearBar").GetComponentInChildren<Text> ().text = "Peur -" + CharacterProperties.fearProgression.ToString (); 
+					timerFear += Time.deltaTime;
+					if(timerFear >= 1.0f)
+					{
+					lastFear = CharacterProperties.fearProgression;
+						timerFear = 0;
+					}
+				}
+				else{
+					HUD.transform.FindChild ("FearBar").GetComponentInChildren<Text> ().text = "Peur " ; 
+				}
 				HUD.transform.FindChild ("FearBar").GetComponent<RawImage> ().color = new Vector4 (/*64 + (*/CharacterProperties.fearProgression/CharacterProperties.fearAccumulationMax/*)/4*/, 0, 0, 255);	                                                                                  
 			}
 			HUD.transform.FindChild ("TimerButton").GetComponentInChildren<Text> ().text = TimeSpan.FromMinutes (Math.Round (timerMax - timerInTime, 1)).ToString ();
@@ -149,6 +168,7 @@ public class LevelProperties : MonoBehaviour {
 			//end level
 			endGame();
 		}
+
 
 		//Input
 		if(Input.GetButtonDown("Jump") & ActivateMenu)

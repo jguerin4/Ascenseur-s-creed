@@ -37,6 +37,9 @@ public class LevelProperties : MonoBehaviour {
 		HUD.transform.FindChild ("TimerButton").GetComponentInChildren<Text> ().text = TimeSpan.FromMinutes(Math.Round(timerMax,1)).ToString();
 		MasterScore = GameObject.Find ("MasterScore").GetComponent<CharacterScore> ();
 
+		if (levelName == null)
+			levelName = "Mon premier reve";
+
 		//set le best score
 		if (PlayerPrefs.HasKey("BestScore_" + levelName))
 			bestScore = PlayerPrefs.GetInt ("BestScore_" + levelName);

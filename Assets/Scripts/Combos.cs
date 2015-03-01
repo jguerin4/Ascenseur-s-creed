@@ -336,8 +336,22 @@ public class Combos : MonoBehaviour {
 		}
 	}
 
-	private void doDamage(int damage)
+	private void doDamage(int damage, List<GameObject> current, List<GameObject> other)
 	{
+		List<GameObject> tempKeep = new List<GameObject>();
+
+		foreach(GameObject enemy in current)
+		{
+			if(enemy.GetComponent<AImob>().getHealth <= damage)
+			{
+				foreach(GameObject garbage in other)
+				{
+					other.Remove(enemy);
+				}
+			}
+		}
+
+		/*
 		int size = enemyList.Count;
 		for (int i = 0; i < size; i++)
 		{
@@ -370,7 +384,7 @@ public class Combos : MonoBehaviour {
 				enemyList[i].gameObject.GetComponent<AImob>().timer = 0;
 				enemyList[i].gameObject.GetComponent<AImob>().canAtack = false;
 			}
-		}
+		}*/
 	}
 
 	public void resetButtonList()

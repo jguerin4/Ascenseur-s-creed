@@ -20,11 +20,10 @@ public class LevelSelection : MonoBehaviour {
 	
 
 		if (nombreLevel > 1) {
-			UI.transform.FindChild ("Next").GetComponent<Image> ().color = new Vector4 (255, 255, 255, 255);
-			UI.transform.FindChild ("Prev").GetComponent<Image> ().color = new Vector4 (0, 0, 0, 0);
+
 		} else {
-			UI.transform.FindChild ("Next").GetComponent<Image> ().color = new Vector4 (255, 255, 255, 0);
-			UI.transform.FindChild ("Prev").GetComponent<Image> ().color = new Vector4 (0, 0, 0, 0);
+			//UI.transform.FindChild ("Next").GetComponent<Button> ().sel
+				//UI.transform.FindChild ("Prev").GetComponent<Button> ().colors.pressedColor = new Vector4(150,150,150,0);
 		}
 		levelName = "Mon premier reve";
 		UI.transform.FindChild ("Level Panel").transform.FindChild ("Image").GetComponent<Image> ().sprite = level1;
@@ -91,15 +90,17 @@ public class LevelSelection : MonoBehaviour {
 		}
 	}
 
-	void loadLevel()
+	public void loadLevel()
 	{
 		if(levelName == "Mon premier reve")
 			Application.LoadLevel ("Map");
 	}
+	public void Back()
+	{
+		Application.LoadLevel ("MainMenu");
+	}
 	// Update is called once per frame
 	void Update () {
 	
-		if (Input.GetButtonDown ("Jump"))
-			loadLevel ();
 	}
 }

@@ -145,8 +145,6 @@ public class AImob : MonoBehaviour {
 
 	public void die()
 	{
-		DestroyImmediate(this.gameObject);
 		Instantiate (destroyedExplosion, transform.position, transform.rotation);
-		DestroyImmediate(this);
 	}
 }

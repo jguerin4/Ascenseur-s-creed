@@ -335,6 +335,7 @@ public class Combos : MonoBehaviour {
 				{
 					enemy.GetComponent<AImob>().toDestroy = true;
 					Destroy(enemy.gameObject);
+					enemy.GetComponent<AImob>().die ();
 					garbage.Add(enemy);
 				}
 				else
